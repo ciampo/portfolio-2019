@@ -1,0 +1,11 @@
+import 'core-js/fn/array/from';
+import 'core-js/fn/array/find';
+import 'core-js/fn/array/find-index';
+import 'core-js/fn/object/assign';
+import 'core-js/fn/object/entries';
+import 'core-js/fn/promise';
+import 'core-js/fn/string/starts-with';
+import 'core-js/fn/string/ends-with';
+import 'core-js/fn/symbol/for';
+import 'core-js/fn/weak-set';
+import 'core-js/fn/set';

@@ -1,0 +1,18 @@
+@import './test.css';
+
+:root {
+  --color-primary: theme('colors.blue.500');
+  --color-secondary: theme('colors.red.500');
+  /* ... */
+}
+
+/* purgecss start ignore */
+@tailwind base;
+/* purgecss end ignore */
+@tailwind components;
+@tailwind utilities;
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, Avenir Next, Avenir, Helvetica, sans-serif;
+  margin: 0;
+}

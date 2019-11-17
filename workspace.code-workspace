@@ -1,0 +1,19 @@
+{
+	"folders": [
+		{
+			"path": "."
+		}
+	],
+	"settings": {
+		"css.validate": false,
+		"scss.validate": false,
+		"less.validate": false,
+		"eslint.autoFixOnSave": true,
+		"eslint.validate": [
+			"javascript",
+			"javascriptreact",
+			{ "language": "typescript", "autoFix": true },
+			{ "language": "typescriptreact", "autoFix": true }
+		]
+	}
+}
