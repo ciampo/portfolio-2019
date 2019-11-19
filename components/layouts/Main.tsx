@@ -3,10 +3,15 @@ import PropTypes from 'prop-types';
 
 import Nav from '../Nav';
 import Footer from '../Footer';
+import { UiLink } from '../../typings';
 
-const MainLayout: React.FC<{}> = ({ children }) => (
+type MainLayoutProps = {
+  navLinks: UiLink[];
+};
+
+const MainLayout: React.FC<MainLayoutProps> = ({ children, navLinks }) => (
   <>
-    <Nav />
+    <Nav links={navLinks} />
 
     <main className="w-full min-h-screen pt-16 pb-12">{children}</main>
 
@@ -14,8 +19,11 @@ const MainLayout: React.FC<{}> = ({ children }) => (
   </>
 );
 
+/* eslint-disable @typescript-eslint/ban-ts-ignore */
 MainLayout.propTypes = {
+  // @ts-ignore
   children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]).isRequired,
+  navLinks: PropTypes.array.isRequired,
 };
 
 export default MainLayout;
