@@ -1,11 +1,11 @@
 {
-  "name": "nextjs-template",
-  "version": "1.0.0",
+  "name": "portfolio-2019",
+  "version": "0.0.1",
   "main": "pages/index.js",
   "author": "Marco Ciampini <marco.ciampo@gmail.com>",
   "repository": {
     "type": "git",
-    "url": "https://github.com/ciampo/_nextjs-template.git"
+    "url": "https://github.com/ciampo/portfolio-2019.git"
   },
   "license": "MIT",
   "private": true,
