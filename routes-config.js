@@ -1,6 +1,7 @@
 module.exports = [
   {
     route: '/',
+    contentfulTypeId: 'homePage',
   },
   {
     route: '/about',

@@ -1,14 +1,15 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import Link from 'next/link';
-import { NextComponentType } from 'next';
+import { NextComponentType, NextPageContext } from 'next';
 
 import DefaultPageTransitionWrapper from '../components/page-transition-wrappers/Default';
 import PageMeta from '../components/PageMeta';
-import { ContentfulApiProject } from '../typings';
+import { ContentfulApiPageHome } from '../typings';
+import routesConfig from '../routes-config';
 
-type PageHomeProps = {
-  projects: ContentfulApiProject[];
+type PageHomeProps = ContentfulApiPageHome & {
+  path: string;
 };
 
 const PostLink: React.FC<{ id: string; label: string }> = ({ id, label }) => (
@@ -24,39 +25,54 @@ PostLink.propTypes = {
   label: PropTypes.string.isRequired,
 };
 
-const Home: NextComponentType<{}, PageHomeProps, PageHomeProps> = ({ projects }) => (
+const Home: NextComponentType<{}, PageHomeProps, PageHomeProps> = ({ path, meta, pageTitle }) => (
   <>
-    <PageMeta title="Netx.js modern template" description="Sample descripion" path="/" />
+    <PageMeta title={meta.fields.title} description={meta.fields.description} path={path} />
 
     <DefaultPageTransitionWrapper>
-      <div className="w-full text-gray-700">
-        <h1 className="m-0 w-fullleading-tight text-5xl text-center">Next.js template</h1>
-        <p className="text-center">Just a little help to get started with all the right stuff.</p>
-      </div>
-
-      <nav>
-        <ul>
-          {projects.map((p) => (
-            <PostLink id={p.slug} label={p.title} key={`home-post-link${p.slug}`} />
-          ))}
-        </ul>
-      </nav>
+      <h1>{pageTitle}</h1>
     </DefaultPageTransitionWrapper>
   </>
 );
 
-Home.getInitialProps = async (): Promise<PageHomeProps> => {
-  const projects: ContentfulApiProject[] = await import('../data/project.json').then(
-    (m) => m.default
-  );
+Home.getInitialProps = async ({ pathname }: NextPageContext): Promise<PageHomeProps> => {
+  const toReturn = {
+    path: '/na',
+    pageTitle: 'Home',
+    meta: {
+      fields: {
+        title: 'Home',
+        description: 'Home page',
+      },
+    },
+  };
 
-  return { projects };
+  const routeConfig = routesConfig.find(({ route }) => route === pathname);
+
+  if (routeConfig && routeConfig.contentfulTypeId) {
+    const homeData: ContentfulApiPageHome[] = await import(
+      `../data/${routeConfig.contentfulTypeId}.json`
+    ).then((m) => m.default);
+
+    toReturn.path = pathname;
+    toReturn.pageTitle = homeData[0].pageTitle;
+    toReturn.meta = homeData[0].meta;
+  }
+
+  return toReturn;
 };
 
 /* eslint-disable @typescript-eslint/ban-ts-ignore */
 // @ts-ignore
 Home.propTypes = {
-  projects: PropTypes.array,
+  path: PropTypes.string.isRequired,
+  meta: PropTypes.shape({
+    fields: PropTypes.shape({
+      title: PropTypes.string.isRequired,
+      description: PropTypes.string.isRequired,
+    }),
+  }).isRequired,
+  pageTitle: PropTypes.string.isRequired,
 };
 
 export default Home;
