@@ -49,9 +49,9 @@ Home.getInitialProps = async ({ pathname }: NextPageContext): Promise<PageHomePr
 
   const routeConfig = routesConfig.find(({ route }) => route === pathname);
 
-  if (routeConfig && routeConfig.contentfulTypeId) {
+  if (routeConfig && routeConfig.contentfulPageId) {
     const homeData: ContentfulApiPageHome[] = await import(
-      `../data/${routeConfig.contentfulTypeId}.json`
+      `../data/${routeConfig.contentfulPageId}.json`
     ).then((m) => m.default);
 
     toReturn.path = pathname;

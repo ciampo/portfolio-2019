@@ -43,9 +43,9 @@ About.getInitialProps = async ({ pathname }: NextPageContext): Promise<PageAbout
 
   const routeConfig = routesConfig.find(({ route }) => route === pathname);
 
-  if (routeConfig && routeConfig.contentfulTypeId) {
+  if (routeConfig && routeConfig.contentfulPageId) {
     const aboutData: ContentfulApiPageAbout[] = await import(
-      `../data/${routeConfig.contentfulTypeId}.json`
+      `../data/${routeConfig.contentfulPageId}.json`
     ).then((m) => m.default);
 
     toReturn.title = aboutData[0].title;
