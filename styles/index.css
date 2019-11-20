@@ -30,8 +30,8 @@ body {
 }
 
 .home-logo-sizing {
-  height: 50vmin;
-  max-height: 320px;
-  max-width: 320px;
-  width: 50vmin;
+  height: 60vmin;
+  max-height: 340px;
+  max-width: 340px;
+  width: 60vmin;
 }
