@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import Nav from '../Nav';
-import Footer from '../Footer';
+// import Footer from '../Footer';
 import { UiLink } from '../../typings';
 
 type MainLayoutProps = {
@@ -15,7 +15,7 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children, navLinks }) => (
 
     <main className="w-full min-h-screen pt-16 pb-12">{children}</main>
 
-    <Footer />
+    {/* <Footer /> */}
   </>
 );
 
