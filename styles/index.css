@@ -28,3 +28,10 @@ body {
   font-family: -apple-system, BlinkMacSystemFont, Avenir Next, Avenir, Helvetica, sans-serif;
   margin: 0;
 }
+
+.home-logo-sizing {
+  height: 50vmin;
+  max-height: 320px;
+  max-width: 320px;
+  width: 50vmin;
+}
