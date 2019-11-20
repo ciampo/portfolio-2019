@@ -30,30 +30,33 @@ Post.getInitialProps = async ({ pathname, query }: NextPageContext): Promise<Pag
   };
 
   const routeConfig = routesConfig.find(({ route }) => route === pathname);
-  if (routeConfig && routeConfig.contentfulTypeId) {
+  if (
+    routeConfig &&
+    routeConfig.dynamicRoute &&
+    routeConfig.dynamicRoute.contentfulItemsId &&
+    routeConfig.dynamicRoute.params
+  ) {
     const postData: ContentfulApiProject[] = await import(
-      `../../data/${routeConfig.contentfulTypeId}.json`
+      `../../data/${routeConfig.dynamicRoute.contentfulItemsId}.json`
     ).then((m) => m.default);
 
-    if (routeConfig.params) {
-      const currentPost = postData.find((item) => {
-        let matchFound = true;
+    const currentPost = postData.find((item) => {
+      let matchFound = true;
 
-        for (const [pattern, replacerFn] of Object.entries(routeConfig.params)) {
-          matchFound = matchFound && query[pattern] === replacerFn(item);
-        }
-
-        return matchFound;
-      });
-
-      if (currentPost) {
-        toReturn.path = pathname;
-        for (const [pattern, replacerFn] of Object.entries(routeConfig.params)) {
-          toReturn.path = toReturn.path.replace(`[${pattern}]`, replacerFn(currentPost));
-        }
-
-        toReturn.title = currentPost.title;
+      for (const [pattern, replacerFn] of Object.entries(routeConfig.dynamicRoute.params)) {
+        matchFound = matchFound && query[pattern] === replacerFn(item);
       }
+
+      return matchFound;
+    });
+
+    if (currentPost) {
+      toReturn.path = pathname;
+      for (const [pattern, replacerFn] of Object.entries(routeConfig.dynamicRoute.params)) {
+        toReturn.path = toReturn.path.replace(`[${pattern}]`, replacerFn(currentPost));
+      }
+
+      toReturn.title = currentPost.title;
     }
   }
 

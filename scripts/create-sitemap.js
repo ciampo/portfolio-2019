@@ -12,30 +12,27 @@ const DATA_FOLDER = path.join(ROOT_FOLDER, 'data');
 
 const sitemapPages = [];
 
-for (const { route, contentfulTypeId, params } of routesConfig) {
-  if (contentfulTypeId) {
-    // Contentful based routes.
-    const data = JSON.parse(
-      fs.readFileSync(path.join(DATA_FOLDER, `${contentfulTypeId}.json`), {
+for (const { route, dynamicRoute } of routesConfig) {
+  if (dynamicRoute && dynamicRoute.contentfulItemsId && dynamicRoute.params) {
+    const dataItems = JSON.parse(
+      fs.readFileSync(path.join(DATA_FOLDER, `${dynamicRoute.contentfulItemsId}.json`), {
         encoding: 'utf8',
       })
     );
 
-    for (const dataItem of data) {
+    // Generate one page for each item from the dynamicRoute.contentfulItemsId document.
+    for (const dataItem of dataItems) {
       let itemRoute = route;
 
-      // If params is not specified, the route is supposes to be a "singleton"
-      // and only the last dataItem will be used as the resolvedData.
-      if (params) {
-        for (const [pattern, replacerFn] of Object.entries(params)) {
-          itemRoute = itemRoute.replace(`[${pattern}]`, replacerFn(dataItem));
-        }
+      for (const [pattern, replacerFn] of Object.entries(dynamicRoute.params)) {
+        itemRoute = itemRoute.replace(`[${pattern}]`, replacerFn(dataItem));
       }
 
       sitemapPages.push(itemRoute);
     }
   } else {
-    // All routes that have a 1:1 relation between route and page.
+    // If dynamicRoute is not specified, the route is supposes to be a "singleton",
+    // with a 1:1 relation between the page template and the output pages.
     sitemapPages.push(route);
   }
 }

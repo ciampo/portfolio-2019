@@ -4,7 +4,7 @@ import { NextComponentType, NextPageContext } from 'next';
 
 import DefaultPageTransitionWrapper from '../components/page-transition-wrappers/Default';
 import PageMeta from '../components/PageMeta';
-import { ContentfulApiAbout } from '../typings';
+import { ContentfulApiPageAbout } from '../typings';
 import routesConfig from '../routes-config';
 
 type PageAboutProps = {
@@ -43,9 +43,9 @@ About.getInitialProps = async ({ pathname }: NextPageContext): Promise<PageAbout
 
   const routeConfig = routesConfig.find(({ route }) => route === pathname);
 
-  if (routeConfig && routeConfig.contentfulTypeId) {
-    const aboutData: ContentfulApiAbout[] = await import(
-      `../data/${routeConfig.contentfulTypeId}.json`
+  if (routeConfig && routeConfig.contentfulPageId) {
+    const aboutData: ContentfulApiPageAbout[] = await import(
+      `../data/${routeConfig.contentfulPageId}.json`
     ).then((m) => m.default);
 
     toReturn.title = aboutData[0].title;

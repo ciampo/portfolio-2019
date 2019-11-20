@@ -15,7 +15,7 @@ const fadeInTransitionUp = {
 };
 const fadeOutTransitionDown = {
   opacity: 0,
-  y: 100,
+  y: 60,
   transition: { duration: 0.6, delay: 0.1, ease: easing },
 };
 
