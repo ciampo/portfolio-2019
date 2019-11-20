@@ -17,7 +17,7 @@ const Nav: NextComponentType<{}, NavProps, NavProps> = ({ links }) => (
         {links.map(({ href, label }, index) => (
           <li key={`${index}-${slugify(label)}`} className="flex py-1 px-4">
             <Link href={href}>
-              <a className="no-underline text-base md:text-lg lg:text-xl text-primary lowercase opacity-50 hover:opacity-100 focus:opacity-100">
+              <a className="no-underline text-base md:text-lg lg:text-xl text-primary font-light lowercase opacity-75 hover:opacity-100 focus:opacity-100">
                 <span className="hidden lg:inline" aria-hidden="true">
                   |__
                 </span>
