@@ -50,8 +50,9 @@ async function getEntries(type, filterFuntion = () => true) {
 const pullContentfulData = async () => {
   await cleanDataFolder();
   await getEntries('homePage');
+  await getEntries('pageProjects');
   await getEntries('about');
-  await getEntries('project', (projectItem) => projectItem.type === 'personal');
+  await getEntries('project');
   await getEntries('globalMeta');
 };
 
