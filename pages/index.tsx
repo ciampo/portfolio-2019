@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Link from 'next/link';
 import { NextComponentType, NextPageContext } from 'next';
 
 import DefaultPageTransitionWrapper from '../components/page-transition-wrappers/Default';
@@ -10,19 +9,6 @@ import routesConfig from '../routes-config';
 
 type PageHomeProps = ContentfulApiPageHome & {
   path: string;
-};
-
-const PostLink: React.FC<{ id: string; label: string }> = ({ id, label }) => (
-  <li>
-    <Link href="/post/[id]" as={`/post/${id}`}>
-      <a>{label}</a>
-    </Link>
-  </li>
-);
-
-PostLink.propTypes = {
-  id: PropTypes.string.isRequired,
-  label: PropTypes.string.isRequired,
 };
 
 const dotSize = 1;
