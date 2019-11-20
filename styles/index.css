@@ -1,9 +1,19 @@
 @import './test.css';
 
 :root {
-  --color-primary: theme('colors.blue.500');
-  --color-secondary: theme('colors.red.500');
+  --color-primary: theme('colors.gray.100');
+  --color-secondary: theme('colors.orange.500');
+  --color-background: theme('colors.gray.900');
   /* ... */
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    --color-primary: theme('colors.gray.900');
+    --color-secondary: theme('colors.teal.700');
+    --color-background: theme('colors.gray.100');
+    /* ... */
+  }
 }
 
 /* purgecss start ignore */
@@ -13,6 +23,8 @@
 @tailwind utilities;
 
 body {
+  background: var(--color-background, #000);
+  color: var(--color-primary, #fff);
   font-family: -apple-system, BlinkMacSystemFont, Avenir Next, Avenir, Helvetica, sans-serif;
   margin: 0;
 }
