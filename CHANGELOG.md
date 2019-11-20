@@ -35,6 +35,23 @@ for any bug fixes.
 in case of vulnerabilities.
 -->
 
+## [0.0.2] - 2019-11-17
+
+### Changed
+
+- `routes-config.js` structure and how it's used within the project
+- more subtle page transitions
+
+### Removed
+
+- footer removed from `MainLayout`
+
+### Added
+
+- contentful data for home page and nav
+- new `Nav`
+- homepage, with static grid placeholder
+
 ## [0.0.1] - 2019-11-17
 
 ### Added
@@ -44,6 +61,7 @@ in case of vulnerabilities.
 - Updated README and added Netlify badge
 - Updated package.json
 
-[Unreleased]: https://github.com/ciampo/portfolio-2019/compare/v0.0.1...HEAD
-<!-- [X.Y.Z]: https://github.com/ciampo/portfolio-2019/compare/v0.0.1...vX.Y.Z -->
+[Unreleased]: https://github.com/ciampo/portfolio-2019/compare/v0.0.2...HEAD
+<!-- [X.Y.Z]: https://github.com/ciampo/portfolio-2019/compare/v0.0.2...vX.Y.Z -->
+[0.0.2]: https://github.com/ciampo/portfolio-2019/compare/v0.0.1...v0.0.2
 [0.0.1]: https://github.com/ciampo/portfolio-2019/releases/tag/v0.0.1
