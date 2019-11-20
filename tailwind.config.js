@@ -12,6 +12,9 @@ module.exports = {
           '900': '#212121',
         },
       },
+      screens: {
+        xsm: '480px',
+      },
     },
     colors: {
       ...colors,
