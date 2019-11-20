@@ -11,13 +11,18 @@ type NavProps = {
 };
 
 const Nav: NextComponentType<{}, NavProps, NavProps> = ({ links }) => (
-  <nav className="fixed top-0 left-0 w-full h-12 flex items-center bg-gray-200 shadow text-center">
+  <nav className="fixed z-50 top-0 left-0 bg-background">
     {links && links.length && (
-      <ul className="flex justify-between w-full py-1 px-4">
+      <ul className="w-full py-1 px-2 flex lg:block lg:py-2 lg:px-4">
         {links.map(({ href, label }, index) => (
-          <li key={`${index}-${slugify(label)}`} className="flex py-1 px-2">
+          <li key={`${index}-${slugify(label)}`} className="flex py-1 px-4">
             <Link href={href}>
-              <a className="no-underline text-sm text-primary">{label}</a>
+              <a className="no-underline text-base md:text-lg lg:text-xl text-primary lowercase opacity-50 hover:opacity-100 focus:opacity-100">
+                <span className="hidden lg:inline" aria-hidden="true">
+                  |__
+                </span>
+                {label}
+              </a>
             </Link>
           </li>
         ))}
