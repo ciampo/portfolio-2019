@@ -10,3 +10,5 @@ export const slugify = (text: string): string =>
     .replace(/--+/g, '-') // Replace multiple - with single -
     .replace(/^-+/, '') // Trim - from start of text
     .replace(/-+$/, ''); // Trim - from end of text
+
+export const customEaseOut = [0.175, 0.85, 0.42, 0.96];

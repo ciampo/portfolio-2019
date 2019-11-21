@@ -16,8 +16,8 @@ const Nav: NextComponentType<{}, NavProps, NavProps> = ({ links }) => (
       <ul className="w-full py-1 px-2 flex lg:block lg:py-2 lg:px-4">
         {links.map(({ href, label }, index) => (
           <li key={`${index}-${slugify(label)}`} className="flex py-1 px-4">
-            <Link href={href}>
-              <a className="no-underline text-base md:text-lg lg:text-xl text-primary font-light lowercase opacity-75 hover:opacity-100 focus:opacity-100">
+            <Link href={href} scroll={false}>
+              <a className="no-underline text-base md:text-lg lg:text-xl text-primary font-light lowercase opacity-75 hover:opacity-100 focus:opacity-100 nav-link outline-none">
                 <span className="hidden lg:inline" aria-hidden="true">
                   |__
                 </span>

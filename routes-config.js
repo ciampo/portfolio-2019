@@ -8,6 +8,10 @@ module.exports = [
     contentfulPageId: 'about',
   },
   {
+    route: '/projects',
+    contentfulPageId: 'pageProjects',
+  },
+  {
     route: '/post/[id]',
     dynamicRoute: {
       contentfulItemsId: 'project',

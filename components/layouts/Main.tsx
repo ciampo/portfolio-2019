@@ -13,7 +13,7 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children, navLinks }) => (
   <>
     <Nav links={navLinks} />
 
-    <main className="w-full min-h-screen">{children}</main>
+    <main className="w-full">{children}</main>
 
     {/* <Footer /> */}
   </>

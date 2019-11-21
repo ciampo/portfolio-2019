@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 
-const { colors } = require('tailwindcss/defaultTheme');
+const { colors, screens } = require('tailwindcss/defaultTheme');
 
 module.exports = {
   theme: {
@@ -8,10 +8,15 @@ module.exports = {
       colors: {
         gray: {
           ...colors.gray,
-          '100': '#e0e0e0',
+          '100': '#e8e8e8',
+          '800': '#323232',
           '900': '#212121',
         },
       },
+    },
+    screens: {
+      xsm: '480px',
+      ...screens,
     },
     colors: {
       ...colors,
@@ -19,7 +24,13 @@ module.exports = {
       secondary: 'var(--color-secondary)',
       background: 'var(--color-background)',
     },
+    aspectRatio: {
+      square: [1, 1],
+      '16/9': [16, 9],
+      '4/3': [4, 3],
+      '21/9': [21, 9],
+    },
   },
   variants: {},
-  plugins: [],
+  plugins: [require('tailwindcss-aspect-ratio')()],
 };

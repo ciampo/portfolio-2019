@@ -1,4 +1,6 @@
-@import './test.css';
+@import './nav.css';
+@import './page-home.css';
+@import './project-tile.css';
 
 :root {
   --color-primary: theme('colors.gray.100');
@@ -29,9 +31,8 @@ body {
   margin: 0;
 }
 
-.home-logo-sizing {
-  height: 60vmin;
-  max-height: 340px;
-  max-width: 340px;
-  width: 60vmin;
+a,
+button {
+  -webkit-tap-highlight-color: transparent;
 }
+
