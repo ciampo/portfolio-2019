@@ -29,9 +29,32 @@ body {
   margin: 0;
 }
 
-.home-logo-sizing {
+.home-logo-title {
+  animation-delay: 0.5s;
+  animation-duration: 0.4s;
+  animation-fill-mode: both;
+  animation-name: logo-enter;
+  animation-timing-function: ease-out;
   height: 60vmin;
   max-height: 340px;
   max-width: 340px;
   width: 60vmin;
+}
+
+@keyframes logo-enter {
+  from {
+    opacity: 0;
+    transform: scale(0.98);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* purgecss ignore */
+html:not(.js-app) .project-tile {
+  opacity: 1 !important;
+  transform: none !important;
 }
