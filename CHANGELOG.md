@@ -35,7 +35,23 @@ for any bug fixes.
 in case of vulnerabilities.
 -->
 
-## [0.0.2] - 2019-11-17
+## [0.0.3] - 2019-11-21
+
+### Changed
+
+### Added
+
+- Home - logo `enter` animation
+- Projects list page:
+  - project tiles markup/styles
+  - project tiles staggered `enter` animation (server-side and no-js proof)
+- error page spacing
+- nav items `hover`/`focus` styles
+- tailwind `xsm` breakpoint
+- tailwind `aspect-ratio` plugin
+- split css code across multiple files
+
+## [0.0.2] - 2019-11-20
 
 ### Changed
 
@@ -61,7 +77,8 @@ in case of vulnerabilities.
 - Updated README and added Netlify badge
 - Updated package.json
 
-[Unreleased]: https://github.com/ciampo/portfolio-2019/compare/v0.0.2...HEAD
-<!-- [X.Y.Z]: https://github.com/ciampo/portfolio-2019/compare/v0.0.2...vX.Y.Z -->
+[Unreleased]: https://github.com/ciampo/portfolio-2019/compare/v0.0.3...HEAD
+<!-- [X.Y.Z]: https://github.com/ciampo/portfolio-2019/compare/v0.0.3...vX.Y.Z -->
+[0.0.3]: https://github.com/ciampo/portfolio-2019/compare/v0.0.2...v0.0.3
 [0.0.2]: https://github.com/ciampo/portfolio-2019/compare/v0.0.1...v0.0.2
 [0.0.1]: https://github.com/ciampo/portfolio-2019/releases/tag/v0.0.1
