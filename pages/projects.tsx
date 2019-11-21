@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Link from 'next/link';
 import { NextComponentType, NextPageContext } from 'next';
+import { motion } from 'framer-motion';
 
 import DefaultPageTransitionWrapper from '../components/page-transition-wrappers/Default';
 import PageMeta from '../components/PageMeta';
@@ -13,14 +14,36 @@ type PageProjectsListProps = ContentfulApiPageProjectsList & {
   projects: ContentfulApiProject[];
 };
 
+const tileAnimationVariants = {
+  exit: {
+    scale: 0.96,
+    y: 10,
+    opacity: 0,
+    transition: {
+      duration: 0.5,
+    },
+  },
+  enter: {
+    scale: 1,
+    y: 0,
+    opacity: 1,
+    transition: {
+      duration: 0.5,
+    },
+  },
+};
+
 const ProjectTile: React.FC<{ id: string; label: string }> = ({ id, label }) => (
-  <li className="w-1/2 xsm:w-1/3 md:w-1/4 lg:w-1/5 xl:w-1/6">
+  <motion.li
+    className="w-1/2 xsm:w-1/3 md:w-1/4 lg:w-1/5 xl:w-1/6 project-tile"
+    variants={tileAnimationVariants}
+  >
     <Link href="/post/[id]" as={`/post/${id}`}>
       <a className="flex items-center justify-center p-8 border-2 border-background bg-gray-800 h-40 text-center">
         {label}
       </a>
     </Link>
-  </li>
+  </motion.li>
 );
 
 ProjectTile.propTypes = {
@@ -38,7 +61,13 @@ const PageProjectsList: NextComponentType<{}, PageProjectsListProps, PageProject
     <PageMeta title={meta.fields.title} description={meta.fields.description} path={path} />
 
     <DefaultPageTransitionWrapper>
-      <section className="pt-20 lg:pt-48">
+      <motion.section
+        className="pt-20 lg:pt-48"
+        initial="exit"
+        animate="enter"
+        exit="exit"
+        variants={{ enter: { transition: { staggerChildren: 0.1, delay: 0.5 } } }}
+      >
         <h1 className="text-center text-xl sm:text-2xl md:text-3xl lg:text-4xl">{title}</h1>
 
         <ul className="mt-12 flex flex-wrap">
@@ -46,7 +75,7 @@ const PageProjectsList: NextComponentType<{}, PageProjectsListProps, PageProject
             <ProjectTile id={slug} label={title} key={`project-${slug}`} />
           ))}
         </ul>
-      </section>
+      </motion.section>
     </DefaultPageTransitionWrapper>
   </>
 );
