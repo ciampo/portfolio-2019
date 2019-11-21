@@ -8,6 +8,7 @@ import DefaultPageTransitionWrapper from '../components/page-transition-wrappers
 import PageMeta from '../components/PageMeta';
 import { ContentfulApiPageProjectsList, ContentfulApiProject } from '../typings';
 import routesConfig from '../routes-config';
+import { customEaseOut } from '../components/utils/utils';
 
 type PageProjectsListProps = ContentfulApiPageProjectsList & {
   path: string;
@@ -29,6 +30,7 @@ const tileAnimationVariants = {
     opacity: 1,
     transition: {
       duration: 0.5,
+      ease: customEaseOut,
     },
   },
 };
