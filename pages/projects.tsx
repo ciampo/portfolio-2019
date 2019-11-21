@@ -41,7 +41,7 @@ const ProjectTile: React.FC<{ id: string; label: string; img: { src: string; alt
     className="w-full sm:w-1/2 lg:w-1/3 xl:w-1/4 project-tile"
     variants={tileAnimationVariants}
   >
-    <Link href="/post/[id]" as={`/post/${id}`}>
+    <Link href="/post/[id]" as={`/post/${id}`} scroll={false}>
       <a className="relative block w-full border-2 border-background h-0 aspect-ratio-16/9 xsm:aspect-ratio-21/9 sm:aspect-ratio-16/9 lg:aspect-ratio-4/3 xl:aspect-ratio-square overflow-hidden outline-none">
         <span className="absolute top-0 left-0 w-full h-full px-6 py-4 bg-background font-light text-primary text-lg sm:text-xl md:text-2xl lg:text-3xl">
           {label}
