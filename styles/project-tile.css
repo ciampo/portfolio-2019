@@ -1,0 +1,63 @@
+/* purgecss ignore */
+html:not(.js-app) .project-tile {
+  opacity: 1 !important;
+  transform: none !important;
+}
+
+.project-tile a {
+  contain: strict;
+}
+
+/* Img */
+.project-tile img {
+  z-index: 1;
+}
+
+/* Scrim */
+.project-tile a::before {
+  background: var(--color-background);
+  opacity: 0.8;
+  transition: opacity 0.15s ease-out;
+  z-index: 2;
+}
+
+/* Border shown on hover */
+.project-tile a::after {
+  content: '';
+  height: 100%;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 100%;
+  pointer-events: none;
+  border: 0.75rem solid var(--color-background);
+  transform: scale(1.15);
+  transition: transform 0.2s ease-out;
+  z-index: 3;
+}
+
+/* Text */
+.project-tile span {
+  opacity: 0;
+  transform: scale(1.02);
+  transition-duration: 0.2s;
+  transition-property: opacity, transform;
+  transition-timing-function: ease-out;
+  text-shadow: 0 0 0.2em var(--color-background);
+  z-index: 4;
+}
+
+/******************************************
+ * Hover / focus
+ ******************************************/
+.project-tile a:hover span,
+.project-tile a:focus span {
+  opacity: 1;
+  transform: none;
+  transition-delay: 0.1s;
+}
+
+.project-tile a:hover::after,
+.project-tile a:focus::after {
+  transform: none;
+}

@@ -1,4 +1,4 @@
-@import './test.css';
+@import './project-tile.css';
 
 :root {
   --color-primary: theme('colors.gray.100');
@@ -51,10 +51,4 @@ body {
     opacity: 1;
     transform: none;
   }
-}
-
-/* purgecss ignore */
-html:not(.js-app) .project-tile {
-  opacity: 1 !important;
-  transform: none !important;
 }

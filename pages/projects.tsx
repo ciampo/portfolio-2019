@@ -17,32 +17,41 @@ type PageProjectsListProps = ContentfulApiPageProjectsList & {
 
 const tileAnimationVariants = {
   exit: {
-    scale: 0.96,
-    y: 10,
+    scale: 0.95,
+    y: 20,
     opacity: 0,
-    transition: {
-      duration: 0.5,
-    },
   },
   enter: {
     scale: 1,
     y: 0,
     opacity: 1,
     transition: {
-      duration: 0.5,
+      duration: 0.7,
       ease: customEaseOut,
     },
   },
 };
 
-const ProjectTile: React.FC<{ id: string; label: string }> = ({ id, label }) => (
+const ProjectTile: React.FC<{ id: string; label: string; img: { src: string; alt?: string } }> = ({
+  id,
+  label,
+  img,
+}) => (
   <motion.li
-    className="w-1/2 xsm:w-1/3 md:w-1/4 lg:w-1/5 xl:w-1/6 project-tile"
+    className="w-full sm:w-1/2 lg:w-1/3 xl:w-1/4 project-tile"
     variants={tileAnimationVariants}
   >
     <Link href="/post/[id]" as={`/post/${id}`}>
-      <a className="flex items-center justify-center p-8 border-2 border-background bg-gray-800 h-40 text-center">
-        {label}
+      <a className="relative block w-full border-2 border-background h-0 aspect-ratio-16/9 xsm:aspect-ratio-21/9 sm:aspect-ratio-16/9 lg:aspect-ratio-4/3 xl:aspect-ratio-square overflow-hidden outline-none">
+        <span className="absolute top-0 left-0 w-full h-full px-6 py-4 bg-background font-light text-primary text-lg sm:text-xl md:text-2xl lg:text-3xl">
+          {label}
+        </span>
+
+        <img
+          className="absolute top-0 left-0 w-full h-full object-cover"
+          src={`${img.src}?w=600&h=600&fit=fill&fm=jpg&q=70`}
+          alt={img.alt}
+        />
       </a>
     </Link>
   </motion.li>
@@ -51,6 +60,19 @@ const ProjectTile: React.FC<{ id: string; label: string }> = ({ id, label }) => 
 ProjectTile.propTypes = {
   id: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
+  img: PropTypes.shape({
+    src: PropTypes.string.isRequired,
+    alt: PropTypes.string,
+  }).isRequired,
+};
+
+const projectsAnimationVariants = {
+  enter: {
+    transition: {
+      staggerChildren: 0.1,
+      delay: 0.5,
+    },
+  },
 };
 
 const PageProjectsList: NextComponentType<{}, PageProjectsListProps, PageProjectsListProps> = ({
@@ -64,17 +86,22 @@ const PageProjectsList: NextComponentType<{}, PageProjectsListProps, PageProject
 
     <DefaultPageTransitionWrapper>
       <motion.section
-        className="pt-20 lg:pt-48"
+        className="pt-24 pb-12 md:pt-32 md:pb-16 lg:pt-48 container mx-auto"
         initial="exit"
         animate="enter"
         exit="exit"
-        variants={{ enter: { transition: { staggerChildren: 0.1, delay: 0.5 } } }}
+        variants={projectsAnimationVariants}
       >
-        <h1 className="text-center text-xl sm:text-2xl md:text-3xl lg:text-4xl">{title}</h1>
+        <h1 className="text-center text-2xl sm:text-3xl md:text-4xl lg:text-5xl">{title}</h1>
 
-        <ul className="mt-12 flex flex-wrap">
-          {projects.map(({ slug, title }) => (
-            <ProjectTile id={slug} label={title} key={`project-${slug}`} />
+        <ul className="mt-12 md:mt-24 flex flex-wrap">
+          {projects.map(({ slug, title, tileImage }) => (
+            <ProjectTile
+              key={`project-${slug}`}
+              id={slug}
+              label={title}
+              img={{ src: tileImage.fields.file.url, alt: tileImage.fields.description }}
+            />
           ))}
         </ul>
       </motion.section>
