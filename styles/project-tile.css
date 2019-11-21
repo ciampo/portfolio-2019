@@ -6,6 +6,8 @@ html:not(.js-app) .project-tile {
 
 .project-tile a {
   contain: strict;
+  filter: saturate(0.6);
+  opacity: 0.8;
 }
 
 /* Img */
@@ -41,7 +43,7 @@ html:not(.js-app) .project-tile {
 .project-tile span {
   opacity: 0;
   transform: scale(1.02);
-  transition-duration: 0.2s;
+  transition-duration: 0.15s;
   transition-property: opacity, transform;
   transition-timing-function: ease-out;
   text-shadow: 0 0 0.2em var(--color-background);
@@ -56,7 +58,7 @@ html:not(.js-app) .project-tile {
 .project-tile a:focus span {
   opacity: 1;
   transform: none;
-  transition-delay: 0.1s;
+  transition-delay: 0.05s;
 }
 
 .project-tile a:hover::after,
