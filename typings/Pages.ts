@@ -1,3 +1,5 @@
+import { Document } from '@contentful/rich-text-types';
+
 import { Meta } from './Meta';
 
 export type ContentfulApiPageGeneric = {
@@ -11,6 +13,7 @@ export type ContentfulApiPageHome = ContentfulApiPageGeneric & {
 
 export type ContentfulApiPageAbout = ContentfulApiPageGeneric & {
   title: string;
+  bio?: Document;
 };
 
 export type ContentfulApiPageProjectsList = ContentfulApiPageGeneric & {

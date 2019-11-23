@@ -7,38 +7,42 @@ import PageMeta from '../components/PageMeta';
 import { ContentfulApiPageAbout } from '../typings';
 import routesConfig from '../routes-config';
 
-type PageAboutProps = {
-  title: string;
+type PageAboutProps = ContentfulApiPageAbout & {
   path: string;
 };
 
-const About: NextComponentType<{}, PageAboutProps, PageAboutProps> = ({ title, path }) => {
-  const [exampleState] = useState('Example');
-
-  function aboutFullTitle(exampleState: string): string {
-    return `${exampleState} — ${title}`;
-  }
-
+const About: NextComponentType<{}, PageAboutProps, PageAboutProps> = ({
+  meta,
+  path,
+  title,
+  bio,
+}) => {
   return (
     <>
       <PageMeta
         key="page-meta"
-        title={aboutFullTitle(exampleState)}
-        description="Sample descripion"
+        title={meta.fields.title}
+        description={meta.fields.description}
         path={path}
       />
 
       <DefaultPageTransitionWrapper>
-        <div>{aboutFullTitle(exampleState)}</div>
+        <h1 className="px-6 text-center text-2xl sm:text-3xl md:text-4xl lg:text-5xl">{title}</h1>
       </DefaultPageTransitionWrapper>
     </>
   );
 };
 
 About.getInitialProps = async ({ pathname }: NextPageContext): Promise<PageAboutProps> => {
-  const toReturn = {
-    title: 'About',
+  const toReturn: PageAboutProps = {
     path: '/na',
+    title: 'About me',
+    meta: {
+      fields: {
+        title: 'About',
+        description: 'About page',
+      },
+    },
   };
 
   const routeConfig = routesConfig.find(({ route }) => route === pathname);
@@ -48,16 +52,27 @@ About.getInitialProps = async ({ pathname }: NextPageContext): Promise<PageAbout
       `../data/${routeConfig.contentfulPageId}.json`
     ).then((m) => m.default);
 
-    toReturn.title = aboutData[0].title;
     toReturn.path = pathname;
+    toReturn.title = aboutData[0].title;
+    toReturn.meta = aboutData[0].meta;
+    toReturn.bio = aboutData[0].bio;
   }
 
   return toReturn;
 };
 
+/* eslint-disable @typescript-eslint/ban-ts-ignore */
+// @ts-ignore
 About.propTypes = {
-  title: PropTypes.string.isRequired,
   path: PropTypes.string.isRequired,
+  meta: PropTypes.shape({
+    fields: PropTypes.shape({
+      title: PropTypes.string.isRequired,
+      description: PropTypes.string.isRequired,
+    }),
+  }).isRequired,
+  title: PropTypes.string.isRequired,
+  bio: PropTypes.object,
 };
 
 export default About;
