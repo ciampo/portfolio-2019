@@ -46,6 +46,8 @@
     ]
   },
   "dependencies": {
+    "@contentful/rich-text-react-renderer": "^13.4.0",
+    "@contentful/rich-text-types": "^13.4.0",
     "framer-motion": "^1.6.15",
     "next": "^9.1.2",
     "preact": "^10.0.4",

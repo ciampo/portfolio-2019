@@ -1,0 +1,22 @@
+.rich-text-container {
+  @apply leading-relaxed text-lg font-thin;
+}
+
+@screen lg {
+  .rich-text-container {
+    @apply text-xl;
+  }
+}
+
+.rich-text-container p + p {
+  margin-top: 0.75em;
+}
+
+.rich-text-container a {
+  @apply border-b border-dashed border-primary;
+}
+
+.rich-text-container a:hover,
+.rich-text-container a:focus {
+  @apply outline-none border-b-2 border-solid;
+}
