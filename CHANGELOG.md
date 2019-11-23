@@ -35,9 +35,15 @@ for any bug fixes.
 in case of vulnerabilities.
 -->
 
-## [0.0.3] - 2019-11-21
+## [0.0.4] - 2019-11-23
 
-### Changed
+### Added
+
+- About page: using contentful data for meta
+- Profile illustration
+- Bio (rich text) rendering and styles
+
+## [0.0.3] - 2019-11-21
 
 ### Added
 
@@ -77,8 +83,9 @@ in case of vulnerabilities.
 - Updated README and added Netlify badge
 - Updated package.json
 
-[Unreleased]: https://github.com/ciampo/portfolio-2019/compare/v0.0.3...HEAD
-<!-- [X.Y.Z]: https://github.com/ciampo/portfolio-2019/compare/v0.0.3...vX.Y.Z -->
+[Unreleased]: https://github.com/ciampo/portfolio-2019/compare/v0.0.4...HEAD
+<!-- [X.Y.Z]: https://github.com/ciampo/portfolio-2019/compare/v0.0.4...vX.Y.Z -->
+[0.0.4]: https://github.com/ciampo/portfolio-2019/compare/v0.0.3...v0.0.4
 [0.0.3]: https://github.com/ciampo/portfolio-2019/compare/v0.0.2...v0.0.3
 [0.0.2]: https://github.com/ciampo/portfolio-2019/compare/v0.0.1...v0.0.2
 [0.0.1]: https://github.com/ciampo/portfolio-2019/releases/tag/v0.0.1
