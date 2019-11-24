@@ -38,7 +38,7 @@ const ProjectTile: React.FC<{ id: string; label: string; img: { src: string; alt
   img,
 }) => (
   <motion.li className="w-full sm:w-1/2 lg:w-1/3 project-tile" variants={tileAnimationVariants}>
-    <Link href="/post/[id]" as={`/post/${id}`} scroll={false}>
+    <Link href="/projects/[id]" as={`/projects/${id}`} scroll={false}>
       <a className="relative block w-full h-0 border-4 border-background aspect-ratio-16/9 lg:aspect-ratio-4/3 overflow-hidden outline-none rounded">
         <span className="z-10 absolute bottom-0 mb-2 sm:mb-3 left-0 pl-1 pr-3 py-1 bg-background font-light text-primary text-lg md:text-xl rounded-tr rounded-br">
           {label}
@@ -124,13 +124,13 @@ PageProjectsList.getInitialProps = async ({
   const routeConfig = routesConfig.find(({ route }) => route === pathname);
 
   if (routeConfig && routeConfig.contentfulPageId) {
-    const homeData: ContentfulApiPageProjectsList[] = await import(
+    const projectsListPageData: ContentfulApiPageProjectsList[] = await import(
       `../data/${routeConfig.contentfulPageId}.json`
     ).then((m) => m.default);
 
     toReturn.path = pathname;
-    toReturn.title = homeData[0].title;
-    toReturn.meta = homeData[0].meta;
+    toReturn.title = projectsListPageData[0].title;
+    toReturn.meta = projectsListPageData[0].meta;
   }
 
   const projectsData: ContentfulApiProject[] = await import(`../data/project.json`).then(

@@ -51,6 +51,7 @@ const pullContentfulData = async () => {
   await cleanDataFolder();
   await getEntries('homePage');
   await getEntries('pageProjects');
+  await getEntries('pageProject');
   await getEntries('about');
   await getEntries('project');
   await getEntries('globalMeta');
