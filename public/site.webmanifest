@@ -1,6 +1,6 @@
 {
-    "name": "Next.js Template",
-    "short_name": "Next.js",
+    "name": "Marco Ciampini's Portfolio",
+    "short_name": "MC Portfolio",
     "start_url": "/",
     "icons": [
         {
@@ -14,7 +14,7 @@
             "type": "image/png"
         }
     ],
-    "theme_color": "#ffffff",
-    "background_color": "#ffffff",
+    "theme_color": "#212121",
+    "background_color": "#212121",
     "display": "standalone"
 }
