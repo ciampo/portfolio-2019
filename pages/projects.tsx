@@ -37,19 +37,16 @@ const ProjectTile: React.FC<{ id: string; label: string; img: { src: string; alt
   label,
   img,
 }) => (
-  <motion.li
-    className="w-full sm:w-1/2 lg:w-1/3 xl:w-1/4 project-tile"
-    variants={tileAnimationVariants}
-  >
+  <motion.li className="w-full sm:w-1/2 lg:w-1/3 project-tile" variants={tileAnimationVariants}>
     <Link href="/post/[id]" as={`/post/${id}`} scroll={false}>
-      <a className="relative block w-full border-2 border-background h-0 aspect-ratio-16/9 xsm:aspect-ratio-21/9 sm:aspect-ratio-16/9 lg:aspect-ratio-4/3 xl:aspect-ratio-square overflow-hidden outline-none">
-        <span className="absolute top-0 left-0 w-full h-full px-6 py-4 bg-background font-light text-primary text-lg sm:text-xl md:text-2xl lg:text-3xl">
+      <a className="relative block w-full h-0 border-4 border-background aspect-ratio-16/9 lg:aspect-ratio-4/3 overflow-hidden outline-none rounded">
+        <span className="z-10 absolute bottom-0 mb-2 sm:mb-3 left-0 pl-1 pr-3 py-1 bg-background font-light text-primary text-lg md:text-xl rounded-tr rounded-br">
           {label}
         </span>
 
         <img
-          className="absolute top-0 left-0 w-full h-full object-cover"
-          src={`${img.src}?w=600&h=600&fit=fill&fm=jpg&q=70`}
+          className="z-0 absolute top-0 left-0 w-full h-full object-cover"
+          src={`${img.src}?w=600&h=450&fit=fill&fm=jpg&q=70`}
           alt={img.alt}
         />
       </a>
