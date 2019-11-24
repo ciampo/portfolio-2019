@@ -19,3 +19,5 @@ export type ContentfulApiPageAbout = ContentfulApiPageGeneric & {
 export type ContentfulApiPageProjectsList = ContentfulApiPageGeneric & {
   title: string;
 };
+
+export type ContentfulApiPageProject = ContentfulApiPageGeneric & {};
