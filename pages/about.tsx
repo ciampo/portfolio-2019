@@ -2,14 +2,39 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { NextComponentType, NextPageContext } from 'next';
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer';
+import { motion } from 'framer-motion';
 
 import DefaultPageTransitionWrapper from '../components/page-transition-wrappers/Default';
 import PageMeta from '../components/PageMeta';
 import { ContentfulApiPageAbout } from '../typings';
 import routesConfig from '../routes-config';
+import { customEaseOut } from '../components/utils/utils';
 
 type PageAboutProps = ContentfulApiPageAbout & {
   path: string;
+};
+
+const aboutItemAnimationVariants = {
+  exit: {
+    y: 20,
+    opacity: 0,
+  },
+  enter: {
+    y: 0,
+    opacity: 1,
+    transition: {
+      duration: 0.8,
+      ease: customEaseOut,
+    },
+  },
+};
+
+const aboutWrapperAnimationVariants = {
+  enter: {
+    transition: {
+      staggerChildren: 0.6,
+    },
+  },
 };
 
 const About: NextComponentType<{}, PageAboutProps, PageAboutProps> = ({
@@ -28,19 +53,25 @@ const About: NextComponentType<{}, PageAboutProps, PageAboutProps> = ({
       />
 
       <DefaultPageTransitionWrapper>
-        <section className="pt-24 pb-12 md:pt-32 md:pb-16 lg:pt-48 container mx-auto">
+        <motion.section
+          className="pt-24 pb-12 md:pt-32 md:pb-16 lg:pt-48 container mx-auto"
+          initial="exit"
+          animate="enter"
+          exit="exit"
+          variants={aboutWrapperAnimationVariants}
+        >
           <h1 className="px-6 text-center text-2xl sm:text-3xl md:text-4xl lg:text-5xl">{title}</h1>
 
-          <div className="px-6 mt-12 md:mt-24 flex flex-wrap flex flex-col-reverse lg:flex-row-reverse lg:items-start">
-            {bio && (
-              <div className="lg:flex-1 rich-text-container">{documentToReactComponents(bio)}</div>
-            )}
-            <svg
-              className="w-full max-w-sm mx-auto mb-8 lg:my-0 lg:ml-0 lg:mr-16 xl:mr-24"
+          <div className="px-6 mt-12 md:mt-24 flex flex-wrap flex flex-col lg:flex-row lg:items-start">
+            {/* Face illustration */}
+            <motion.svg
+              className="w-full max-w-sm sm:max-w-md lg:max-w-sm xl:max-w-md mx-auto mb-8 lg:my-0 lg:ml-0 lg:mr-16 xl:mr-24"
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 210 220"
               fill="currentColor"
               fillOpacity="0.7"
+              variants={aboutItemAnimationVariants}
+              aria-hidden="true"
             >
               <path d="M72.53 46.08c.06.08-4.02 2.8-6.36 10.1-1.38 4.32-2.05 9.15-2.21 15.55.07 5.67.02 10.32 0 16.98 0 2.43 0 5.02.04 7.57.02 1.5 0 3.04.19 4.51.36 3.64.97 7.39 1.93 11.12.71 2.76 1.62 5.55 2.35 8.45.34 1.5.72 2.98 1.14 4.48 1.4 5.03 3.15 9.92 4.95 14.55 2.33 5.98 4.54 11.3 7.56 16.23 3.08 4.25 6.28 7.76 10.34 9.76 2.9 1.46 6.17 1.8 9.04 1.76 4.2-.13 7.1-.01 10.25-1.03 3.95-1.25 6.78-4.12 8.22-5.74 1.6-1.8 2.3-2.89 2.35-2.86.04.03-.58 1.18-2.12 3.05-1.4 1.7-4.19 4.68-8.28 6.09-3.23 1.09-6.24 1.03-10.4 1.2-2.94.1-6.33-.24-9.42-1.74-4.25-2.09-7.6-5.68-10.73-9.98-3.1-5-5.37-10.39-7.72-16.39a151.94 151.94 0 01-5-14.63c-.42-1.5-.8-3-1.15-4.51-.72-2.86-1.62-5.64-2.34-8.45a74.18 74.18 0 01-1.92-11.25c-.19-1.56-.16-3.13-.18-4.6-.02-2.58 0-5.16.01-7.59.05-6.15.14-11.85.13-16.99.23-6.43 1-11.35 2.47-15.7 2.5-7.38 6.8-10.02 6.86-9.94z" />
               <path d="M87.22 116.18c-.05.04-.78-.6.04-1.08.45-.17 1-.08 1.5.22.11.05.21.12.3.2.3.22.51.51.68.76.6.86 1.3 1.28 1.25 1.36-.04.07-.84-.22-1.55-1.14-.18-.23-.39-.49-.62-.68a1.51 1.51 0 00-.24-.15c-.48-.25-.87-.38-1.21-.27-.47-.02-.1.75-.15.78zM92.3 118.45c.11-.1 1.16.9 2.52.55.14-.03.28-.07.43-.13 1.59-.57 2.65-1.8 2.77-1.69.12.12-.73 1.58-2.57 2.25a4 4 0 01-.5.15c-1.78.35-2.75-1.02-2.65-1.13zM99.4 116.09c-.04-.04.3-.48 1.07-.93a6.96 6.96 0 014.2-.9c.85.05 1.57.26 2.04.76.85 1-.06 1.84-.11 1.8-.06-.03.6-.97-.11-1.58-.41-.4-1.03-.53-1.84-.59a8.96 8.96 0 00-.84-.01c-2.6.09-4.34 1.53-4.42 1.45zM85.8 115.84c-.04.06-.95-.25-1.3-1.5a4.5 4.5 0 01-.01-2.14c.14-.67.37-1.37.69-2.07.29-.64.62-1.22.95-1.74 1.3-1.96 1.63-3.84 1.73-3.8.05.02-.06.45-.25 1.18-.16.61-.47 1.88-1.08 2.87-.3.52-.62 1.09-.9 1.7-.3.67-.53 1.33-.68 1.96a4.53 4.53 0 00-.1 1.95c.22 1.1.99 1.53.95 1.6zM108.64 116.6c-.06-.07 1.52-1.1 1.53-3.18.03-1.15-.44-2.28-1.32-3.54-.39-.54-.82-1.08-1.2-1.55-2.46-2.36-3.16-4.85-3.06-4.9.1-.06 1.01 2.38 3.4 4.56.41.47.86 1 1.26 1.59a6.3 6.3 0 011.34 3.86c-.16 2.38-1.89 3.22-1.95 3.16zM91.1 88.72c-.1-.02.27-1.33.32-2.9v-.44c-.04-1.34-.92-2.04-.87-2.13.01-.03.3.02.63.37.33.36.62.96.64 1.75v.46c-.06 1.67-.6 2.92-.71 2.9zM83.67 135.28c-.06-.09 1.65-1.51 4.77-3.04 1-.5 2.41-1.29 3.92-1.33 1.58-.03 3.08.84 4.6.91.31.02.65-.1 1.02-.25l.4-.15c.75-.3 1.56-.44 2.34-.4 1.73.1 3.38.8 4.68 1.33 4.45 1.79 7.73 2.3 7.7 2.43-.01.13-3.35-.15-7.93-1.86-1.31-.49-2.92-1.15-4.48-1.2a4.96 4.96 0 00-2.06.35l-.4.16c-.39.16-.82.3-1.3.3-1.78-.12-3.2-1-4.56-.98-1.28 0-2.67.72-3.7 1.17-3.12 1.4-4.94 2.65-5 2.56zM83.83 137.33c.13-.04 1.26 3.46 5.59 5.34 2.42 1.05 5.3 1.5 8.69 1.35l.93-.06c3.2-.24 6.1-.98 8.55-1.9 5.06-1.9 7.72-4.6 7.83-4.5.12.13-2.32 3.03-7.57 5.15a29.28 29.28 0 01-9.7 2.1c-3.49.16-6.5-.37-9-1.54-4.54-2.11-5.46-5.89-5.32-5.94z" />
@@ -119,9 +150,19 @@ const About: NextComponentType<{}, PageAboutProps, PageAboutProps> = ({
                 <path d="M151.2 83.55a18.06 18.06 0 015.88-.49 6.17 6.17 0 013.67 1.53c-.03.04-1.47-1.14-3.68-1.33-.31-.03-.63-.04-.96-.05-2.7-.02-4.91.4-4.92.34z" />
                 <path d="M151.3 84.49a14.93 14.93 0 015.95-.2 7.12 7.12 0 013.24 1.37c-.02.04-1.32-.84-3.27-1.18a11.3 11.3 0 00-1.2-.14c-2.58-.17-4.72.2-4.72.15zM151.54 85.43c0-.06 2-.43 4.44-.2a9.32 9.32 0 014.15 1.33c-.02.04-1.76-.9-4.16-1.13-2.41-.22-4.42.05-4.43 0zM151.64 86.33c0-.06 1.75-.37 3.9-.26a7.03 7.03 0 013.6 1.1c-.03.04-1.5-.79-3.61-.9-2.11-.1-3.88.11-3.89.06zM151.85 87.27c0-.06 1.41-.45 3.17-.4 1.76.05 2.97.85 2.94.9-.03.05-1.22-.66-2.94-.7-1.72-.04-3.16.25-3.17.2zM152.03 88.1a5.76 5.76 0 012.57-.34c1.44.1 2.49.7 2.46.74-.02.05-1.07-.45-2.47-.54-1.4-.08-2.55.2-2.56.14z" />
               </g>
-            </svg>
+            </motion.svg>
+
+            {/* Bio */}
+            {bio && (
+              <motion.div
+                className="lg:flex-1 rich-text-container"
+                variants={aboutItemAnimationVariants}
+              >
+                {documentToReactComponents(bio)}
+              </motion.div>
+            )}
           </div>
-        </section>
+        </motion.section>
       </DefaultPageTransitionWrapper>
     </>
   );
