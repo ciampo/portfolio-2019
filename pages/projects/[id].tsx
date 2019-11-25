@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { NextComponentType, NextPageContext } from 'next';
+import { documentToReactComponents } from '@contentful/rich-text-react-renderer';
 
 import PageMeta from '../../components/PageMeta';
 import DefaultPageTransitionWrapper from '../../components/page-transition-wrappers/Default';
@@ -26,7 +27,9 @@ const PageProject: NextComponentType<{}, PageProjectProps, PageProjectProps> = (
           <h1 className="text-center text-2xl sm:text-3xl md:text-4xl lg:text-5xl">
             {project.title}
           </h1>
-          <p className="mt-12 md:mt-24">Content TBD</p>
+          <div className="mt-12 md:mt-24 rich-text-container">
+            {documentToReactComponents(project.description)}
+          </div>
         </section>
       </DefaultPageTransitionWrapper>
     </>
