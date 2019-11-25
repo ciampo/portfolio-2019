@@ -22,7 +22,7 @@ const Nav: NextComponentType<{}, NavProps, NavProps> = ({ links }) => (
                   'border-primary'}`}
               >
                 <span className={`hidden lg:inline ${!selected && 'opacity-0'}`} aria-hidden="true">
-                  &middot;&nbsp;
+                  &bull;&nbsp;
                 </span>
                 {label}
               </a>
