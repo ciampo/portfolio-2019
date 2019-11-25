@@ -14,12 +14,15 @@ const Nav: NextComponentType<{}, NavProps, NavProps> = ({ links }) => (
   <nav className="fixed z-50 top-0 left-0 bg-background">
     {links && links.length && (
       <ul className="w-full py-1 px-2 flex lg:block lg:py-2 lg:px-4">
-        {links.map(({ href, label }, index) => (
-          <li key={`${index}-${slugify(label)}`} className="flex py-1 px-4">
+        {links.map(({ href, label, selected }, index) => (
+          <li key={`${index}-${slugify(label)}`} className="flex pt-1 pb-2 px-4">
             <Link href={href} scroll={false}>
-              <a className="no-underline text-base md:text-lg lg:text-xl text-primary font-light lowercase opacity-75 hover:opacity-100 focus:opacity-100 nav-link outline-none">
-                <span className="hidden lg:inline" aria-hidden="true">
-                  |__
+              <a
+                className={`no-underline text-base md:text-lg lg:text-xl text-primary font-light lowercase opacity-75 border-b border-transparent border-solid focus:opacity-100 focus:border-primary outline-none contain-layout-paint ${selected &&
+                  'border-primary'}`}
+              >
+                <span className={`hidden lg:inline ${!selected && 'opacity-0'}`} aria-hidden="true">
+                  &middot;&nbsp;
                 </span>
                 {label}
               </a>
@@ -38,6 +41,7 @@ Nav.propTypes = {
     PropTypes.shape({
       href: PropTypes.string.isRequired,
       label: PropTypes.string.isRequired,
+      selected: PropTypes.bool,
     })
   ).isRequired,
 };

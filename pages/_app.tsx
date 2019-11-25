@@ -43,6 +43,10 @@ export default class MyApp extends App<CustomAppProps> {
   render(): JSX.Element {
     const { Component, pageProps, router, navLinks } = this.props;
 
+    navLinks.forEach((navLink) => {
+      navLink.selected = router.route === navLink.href;
+    });
+
     return (
       <>
         <Analytics />
