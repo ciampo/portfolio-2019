@@ -31,11 +31,18 @@ const Home: NextComponentType<{}, PageHomeProps, PageHomeProps> = ({ path, meta,
     // it will only run when the component mount/unmounts.
     // So we can run the callback once at init time.
     forceRealViewportSize();
-    document.body.style.overflow = 'hidden';
+    document.documentElement.style.position = 'fixed';
+    document.documentElement.style.overflow = 'hidden';
+    document.documentElement.style.height = '100%';
+    document.documentElement.style.width = '100%';
 
     return (): void => {
       window.removeEventListener('resize', forceRealViewportSize);
-      document.body.style.overflow = '';
+
+      document.documentElement.style.position = '';
+      document.documentElement.style.overflow = '';
+      document.documentElement.style.height = '';
+      document.documentElement.style.width = '';
     };
   }, []);
 
@@ -69,7 +76,7 @@ const Home: NextComponentType<{}, PageHomeProps, PageHomeProps> = ({ path, meta,
             <rect x="0" y="0" width="100%" height="100%" fill="url(#dots-grid)"></rect>
           </svg>
 
-          <h1 className="text-primary bg-background z-10 pointer-events-none home-logo-title">
+          <h1 className="contain-layout-paint text-primary bg-background z-10 pointer-events-none home-logo-title">
             <span className="sr-only">{pageTitle}</span>
             <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 172 134">
               <g fill="none" fillRule="evenodd">
