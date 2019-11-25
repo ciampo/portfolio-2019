@@ -37,6 +37,61 @@ module.exports = {
       '3/4': '75%',
     },
   },
-  variants: {},
-  plugins: [require('tailwindcss-aspect-ratio')()],
+  variants: {
+    zIndex: ['responsive', 'focus'],
+  },
+  plugins: [
+    require('tailwindcss-aspect-ratio')(),
+    function({ addUtilities }) {
+      const newUtilities = {
+        // Contain
+        '.contain-strict': {
+          contain: 'strict',
+        },
+        '.contain-layout-paint': {
+          contain: 'layout paint',
+        },
+        '.contain-paint': {
+          contain: 'paint',
+        },
+        '.contain-layout': {
+          contain: 'layout',
+        },
+        // Transition
+        '.transition-tf-custom': {
+          transitionTimingFunction: 'cubic-bezier(0.175, 0.85, 0.42, 0.96)',
+        },
+        '.transition-d-100': {
+          transitionDuration: '0.1s',
+        },
+        '.transition-d-150': {
+          transitionDuration: '0.15s',
+        },
+        '.transition-d-200': {
+          transitionDuration: '0.2s',
+        },
+        '.transition-d-300': {
+          transitionDuration: '0.3s',
+        },
+        '.transition-p-opacity-transform': {
+          transitionProperty: 'opacity, transform',
+        },
+        '.transition-inherit': {
+          transition: 'inherit',
+        },
+        // Transform
+        '.transform-scale-up': {
+          transform: 'scale(1.05)',
+        },
+        '.transform-scale-down': {
+          transform: 'scale(0.96)',
+        },
+        '.transform-none': {
+          transform: 'none',
+        },
+      };
+
+      addUtilities(newUtilities, ['responsive', 'focus']);
+    },
+  ],
 };

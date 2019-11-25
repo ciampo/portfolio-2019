@@ -4,21 +4,6 @@ html:not(.js-app) .project-tile {
   transform: none !important;
 }
 
-.project-tile a {
-  contain: strict;
-}
-
-
-.project-tile a,
-.project-tile a >span {
-  transition: transform .2s ease-out;
-}
-
-.project-tile a:focus {
-  transform: scale(1.05);
-  z-index: 100;
-}
-
 .project-tile a:focus > span {
   transform: translateY(-50%);
 }
