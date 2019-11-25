@@ -31,9 +31,11 @@ const Home: NextComponentType<{}, PageHomeProps, PageHomeProps> = ({ path, meta,
     // it will only run when the component mount/unmounts.
     // So we can run the callback once at init time.
     forceRealViewportSize();
+    document.body.style.overflow = 'hidden';
 
     return (): void => {
       window.removeEventListener('resize', forceRealViewportSize);
+      document.body.style.overflow = '';
     };
   }, []);
 
