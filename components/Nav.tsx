@@ -11,7 +11,7 @@ type NavProps = {
 };
 
 const Nav: NextComponentType<{}, NavProps, NavProps> = ({ links }) => (
-  <nav className="fixed z-50 top-0 left-0 bg-background">
+  <nav className="fixed contain-layout-paint z-50 top-0 left-0 bg-background">
     {links && links.length && (
       <ul className="w-full py-1 px-2 flex lg:block lg:py-2 lg:px-4">
         {links.map(({ href, label, selected }, index) => (
