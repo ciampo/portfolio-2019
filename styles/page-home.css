@@ -4,10 +4,8 @@
   animation-fill-mode: both;
   animation-name: logo-enter;
   animation-timing-function: ease-out;
-  height: 60vmin;
-  max-height: 21.25rem;
   max-width: 21.25rem;
-  width: 60vmin;
+  width: 64vmin;
 }
 
 @keyframes logo-enter {
