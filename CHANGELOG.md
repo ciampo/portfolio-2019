@@ -35,6 +35,26 @@ for any bug fixes.
 in case of vulnerabilities.
 -->
 
+## [0.0.5] - 2019-11-25
+
+### Added
+
+- "selected" nav links
+- staggered enter animations on about page
+- project page: meta, title and description
+
+### Changed
+
+- `/post/[id]` => `/projects/[id]`
+- styles: created custom tailwind utilities, replacing custom css code
+- ux: avoiding hover styles (improved touch screen experience)
+- new home logo (shorter, stronger type hierarchy)
+- nav links styles ('|_' replaced with dot)
+
+### Fixed
+
+- prevented home page from bouncing
+
 ## [0.0.4] - 2019-11-23
 
 ### Added
@@ -83,8 +103,9 @@ in case of vulnerabilities.
 - Updated README and added Netlify badge
 - Updated package.json
 
-[Unreleased]: https://github.com/ciampo/portfolio-2019/compare/v0.0.4...HEAD
-<!-- [X.Y.Z]: https://github.com/ciampo/portfolio-2019/compare/v0.0.4...vX.Y.Z -->
+[Unreleased]: https://github.com/ciampo/portfolio-2019/compare/v0.0.5...HEAD
+<!-- [X.Y.Z]: https://github.com/ciampo/portfolio-2019/compare/v0.0.5...vX.Y.Z -->
+[0.0.5]: https://github.com/ciampo/portfolio-2019/compare/v0.0.4...v0.0.5
 [0.0.4]: https://github.com/ciampo/portfolio-2019/compare/v0.0.3...v0.0.4
 [0.0.3]: https://github.com/ciampo/portfolio-2019/compare/v0.0.2...v0.0.3
 [0.0.2]: https://github.com/ciampo/portfolio-2019/compare/v0.0.1...v0.0.2
