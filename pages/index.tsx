@@ -81,185 +81,187 @@ const Home: NextComponentType<{}, PageHomeProps, PageHomeProps> = ({ path, meta,
             <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 172 124">
               <defs>
                 <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
-                  <feGaussianBlur
-                    in="SourceGraphic"
-                    stdDeviation="2"
-                    result="blurred"
-                  ></feGaussianBlur>
+                  {/* Blur */}
+                  <feGaussianBlur in="SourceGraphic" stdDeviation="1" result="blur" />
+                  {/* Opacity 0.5 */}
+                  <feColorMatrix
+                    type="matrix"
+                    values="1   0   0   0   0
+                            0   1   0   0   0
+                            0   0   1   0   0
+                            0   0   0   0.5 0"
+                  />
+                  <feMerge>
+                    <feMergeNode />
+                    <feMergeNode in="SourceGraphic" />
+                  </feMerge>
                 </filter>
-                {/* M */}
-                <path
-                  className="home-logo-title__letter"
-                  d="M33.2 37.8l9-22h5.5V44h-4.5V24.3L35 44h-3.5l-8.3-19.8V44h-4.4V15.7h5.4l9 22z"
-                  strokeDasharray="210"
-                  strokeDashoffset="210"
-                  id="logo-letter-0"
-                />
-                {/* a - outside */}
-                <path
-                  className="home-logo-title__letter"
-                  d="M62.3 31.5v-1.3c0-2.1-1.4-3.4-3.8-3.4-2.3 0-3.8 1-4.1 2.8v.2h-4.5v-.3c.3-3.9 3.7-6.6 8.7-6.6 5.1 0 8.4 2.7 8.4 7V44h-4.5v-2.8a7.7 7.7 0 01-6.3 3.2C52 44.5 49 41.9 49 38c0-3.7 2.9-6 7.9-6.3l5.3-.3z"
-                  strokeDasharray="100"
-                  strokeDashoffset="100"
-                  id="logo-letter-1"
-                />
-                {/* a - inside */}
-                <path
-                  className="home-logo-title__letter"
-                  d="M62.3 35l-4.7.2c-2.4.2-3.7 1.2-3.7 2.8 0 1.6 1.3 2.7 3.4 2.7 2.9 0 5-2 5-4.4v-1.4z"
-                  strokeDasharray="25"
-                  strokeDashoffset="25"
-                  id="logo-letter-2"
-                />
-                {/* r */}
-                <path
-                  className="home-logo-title__letter"
-                  d="M73.7 26c.9-2 2.6-3 4.7-3l1.5.1h.2v4.5l-.3-.1a6 6 0 00-1.8-.2c-2.6 0-4.1 1.7-4.1 4.4v12.4h-4.7V23.3h4.5V26z"
-                  strokeDasharray="68"
-                  strokeDashoffset="68"
-                  id="logo-letter-3"
-                />
-                {/* c */}
-                <path
-                  className="home-logo-title__letter"
-                  d="M90 44.5c-6.1 0-10-4.1-10-10.8C80 27.2 84 23 90 23c5 0 8.6 3.2 9 7.6v.3h-4.4v-.2a4.4 4.4 0 00-4.6-3.7c-3.2 0-5.2 2.6-5.2 6.8 0 4.3 2 6.8 5.2 6.8 2.4 0 4-1.3 4.5-3.5v-.2h4.6v.2c-.5 4.5-4.1 7.5-9.1 7.5z"
-                  strokeDasharray="102"
-                  strokeDashoffset="102"
-                  transform="translate(1, 0)"
-                  id="logo-letter-4"
-                />
-                {/* o - outside */}
-                <path
-                  className="home-logo-title__letter"
-                  d="M110.2 44.5c-6.1 0-10-4.2-10-10.8 0-6.6 4-10.8 10-10.8s10 4.2 10 10.8c0 6.6-4 10.8-10 10.8z"
-                  strokeDasharray="68"
-                  strokeDashoffset="68"
-                  transform="translate(2, 0)"
-                  id="logo-letter-5"
-                />
-                {/* o - inside */}
-                <path
-                  className="home-logo-title__letter"
-                  d="M110.2 40.6c3.2 0 5.2-2.6 5.2-6.9 0-4.3-2-6.8-5.2-6.8s-5.2 2.5-5.2 6.8 2 6.9 5.2 6.9z"
-                  strokeDasharray="40"
-                  strokeDashoffset="40"
-                  transform="translate(2, 0)"
-                  id="logo-letter-6"
-                />
-                {/* C */}
-                <path
-                  className="home-logo-title__letter"
-                  d="M30.9 76c-8 0-13.1-5.7-13.1-14.7s5-14.6 13-14.6c6.6 0 11.5 4 12.3 9.9v.3h-4.8v-.2a7.2 7.2 0 00-7.4-5.7c-5 0-8.2 4-8.2 10.3 0 6.4 3.2 10.4 8.2 10.4 3.8 0 6.5-2 7.3-5.2v-.2h5l-.1.3c-1.1 6-5.6 9.4-12.2 9.4z"
-                  strokeDasharray="140"
-                  strokeDashoffset="140"
-                  id="logo-letter-7"
-                />
-                {/* i (dot) */}
-                <path
-                  className="home-logo-title__letter"
-                  d="M47 52a2.7 2.7 0 01-2.6-2.7c0-1.5 1.2-2.7 2.7-2.7a2.6 2.6 0 110 5.3z"
-                  strokeDasharray="18"
-                  strokeDashoffset="18"
-                  id="logo-letter-8"
-                />
-                {/* i (line) */}
-                <path
-                  className="home-logo-title__letter"
-                  d="M49.4 54.7v20.8h-4.7V54.7h4.7z"
-                  strokeDasharray="52"
-                  strokeDashoffset="52"
-                  id="logo-letter-9"
-                />
-                {/* a - outside */}
-                <path
-                  className="home-logo-title__letter"
-                  d="M64.2 63v-1.4c0-2.1-1.4-3.4-3.9-3.4-2.2 0-3.7 1-4 2.8v.2h-4.5V61c.2-3.9 3.6-6.6 8.7-6.6 5 0 8.4 2.7 8.4 7v14.2h-4.6v-2.8a7.7 7.7 0 01-6.3 3.2c-4.1 0-7-2.6-7-6.4 0-3.7 2.8-6 7.8-6.3l5.4-.3z"
-                  strokeDasharray="100"
-                  strokeDashoffset="100"
-                  id="logo-letter-10"
-                />
-                {/* a - inside */}
-                <path
-                  className="home-logo-title__letter"
-                  d="M64.2 66.3l-4.8.3c-2.4.2-3.7 1.2-3.7 2.8 0 1.6 1.4 2.7 3.5 2.7 2.8 0 5-2 5-4.4v-1.4z"
-                  strokeDasharray="25"
-                  strokeDashoffset="25"
-                  id="logo-letter-11"
-                />
-                {/* m */}
-                <path
-                  className="home-logo-title__letter"
-                  d="M75.5 57.5c1.1-2 3.2-3.2 5.7-3.2 2.8 0 4.9 1.4 5.8 3.7a7 7 0 016.4-3.7c4.2 0 7 2.8 7 7v14.2h-4.8V62.3c0-2.5-1.3-3.9-3.6-3.9-2.4 0-4 1.7-4 4.2v13h-4.6V62c0-2.2-1.4-3.6-3.7-3.6-2.3 0-4 1.8-4 4.3v12.8H71V54.7h4.5v2.8z"
-                  strokeDasharray="168"
-                  strokeDashoffset="168"
-                  id="logo-letter-12"
-                />
-                {/* p (outside) */}
-                <path
-                  className="home-logo-title__letter"
-                  d="M107 57.7c1.4-2.1 3.7-3.3 6.4-3.3 5.4 0 8.9 4.2 8.9 10.7 0 6.5-3.5 10.8-8.8 10.8-2.7 0-5-1.2-6.3-3.2v9.5h-4.7V54.8h4.6v3z"
-                  strokeDasharray="96"
-                  strokeDashoffset="96"
-                  id="logo-letter-13"
-                />
-                {/* p (inside) */}
-                <path
-                  className="home-logo-title__letter"
-                  d="M112.3 71.8c3.2 0 5.2-2.5 5.2-6.7 0-4.1-2-6.7-5.2-6.7-3 0-5.1 2.7-5.1 6.7 0 4.1 2 6.7 5.1 6.7z"
-                  strokeDasharray="38"
-                  strokeDashoffset="38"
-                  id="logo-letter-14"
-                />
-                {/* i (dot) */}
-                <path
-                  className="home-logo-title__letter"
-                  d="M126 52a2.7 2.7 0 01-2.6-2.7c0-1.5 1.2-2.7 2.7-2.7a2.6 2.6 0 110 5.3z"
-                  strokeDasharray="18"
-                  strokeDashoffset="18"
-                  id="logo-letter-15"
-                />
-                {/* i (line) */}
-                <path
-                  className="home-logo-title__letter"
-                  d="M128.4 54.7v20.8h-4.7V54.7h4.7z"
-                  strokeDasharray="52"
-                  strokeDashoffset="52"
-                  id="logo-letter-16"
-                />
-                {/* n */}
-                <path
-                  className="home-logo-title__letter"
-                  d="M135.3 57.5c1.3-2 3.5-3.2 6.3-3.2 4.6 0 7.4 3 7.4 7.8v13.4h-4.8V63c0-3-1.3-4.5-4-4.5-2.9 0-4.7 2-4.7 5v12.1h-4.7V54.7h4.5v2.8z"
-                  strokeDasharray="110"
-                  strokeDashoffset="110"
-                  id="logo-letter-17"
-                />
-                {/* i (dot) */}
-                <path
-                  className="home-logo-title__letter"
-                  d="M153.6 52a2.7 2.7 0 01-2.7-2.7c0-1.5 1.2-2.7 2.7-2.7a2.6 2.6 0 110 5.3z"
-                  strokeDasharray="18"
-                  strokeDashoffset="18"
-                  id="logo-letter-18"
-                />
-                {/* i (line) */}
-                <path
-                  className="home-logo-title__letter"
-                  d="M156 75.5h-4.8V54.7h4.7v20.8z"
-                  strokeDasharray="52"
-                  strokeDashoffset="52"
-                  id="logo-letter-19"
-                />
               </defs>
               <g fill="none" fillRule="evenodd">
                 <g stroke="currentColor" strokeWidth="0.05rem" strokeOpacity="0">
-                  {/* Each letter also has another blurred out version of itself ~ neon effect */}
-                  {[...Array(20)].map((_, i) => (
-                    <>
-                      <use xlinkHref={`#logo-letter-${i}`} />
-                      <use xlinkHref={`#logo-letter-${i}`} filter="url(#glow)" opacity="0.5" />
-                    </>
-                  ))}
+                  {/* M */}
+                  <path
+                    className="home-logo-title__letter"
+                    d="M33.2 37.8l9-22h5.5V44h-4.5V24.3L35 44h-3.5l-8.3-19.8V44h-4.4V15.7h5.4l9 22z"
+                    strokeDasharray="210"
+                    strokeDashoffset="210"
+                    filter="url(#glow)"
+                  />
+                  {/* a - outside */}
+                  <path
+                    className="home-logo-title__letter"
+                    d="M62.3 31.5v-1.3c0-2.1-1.4-3.4-3.8-3.4-2.3 0-3.8 1-4.1 2.8v.2h-4.5v-.3c.3-3.9 3.7-6.6 8.7-6.6 5.1 0 8.4 2.7 8.4 7V44h-4.5v-2.8a7.7 7.7 0 01-6.3 3.2C52 44.5 49 41.9 49 38c0-3.7 2.9-6 7.9-6.3l5.3-.3z"
+                    strokeDasharray="100"
+                    strokeDashoffset="100"
+                    filter="url(#glow)"
+                  />
+                  {/* a - inside */}
+                  <path
+                    className="home-logo-title__letter"
+                    d="M62.3 35l-4.7.2c-2.4.2-3.7 1.2-3.7 2.8 0 1.6 1.3 2.7 3.4 2.7 2.9 0 5-2 5-4.4v-1.4z"
+                    strokeDasharray="25"
+                    strokeDashoffset="25"
+                    filter="url(#glow)"
+                  />
+                  {/* r */}
+                  <path
+                    className="home-logo-title__letter"
+                    d="M73.7 26c.9-2 2.6-3 4.7-3l1.5.1h.2v4.5l-.3-.1a6 6 0 00-1.8-.2c-2.6 0-4.1 1.7-4.1 4.4v12.4h-4.7V23.3h4.5V26z"
+                    strokeDasharray="68"
+                    strokeDashoffset="68"
+                    filter="url(#glow)"
+                  />
+                  {/* c */}
+                  <path
+                    className="home-logo-title__letter"
+                    d="M90 44.5c-6.1 0-10-4.1-10-10.8C80 27.2 84 23 90 23c5 0 8.6 3.2 9 7.6v.3h-4.4v-.2a4.4 4.4 0 00-4.6-3.7c-3.2 0-5.2 2.6-5.2 6.8 0 4.3 2 6.8 5.2 6.8 2.4 0 4-1.3 4.5-3.5v-.2h4.6v.2c-.5 4.5-4.1 7.5-9.1 7.5z"
+                    strokeDasharray="102"
+                    strokeDashoffset="102"
+                    filter="url(#glow)"
+                    id="logo-letter-4"
+                  />
+                  {/* o - outside */}
+                  <path
+                    className="home-logo-title__letter"
+                    d="M110.2 44.5c-6.1 0-10-4.2-10-10.8 0-6.6 4-10.8 10-10.8s10 4.2 10 10.8c0 6.6-4 10.8-10 10.8z"
+                    strokeDasharray="68"
+                    strokeDashoffset="68"
+                    filter="url(#glow)"
+                    id="logo-letter-5"
+                  />
+                  {/* o - inside */}
+                  <path
+                    className="home-logo-title__letter"
+                    d="M110.2 40.6c3.2 0 5.2-2.6 5.2-6.9 0-4.3-2-6.8-5.2-6.8s-5.2 2.5-5.2 6.8 2 6.9 5.2 6.9z"
+                    strokeDasharray="40"
+                    strokeDashoffset="40"
+                    filter="url(#glow)"
+                    id="logo-letter-6"
+                  />
+                  {/* C */}
+                  <path
+                    className="home-logo-title__letter"
+                    d="M30.9 76c-8 0-13.1-5.7-13.1-14.7s5-14.6 13-14.6c6.6 0 11.5 4 12.3 9.9v.3h-4.8v-.2a7.2 7.2 0 00-7.4-5.7c-5 0-8.2 4-8.2 10.3 0 6.4 3.2 10.4 8.2 10.4 3.8 0 6.5-2 7.3-5.2v-.2h5l-.1.3c-1.1 6-5.6 9.4-12.2 9.4z"
+                    strokeDasharray="140"
+                    strokeDashoffset="140"
+                    filter="url(#glow)"
+                  />
+                  {/* i (dot) */}
+                  <path
+                    className="home-logo-title__letter"
+                    d="M47 52a2.7 2.7 0 01-2.6-2.7c0-1.5 1.2-2.7 2.7-2.7a2.6 2.6 0 110 5.3z"
+                    strokeDasharray="18"
+                    strokeDashoffset="18"
+                    filter="url(#glow)"
+                  />
+                  {/* i (line) */}
+                  <path
+                    className="home-logo-title__letter"
+                    d="M49.4 54.7v20.8h-4.7V54.7h4.7z"
+                    strokeDasharray="52"
+                    strokeDashoffset="52"
+                    filter="url(#glow)"
+                  />
+                  {/* a - outside */}
+                  <path
+                    className="home-logo-title__letter"
+                    d="M64.2 63v-1.4c0-2.1-1.4-3.4-3.9-3.4-2.2 0-3.7 1-4 2.8v.2h-4.5V61c.2-3.9 3.6-6.6 8.7-6.6 5 0 8.4 2.7 8.4 7v14.2h-4.6v-2.8a7.7 7.7 0 01-6.3 3.2c-4.1 0-7-2.6-7-6.4 0-3.7 2.8-6 7.8-6.3l5.4-.3z"
+                    strokeDasharray="100"
+                    strokeDashoffset="100"
+                    filter="url(#glow)"
+                  />
+                  {/* a - inside */}
+                  <path
+                    className="home-logo-title__letter"
+                    d="M64.2 66.3l-4.8.3c-2.4.2-3.7 1.2-3.7 2.8 0 1.6 1.4 2.7 3.5 2.7 2.8 0 5-2 5-4.4v-1.4z"
+                    strokeDasharray="25"
+                    strokeDashoffset="25"
+                    filter="url(#glow)"
+                  />
+                  {/* m */}
+                  <path
+                    className="home-logo-title__letter"
+                    d="M75.5 57.5c1.1-2 3.2-3.2 5.7-3.2 2.8 0 4.9 1.4 5.8 3.7a7 7 0 016.4-3.7c4.2 0 7 2.8 7 7v14.2h-4.8V62.3c0-2.5-1.3-3.9-3.6-3.9-2.4 0-4 1.7-4 4.2v13h-4.6V62c0-2.2-1.4-3.6-3.7-3.6-2.3 0-4 1.8-4 4.3v12.8H71V54.7h4.5v2.8z"
+                    strokeDasharray="168"
+                    strokeDashoffset="168"
+                    filter="url(#glow)"
+                  />
+                  {/* p (outside) */}
+                  <path
+                    className="home-logo-title__letter"
+                    d="M107 57.7c1.4-2.1 3.7-3.3 6.4-3.3 5.4 0 8.9 4.2 8.9 10.7 0 6.5-3.5 10.8-8.8 10.8-2.7 0-5-1.2-6.3-3.2v9.5h-4.7V54.8h4.6v3z"
+                    strokeDasharray="96"
+                    strokeDashoffset="96"
+                    filter="url(#glow)"
+                  />
+                  {/* p (inside) */}
+                  <path
+                    className="home-logo-title__letter"
+                    d="M112.3 71.8c3.2 0 5.2-2.5 5.2-6.7 0-4.1-2-6.7-5.2-6.7-3 0-5.1 2.7-5.1 6.7 0 4.1 2 6.7 5.1 6.7z"
+                    strokeDasharray="38"
+                    strokeDashoffset="38"
+                    filter="url(#glow)"
+                  />
+                  {/* i (dot) */}
+                  <path
+                    className="home-logo-title__letter"
+                    d="M126 52a2.7 2.7 0 01-2.6-2.7c0-1.5 1.2-2.7 2.7-2.7a2.6 2.6 0 110 5.3z"
+                    strokeDasharray="18"
+                    strokeDashoffset="18"
+                    filter="url(#glow)"
+                  />
+                  {/* i (line) */}
+                  <path
+                    className="home-logo-title__letter"
+                    d="M128.4 54.7v20.8h-4.7V54.7h4.7z"
+                    strokeDasharray="52"
+                    strokeDashoffset="52"
+                    filter="url(#glow)"
+                  />
+                  {/* n */}
+                  <path
+                    className="home-logo-title__letter"
+                    d="M135.3 57.5c1.3-2 3.5-3.2 6.3-3.2 4.6 0 7.4 3 7.4 7.8v13.4h-4.8V63c0-3-1.3-4.5-4-4.5-2.9 0-4.7 2-4.7 5v12.1h-4.7V54.7h4.5v2.8z"
+                    strokeDasharray="110"
+                    strokeDashoffset="110"
+                    filter="url(#glow)"
+                  />
+                  {/* i (dot) */}
+                  <path
+                    className="home-logo-title__letter"
+                    d="M153.6 52a2.7 2.7 0 01-2.7-2.7c0-1.5 1.2-2.7 2.7-2.7a2.6 2.6 0 110 5.3z"
+                    strokeDasharray="18"
+                    strokeDashoffset="18"
+                    filter="url(#glow)"
+                  />
+                  {/* i (line) */}
+                  <path
+                    className="home-logo-title__letter"
+                    d="M156 75.5h-4.8V54.7h4.7v20.8z"
+                    strokeDasharray="52"
+                    strokeDashoffset="52"
+                    filter="url(#glow)"
+                  />
                 </g>
 
                 {/* Web developer */}

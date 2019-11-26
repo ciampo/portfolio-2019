@@ -13,7 +13,7 @@
 @keyframes logo-name-path-enter {
   to {
     stroke-dashoffset: 0;
-    stroke-opacity: 0.9;
+    stroke-opacity: 0.7;
   }
 }
 
@@ -26,6 +26,6 @@
 
 @keyframes logo-role-path-enter {
   to {
-    fill-opacity: 0.5;
+    fill-opacity: 0.6;
   }
 }
