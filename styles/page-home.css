@@ -1,21 +1,31 @@
 .home-logo-title {
-  animation-delay: 0.5s;
-  animation-duration: 0.4s;
-  animation-fill-mode: both;
-  animation-name: logo-enter;
-  animation-timing-function: ease-out;
   max-width: 21.25rem;
   width: 64vmin;
 }
 
-@keyframes logo-enter {
-  from {
-    opacity: 0;
-    transform: scale(0.98);
-  }
+.home-logo-title__letter {
+  animation-delay: 0.2s;
+  animation-duration: 3s;
+  animation-fill-mode: forwards;
+  animation-name: logo-name-path-enter;
+}
 
+@keyframes logo-name-path-enter {
   to {
-    opacity: 1;
-    transform: none;
+    stroke-dashoffset: 0;
+    stroke-opacity: 0.9;
+  }
+}
+
+.home-logo-title__role {
+  animation-delay: 2.2s;
+  animation-duration: 1s;
+  animation-fill-mode: forwards;
+  animation-name: logo-role-path-enter;
+}
+
+@keyframes logo-role-path-enter {
+  to {
+    fill-opacity: 0.5;
   }
 }
