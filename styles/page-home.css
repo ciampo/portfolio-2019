@@ -3,29 +3,11 @@
   width: 64vmin;
 }
 
-.home-logo-title__letter {
-  animation-delay: 0.2s;
-  animation-duration: 3s;
-  animation-fill-mode: forwards;
-  animation-name: logo-name-path-enter;
+html:not(.js-app) .home-logo-title__letter {
+  stroke-dashoffset: 0 !important;
+  stroke-opacity: 0.7 !important;
 }
 
-@keyframes logo-name-path-enter {
-  to {
-    stroke-dashoffset: 0;
-    stroke-opacity: 0.7;
-  }
-}
-
-.home-logo-title__role {
-  animation-delay: 2.2s;
-  animation-duration: 1s;
-  animation-fill-mode: forwards;
-  animation-name: logo-role-path-enter;
-}
-
-@keyframes logo-role-path-enter {
-  to {
-    fill-opacity: 0.6;
-  }
+html:not(.js-app) .home-logo-title__role {
+  fill-opacity: 0.6 !important;
 }
