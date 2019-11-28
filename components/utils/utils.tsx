@@ -1,3 +1,5 @@
+import { CanvasBCR } from '../../typings';
+
 export const joinUrl = (a: string, b: string): string =>
   a.replace(/\/+$/, '') + '/' + b.replace(/^\/+/, '');
 
@@ -12,3 +14,7 @@ export const slugify = (text: string): string =>
     .replace(/-+$/, ''); // Trim - from end of text
 
 export const customEaseOut = [0.175, 0.85, 0.42, 0.96];
+
+export function bitwiseRound(n: number): number {
+  return (0.5 + n) << 0;
+}
