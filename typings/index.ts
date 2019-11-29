@@ -1,5 +1,5 @@
 export * from './contentful';
-export * from './grid-typings';
+export * from './home-grid';
 export * from './Meta';
 export * from './Pages';
 export * from './Project';
