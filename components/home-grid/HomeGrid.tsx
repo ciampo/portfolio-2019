@@ -4,8 +4,8 @@ import { NextComponentType } from 'next';
 
 import { createGridPoints, updateGridPoints, evolveWaves, createGridWave } from './grid-logic';
 import { drawGrid } from './grid-draw';
-import { getDistance2d, absMax } from './grid-utils';
 import { GridWave, GridPoint } from '../../typings';
+import { getDistance2d, absMax, bitwiseRound } from './grid-utils';
 
 function useCanvas(draw: Function): RefObject<HTMLCanvasElement> {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -60,9 +60,9 @@ function useCanvas(draw: Function): RefObject<HTMLCanvasElement> {
 }
 
 type HomeGridProps = {
-  onInit: Function;
-  onInteraction: Function;
-  onIdle: Function;
+  onInit?: Function;
+  onInteraction?: Function;
+  onIdle?: Function;
 };
 
 const HomeGrid: NextComponentType<{}, HomeGridProps, HomeGridProps> = ({
@@ -70,12 +70,13 @@ const HomeGrid: NextComponentType<{}, HomeGridProps, HomeGridProps> = ({
   onInteraction,
   onIdle,
 }) => {
-  // State and refs
+  // State (updates trigger re-renders) and refs (no re-renders)
   const [canvasWidth, setCanvasWidth] = useState(0);
   const [canvasHeight, setCanvasHeight] = useState(0);
   const gridWaves = useRef<GridWave[]>([]);
   const gridPoints = useRef<GridPoint[]>([]);
-  const timerId = useRef<NodeJS.Timeout | null>(null);
+  const idleTimerId = useRef<NodeJS.Timeout | null>(null);
+  const programmaticWavesTimerId = useRef<NodeJS.Timeout | null>(null);
 
   const canvasDiagonal = useMemo(() => getDistance2d(0, 0, canvasWidth, canvasHeight), [
     canvasHeight,
@@ -110,11 +111,13 @@ const HomeGrid: NextComponentType<{}, HomeGridProps, HomeGridProps> = ({
   // Call onInit at component mounting time.
   // This notifies the component host that the grid initialised correctly.
   useEffect(() => {
-    onInit();
+    if (onInit) {
+      onInit();
+    }
   }, [onInit]);
 
   const addGridWave = useCallback(
-    (evt: React.MouseEvent<HTMLCanvasElement, MouseEvent>): void => {
+    (evt: React.MouseEvent<HTMLCanvasElement, MouseEvent>, isWeak: boolean): void => {
       const maxX = absMax(evt.clientX, evt.clientX - canvasWidth);
       const maxY = absMax(evt.clientY, evt.clientY - canvasHeight);
 
@@ -125,40 +128,74 @@ const HomeGrid: NextComponentType<{}, HomeGridProps, HomeGridProps> = ({
           y: evt.clientY,
           furthestCornerDistance: Math.sqrt(maxX * maxX + maxY * maxY),
           sketchDiagonal: canvasDiagonal,
-          isWeak: false,
+          isWeak,
         }),
       ];
     },
     [canvasDiagonal, canvasHeight, canvasWidth]
   );
 
+  function stopProgrammaticWaveTimer(): void {
+    if (programmaticWavesTimerId.current) {
+      clearTimeout(programmaticWavesTimerId.current);
+      programmaticWavesTimerId.current = null;
+    }
+  }
+
+  const startProgrammaticWaveTimer = useCallback((): void => {
+    stopProgrammaticWaveTimer();
+    programmaticWavesTimerId.current = setTimeout(() => {
+      // Avoid waves being added to the grid if the tab isn't in focus
+      requestAnimationFrame(() => {
+        addGridWave(
+          {
+            clientX: bitwiseRound(Math.random() * canvasWidth),
+            clientY: bitwiseRound(Math.random() * canvasHeight),
+          } as React.MouseEvent<HTMLCanvasElement, MouseEvent>,
+          false
+        );
+        programmaticWavesTimerId.current = null;
+        startProgrammaticWaveTimer();
+      });
+    }, 200 + Math.random() * 2000);
+  }, [addGridWave, canvasHeight, canvasWidth]);
+
   function stopIdleTimer(): void {
-    if (timerId.current) {
-      clearTimeout(timerId.current);
-      timerId.current = null;
+    if (idleTimerId.current) {
+      clearTimeout(idleTimerId.current);
+      idleTimerId.current = null;
     }
   }
 
   function startIdleTimer(): void {
     stopIdleTimer();
-    timerId.current = setTimeout(() => {
-      onIdle();
-      timerId.current = null;
+    idleTimerId.current = setTimeout(() => {
+      if (onIdle) {
+        onIdle();
+      }
+      idleTimerId.current = null;
+      startProgrammaticWaveTimer();
     }, 3000);
   }
 
   function onCanvasMouseUp(evt: React.MouseEvent<HTMLCanvasElement, MouseEvent>): void {
-    addGridWave(evt);
+    addGridWave(evt, false);
     startIdleTimer();
   }
 
   function onCanvasMouseDown(): void {
-    if (timerId.current === null) {
+    stopProgrammaticWaveTimer();
+
+    if (idleTimerId.current === null && onInteraction) {
       onInteraction();
     }
 
     stopIdleTimer();
   }
+
+  useEffect(() => {
+    startProgrammaticWaveTimer();
+  }, [startProgrammaticWaveTimer]);
 
   // Resize events (set canvas width / height to match its page dimensions)
   useEffect(() => {
@@ -188,7 +225,7 @@ const HomeGrid: NextComponentType<{}, HomeGridProps, HomeGridProps> = ({
 
   return (
     <canvas
-      className="absolute top-0 left-0 w-full h-full z-0 text-primary contain-strict"
+      className="absolute top-0 left-0 w-full h-full z-0 text-primary contain-strict cursor-pointer"
       ref={canvasRef}
       width={canvasWidth}
       height={canvasHeight}
@@ -201,9 +238,9 @@ const HomeGrid: NextComponentType<{}, HomeGridProps, HomeGridProps> = ({
 /* eslint-disable @typescript-eslint/ban-ts-ignore */
 // @ts-ignore
 HomeGrid.propTypes = {
-  onInit: PropTypes.func.isRequired,
-  onInteraction: PropTypes.func.isRequired,
-  onIdle: PropTypes.func.isRequired,
+  onInit: PropTypes.func,
+  onInteraction: PropTypes.func,
+  onIdle: PropTypes.func,
 };
 
 export default HomeGrid;

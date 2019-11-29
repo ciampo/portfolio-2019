@@ -84,18 +84,9 @@ const Home: NextComponentType<{}, PageHomeProps, PageHomeProps> = ({ path, meta,
 
   const [isCanvasGridVisible, setCanvasGridVisibility] = useState(false);
   const [isSvgFallbackGridVisible, setSvgFallbackGridVisibility] = useState(true);
-  const [isHomeLogoVisible, setHomeLogoVisibility] = useState(true);
 
   function onCanvasInit(): void {
     setSvgFallbackGridVisibility(false);
-  }
-
-  function onCanvasInteraction(): void {
-    setHomeLogoVisibility(false);
-  }
-
-  function onCanvasIdle(): void {
-    setHomeLogoVisibility(true);
   }
 
   function onHomeLogoEnterAnimationComplete(): void {
@@ -111,13 +102,9 @@ const Home: NextComponentType<{}, PageHomeProps, PageHomeProps> = ({ path, meta,
           ref={gridWrapperEl}
           className="dot-grid flex w-full h-screen items-center justify-center relative"
         >
-          {isCanvasGridVisible && (
-            <HomeGrid
-              onInit={onCanvasInit}
-              onInteraction={onCanvasInteraction}
-              onIdle={onCanvasIdle}
-            />
-          )}
+          {/* Interactive canvas grid */}
+          {isCanvasGridVisible && <HomeGrid onInit={onCanvasInit} />}
+          {/* Static SVG used as fallback on first render */}
           {isSvgFallbackGridVisible && (
             <svg aria-hidden="true" className="absolute w-full h-full top-0 left-0 z-0">
               <defs>
@@ -133,6 +120,7 @@ const Home: NextComponentType<{}, PageHomeProps, PageHomeProps> = ({ path, meta,
                     fill="currentColor"
                     d={`M${dotOffset} ${dotOffset}h${dotSize}v${dotSize}h${-dotSize}z`}
                     fillRule="evenodd"
+                    opacity="0.75"
                   />
                 </pattern>
               </defs>
@@ -141,10 +129,7 @@ const Home: NextComponentType<{}, PageHomeProps, PageHomeProps> = ({ path, meta,
             </svg>
           )}
 
-          <h1
-            className={`contain-layout-paint text-primary bg-background z-10 pointer-events-none transition-d-500 transition-p-opacity transition-tf-custom home-logo-title ${!isHomeLogoVisible &&
-              'opacity-0'}`}
-          >
+          <h1 className="contain-layout-paint text-primary bg-background z-10 pointer-events-none transition-d-500 transition-p-opacity transition-tf-custom home-logo-title">
             <span className="sr-only">{pageTitle}</span>
             <motion.svg
               initial="exit"
