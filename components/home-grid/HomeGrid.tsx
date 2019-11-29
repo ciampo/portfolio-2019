@@ -2,10 +2,10 @@ import React, { useEffect, useRef, RefObject, useState, useCallback, useMemo } f
 import PropTypes from 'prop-types';
 import { NextComponentType } from 'next';
 
-import { getGridPoints, growWave, isWaveExpired, createGridWave } from './grid-logic';
+import { createGridPoints, updateGridPoints, evolveWaves, createGridWave } from './grid-logic';
 import { drawGrid } from './grid-draw';
-import { getDistance2d, absMax } from '../utils/utils';
-import { GridWave } from '../../typings';
+import { getDistance2d, absMax } from './grid-utils';
+import { GridWave, GridPoint } from '../../typings';
 
 function useCanvas(draw: Function): RefObject<HTMLCanvasElement> {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -74,6 +74,7 @@ const HomeGrid: NextComponentType<{}, HomeGridProps, HomeGridProps> = ({
   const [canvasWidth, setCanvasWidth] = useState(0);
   const [canvasHeight, setCanvasHeight] = useState(0);
   const gridWaves = useRef<GridWave[]>([]);
+  const gridPoints = useRef<GridPoint[]>([]);
   const timerId = useRef<NodeJS.Timeout | null>(null);
 
   const canvasDiagonal = useMemo(() => getDistance2d(0, 0, canvasWidth, canvasHeight), [
@@ -87,18 +88,21 @@ const HomeGrid: NextComponentType<{}, HomeGridProps, HomeGridProps> = ({
       dimensions: { width: number; height: number },
       fillColor: string
     ): void => {
+      // Update grid points based on the waves
+      gridPoints.current = updateGridPoints(gridPoints.current, gridWaves.current);
+
       // Draw current status of the grid
       ctx.fillStyle = fillColor;
       drawGrid(ctx, dimensions, {
-        // Compute points based on canvas dimensions and active waves.
-        points: getGridPoints(dimensions, gridWaves.current),
+        points: gridPoints.current,
         waves: gridWaves.current,
       });
 
+      // TODO: update points and waves in the same spot?
       // Grow waves, remove expired ones.
-      gridWaves.current = [...gridWaves.current.map(growWave).filter((w) => !isWaveExpired(w))];
+      gridWaves.current = evolveWaves(gridWaves.current);
     },
-    [gridWaves]
+    []
   );
 
   const canvasRef = useCanvas(draw);
@@ -163,6 +167,14 @@ const HomeGrid: NextComponentType<{}, HomeGridProps, HomeGridProps> = ({
         const { width, height } = canvasRef.current.getBoundingClientRect();
         setCanvasWidth(width);
         setCanvasHeight(height);
+
+        gridPoints.current = createGridPoints(
+          {
+            width,
+            height,
+          },
+          gridWaves.current
+        );
       }
     }
 

@@ -1,6 +1,6 @@
 import gridConfig from './grid-config';
 import { getWaveEasedCrestValue } from './grid-logic';
-import { bitwiseRound } from '../utils/utils';
+import { bitwiseRound } from './grid-utils';
 import { GridPoint, GridWave } from '../../typings';
 
 const DPR = 1;

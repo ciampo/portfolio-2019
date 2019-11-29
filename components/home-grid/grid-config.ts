@@ -1,23 +1,20 @@
+import { easeOutQuad, easeInQuart, easeInOutQuad, easeInCubic } from '../utils/easing';
 import { GridConfig } from '../../typings';
 
 function getDotCoordinate(tileEdgeEndCoordinate: number, dotSize: number): number {
   return tileEdgeEndCoordinate - dotSize;
 }
 
-function easeOutQuad(t: number): number {
-  return t * (2 - t);
-}
-
-function easeInQuart(t: number): number {
-  return t * t * t * t;
-}
-
 const gridConfig: GridConfig = {
+  // Dot
   dotSize: 2,
   maxDotSize: 16,
-  dpr: 1,
-  tileSize: 32,
+  dotSizeEasingFunction: easeInCubic,
+  dotSizeResistance: 3.5,
   getDotCoordinate,
+  dotPositionResistance: 1 / 20,
+  // Tile (grid gap)
+  tileSize: 32,
   // Waves
   waveCrestDecay: 200,
   waveCrestVelocity: 8,
@@ -26,6 +23,7 @@ const gridConfig: GridConfig = {
   waveStrengthWeak: 0.7,
   waveMaxOpacity: 0.02,
   waveOpacityEasingFunction: easeInQuart,
+  wavePercEasingFunction: easeInOutQuad,
 };
 
 export default gridConfig;

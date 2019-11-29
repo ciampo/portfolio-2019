@@ -1,22 +1,20 @@
+export type GridPointWavesInfo = {
+  distance: number;
+  angle: number;
+};
+
 export type GridPoint = {
+  originX: number;
+  originY: number;
   displayX: number;
   displayY: number;
   size: number;
-};
-
-export type CanvasBCR = {
-  top: number;
-  right: number;
-  bottom: number;
-  left: number;
-  width: number;
-  height: number;
+  wavesInfo: (GridPointWavesInfo | null)[];
 };
 
 export type GridConfig = {
   dotSize: number;
   maxDotSize: number;
-  dpr: number;
   tileSize: number;
   getDotCoordinate: (tileEdgeEndCoordinate: number, dotSize: number) => number;
   waveCrestDecay: number;
@@ -26,6 +24,10 @@ export type GridConfig = {
   waveStrengthWeak: number;
   waveMaxOpacity: number;
   waveOpacityEasingFunction: (x: number) => number;
+  wavePercEasingFunction: (x: number) => number;
+  dotSizeEasingFunction: (x: number) => number;
+  dotPositionResistance: number;
+  dotSizeResistance: number;
 };
 
 export type GridWaveConstructorOptions = {
