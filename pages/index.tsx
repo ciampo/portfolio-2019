@@ -91,11 +91,11 @@ const Home: NextComponentType<{}, PageHomeProps, PageHomeProps> = ({ path, meta,
   }
 
   function onCanvasInteraction(): void {
-    // setHomeLogoVisibility(false);
+    setHomeLogoVisibility(false);
   }
 
   function onCanvasIdle(): void {
-    // setHomeLogoVisibility(true);
+    setHomeLogoVisibility(true);
   }
 
   function onHomeLogoEnterAnimationComplete(): void {
