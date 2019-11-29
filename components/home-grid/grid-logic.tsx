@@ -3,14 +3,14 @@ import { getAngleBetweenPoints, getDistance2d } from './grid-utils';
 import { GridPoint, GridPointWavesInfo, GridWave, GridWaveConstructorOptions } from '../../typings';
 
 // Waves
-function growWave(wave: GridWave): GridWave {
+export function growWave(wave: GridWave): GridWave {
   return {
     ...wave,
     crestRadius: wave.crestRadius + gridConfig.waveCrestVelocity,
   };
 }
 
-function isWaveExpired(wave: GridWave): boolean {
+export function isWaveExpired(wave: GridWave): boolean {
   return wave.crestRadius >= wave.maxRadius;
 }
 
@@ -27,35 +27,59 @@ export function createGridWave(opts: GridWaveConstructorOptions): GridWave {
   };
 }
 
-export function evolveWaves(waves: GridWave[]): GridWave[] {
-  return [...waves.map(growWave).filter((w) => !isWaveExpired(w))];
-}
-
 export function getWaveEasedCrestValue(wave: GridWave): number {
   // Ease against easingRadius, it makes all waves grow with the same speed.
   return gridConfig.waveCrestEasingFunction(wave.crestRadius / wave.easingRadius) * wave.maxRadius;
 }
 
 // Points
-function getWaveInfo(gridPoint: GridPoint, waveIndex: number, wave: GridWave): GridPointWavesInfo {
-  // if (gridPoint.wavesInfo[waveIndex] === null) {
-  //   gridPoint.wavesInfo[waveIndex] = {
-  //     distance: getDistance2d(gridPoint.originX, gridPoint.originY, wave.x, wave.y),
-  //     angle: getAngleBetweenPoints(gridPoint.originX, gridPoint.originY, wave.x, wave.y),
-  //   };
-  // }
-
-  //   return gridPoint.wavesInfo[waveIndex] as GridPointWavesInfo;
-
+function computePointToWaveInfo(p: GridPoint, w: GridWave): GridPointWavesInfo {
   return {
-    distance: getDistance2d(gridPoint.originX, gridPoint.originY, wave.x, wave.y),
-    angle: getAngleBetweenPoints(gridPoint.originX, gridPoint.originY, wave.x, wave.y),
+    distance: getDistance2d(p.originX, p.originY, w.x, w.y),
+    angle: getAngleBetweenPoints(p.originX, p.originY, w.x, w.y),
   };
 }
 
-// function addWaveInfo() {
+export function computePointsToWavesInfo(
+  gridPoints: GridPoint[],
+  waves: GridWave[]
+): GridPointWavesInfo[][] {
+  // const toReturn = [];
 
-// }
+  // for (const p of gridPoints) {
+  //   const pWavesInfo: GridPointWavesInfo[] = [];
+
+  //   for (const w of waves) {
+  //     pWavesInfo.push(computePointToWaveInfo(p, w));
+  //   }
+
+  //   toReturn.push(pWavesInfo);
+  // }
+
+  // return toReturn;
+
+  return gridPoints.map((p) => waves.map((w) => computePointToWaveInfo(p, w)));
+}
+
+export function addWaveToPointsToWavesInfo(
+  gridPointsToWavesInfo: GridPointWavesInfo[][],
+  gridPoints: GridPoint[],
+  wave: GridWave
+): GridPointWavesInfo[][] {
+  return gridPointsToWavesInfo.map((gpwi, pIndex) => {
+    return [...gpwi, computePointToWaveInfo(gridPoints[pIndex], wave)];
+  });
+}
+
+export function removeWaveFromPointsToWavesInfo(
+  gridPointsToWavesInfo: GridPointWavesInfo[][],
+  gridPoints: GridPoint[],
+  waveIndex: number
+): GridPointWavesInfo[][] {
+  return gridPointsToWavesInfo.map((gpwi) => {
+    return [...gpwi.slice(0, waveIndex), ...gpwi.slice(waveIndex + 1)];
+  });
+}
 
 export function createGridPoints(
   dimensions: { width: number; height: number },
@@ -84,16 +108,21 @@ export function createGridPoints(
   return toReturn;
 }
 
-export function updateGridPoints(points: GridPoint[], waves: GridWave[]): GridPoint[] {
+export function updateGridPoints(
+  points: GridPoint[],
+  waves: GridWave[],
+  pointToWavesInfo: GridPointWavesInfo[][]
+): GridPoint[] {
   let distFromCrest, displayDiffFactor;
 
-  return points.map((p) => {
+  return points.map((p, pIndex) => {
     p.displayX = p.originX;
     p.displayY = p.originY;
     p.size = gridConfig.dotSize;
 
     waves.forEach((wave, wIndex) => {
-      const { distance: distFromWave, angle: angleFromWave } = getWaveInfo(p, wIndex, wave);
+      // const { distance: distFromWave, angle: angleFromWave } = getWaveInfo(p, wIndex, wave);
+      const { distance: distFromWave, angle: angleFromWave } = pointToWavesInfo[pIndex][wIndex];
 
       distFromCrest = Math.abs(distFromWave - getWaveEasedCrestValue(wave));
 

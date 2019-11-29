@@ -2,10 +2,19 @@ import React, { useEffect, useRef, RefObject, useState, useCallback, useMemo } f
 import PropTypes from 'prop-types';
 import { NextComponentType } from 'next';
 
-import { createGridPoints, updateGridPoints, evolveWaves, createGridWave } from './grid-logic';
+import {
+  createGridPoints,
+  updateGridPoints,
+  growWave,
+  isWaveExpired,
+  createGridWave,
+  computePointsToWavesInfo,
+  addWaveToPointsToWavesInfo,
+  removeWaveFromPointsToWavesInfo,
+} from './grid-logic';
 import { drawGrid } from './grid-draw';
-import { GridWave, GridPoint } from '../../typings';
 import { getDistance2d, absMax, bitwiseRound } from './grid-utils';
+import { GridWave, GridPoint, GridPointWavesInfo } from '../../typings';
 
 function useCanvas(draw: Function): RefObject<HTMLCanvasElement> {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -75,6 +84,7 @@ const HomeGrid: NextComponentType<{}, HomeGridProps, HomeGridProps> = ({
   const [canvasHeight, setCanvasHeight] = useState(0);
   const gridWaves = useRef<GridWave[]>([]);
   const gridPoints = useRef<GridPoint[]>([]);
+  const gridPointsToWawesInfo = useRef<GridPointWavesInfo[][]>([]);
   const idleTimerId = useRef<NodeJS.Timeout | null>(null);
   const programmaticWavesTimerId = useRef<NodeJS.Timeout | null>(null);
 
@@ -90,7 +100,27 @@ const HomeGrid: NextComponentType<{}, HomeGridProps, HomeGridProps> = ({
       fillColor: string
     ): void => {
       // Update grid points based on the waves
-      gridPoints.current = updateGridPoints(gridPoints.current, gridWaves.current);
+      gridPoints.current = updateGridPoints(
+        gridPoints.current,
+        gridWaves.current,
+        gridPointsToWawesInfo.current
+      );
+
+      // Grow waves, remove expired ones.
+      gridWaves.current = gridWaves.current
+        .map(growWave)
+        .map((w, wIndex) => {
+          if (isWaveExpired(w)) {
+            gridPointsToWawesInfo.current = removeWaveFromPointsToWavesInfo(
+              gridPointsToWawesInfo.current,
+              gridPoints.current,
+              wIndex
+            );
+          }
+
+          return w;
+        })
+        .filter((w) => !isWaveExpired(w));
 
       // Draw current status of the grid
       ctx.fillStyle = fillColor;
@@ -98,10 +128,6 @@ const HomeGrid: NextComponentType<{}, HomeGridProps, HomeGridProps> = ({
         points: gridPoints.current,
         waves: gridWaves.current,
       });
-
-      // TODO: update points and waves in the same spot?
-      // Grow waves, remove expired ones.
-      gridWaves.current = evolveWaves(gridWaves.current);
     },
     []
   );
@@ -121,16 +147,21 @@ const HomeGrid: NextComponentType<{}, HomeGridProps, HomeGridProps> = ({
       const maxX = absMax(evt.clientX, evt.clientX - canvasWidth);
       const maxY = absMax(evt.clientY, evt.clientY - canvasHeight);
 
-      gridWaves.current = [
-        ...gridWaves.current,
-        createGridWave({
-          x: evt.clientX,
-          y: evt.clientY,
-          furthestCornerDistance: Math.sqrt(maxX * maxX + maxY * maxY),
-          sketchDiagonal: canvasDiagonal,
-          isWeak,
-        }),
-      ];
+      const wave = createGridWave({
+        x: evt.clientX,
+        y: evt.clientY,
+        furthestCornerDistance: Math.sqrt(maxX * maxX + maxY * maxY),
+        sketchDiagonal: canvasDiagonal,
+        isWeak,
+      });
+
+      gridPointsToWawesInfo.current = addWaveToPointsToWavesInfo(
+        gridPointsToWawesInfo.current,
+        gridPoints.current,
+        wave
+      );
+
+      gridWaves.current = [...gridWaves.current, wave];
     },
     [canvasDiagonal, canvasHeight, canvasWidth]
   );
@@ -157,7 +188,7 @@ const HomeGrid: NextComponentType<{}, HomeGridProps, HomeGridProps> = ({
         programmaticWavesTimerId.current = null;
         startProgrammaticWaveTimer();
       });
-    }, 200 + Math.random() * 2000);
+    }, 500 + Math.random() * 2000);
   }, [addGridWave, canvasHeight, canvasWidth]);
 
   function stopIdleTimer(): void {
@@ -210,6 +241,11 @@ const HomeGrid: NextComponentType<{}, HomeGridProps, HomeGridProps> = ({
             width,
             height,
           },
+          gridWaves.current
+        );
+
+        gridPointsToWawesInfo.current = computePointsToWavesInfo(
+          gridPoints.current,
           gridWaves.current
         );
       }
