@@ -73,6 +73,9 @@ module.exports = {
         '.transition-d-300': {
           transitionDuration: '0.3s',
         },
+        '.transition-d-500': {
+          transitionDuration: '0.5s',
+        },
         '.transition-p-opacity': {
           transitionProperty: 'opacity',
         },

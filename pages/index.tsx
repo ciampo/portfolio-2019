@@ -91,11 +91,11 @@ const Home: NextComponentType<{}, PageHomeProps, PageHomeProps> = ({ path, meta,
   }
 
   function onCanvasInteraction(): void {
-    setHomeLogoVisibility(false);
+    // setHomeLogoVisibility(false);
   }
 
   function onCanvasIdle(): void {
-    setHomeLogoVisibility(true);
+    // setHomeLogoVisibility(true);
   }
 
   function onHomeLogoEnterAnimationComplete(): void {
@@ -142,7 +142,7 @@ const Home: NextComponentType<{}, PageHomeProps, PageHomeProps> = ({ path, meta,
           )}
 
           <h1
-            className={`contain-layout-paint text-primary bg-background z-10 pointer-events-none transition-d-300 transition-p-opacity transition-tf-custom home-logo-title ${!isHomeLogoVisible &&
+            className={`contain-layout-paint text-primary bg-background z-10 pointer-events-none transition-d-500 transition-p-opacity transition-tf-custom home-logo-title ${!isHomeLogoVisible &&
               'opacity-0'}`}
           >
             <span className="sr-only">{pageTitle}</span>
