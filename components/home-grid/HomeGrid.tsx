@@ -1,10 +1,10 @@
-import React, { useEffect, useRef, RefObject, useState } from 'react';
+import React, { useEffect, useRef, RefObject, useState, useCallback, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { NextComponentType } from 'next';
 
-import { getGridPoints, growWave, isWaveExpired } from './grid-logic';
+import { getGridPoints, growWave, isWaveExpired, createGridWave } from './grid-logic';
 import { drawGrid } from './grid-draw';
-import { getDistance2d } from '../utils/utils';
+import { getDistance2d, absMax } from '../utils/utils';
 import { GridWave } from '../../typings';
 
 function useCanvas(draw: Function): RefObject<HTMLCanvasElement> {
@@ -73,33 +73,33 @@ const HomeGrid: NextComponentType<{}, HomeGridProps, HomeGridProps> = ({
   // State and refs
   const [canvasWidth, setCanvasWidth] = useState(0);
   const [canvasHeight, setCanvasHeight] = useState(0);
-  const [canvasDiagonal, setCanvasDiagonal] = useState(0);
-  const [gridWaves, setGridWaves] = useState<GridWave[]>([]);
+  const gridWaves = useRef<GridWave[]>([]);
+  const timerId = useRef<NodeJS.Timeout | null>(null);
 
-  function draw(
-    ctx: CanvasRenderingContext2D,
-    dimensions: { width: number; height: number },
-    fillColor: string
-  ): void {
-    // Compute grid state based on canvas size and waves
-    const gridState = {
-      points: getGridPoints(dimensions, gridWaves),
-      waves: gridWaves,
-    };
+  const canvasDiagonal = useMemo(() => getDistance2d(0, 0, canvasWidth, canvasHeight), [
+    canvasHeight,
+    canvasWidth,
+  ]);
 
-    // console.log(gridWaves);
+  const draw = useCallback(
+    (
+      ctx: CanvasRenderingContext2D,
+      dimensions: { width: number; height: number },
+      fillColor: string
+    ): void => {
+      // Draw current status of the grid
+      ctx.fillStyle = fillColor;
+      drawGrid(ctx, dimensions, {
+        // Compute points based on canvas dimensions and active waves.
+        points: getGridPoints(dimensions, gridWaves.current),
+        waves: gridWaves.current,
+      });
 
-    // Draw current status of the grid
-    ctx.fillStyle = fillColor;
-    drawGrid(ctx, dimensions, gridState);
-
-    // Grow waves, remove expired ones.
-    setGridWaves([...gridWaves.map(growWave).filter((w) => !isWaveExpired(w))]);
-  }
-
-  // function appendWave(wave: GridWave) {
-  //   setGridWaves([...gridWaves, wave]);
-  // }
+      // Grow waves, remove expired ones.
+      gridWaves.current = [...gridWaves.current.map(growWave).filter((w) => !isWaveExpired(w))];
+    },
+    [gridWaves]
+  );
 
   const canvasRef = useCanvas(draw);
 
@@ -109,71 +109,52 @@ const HomeGrid: NextComponentType<{}, HomeGridProps, HomeGridProps> = ({
     onInit();
   }, [onInit]);
 
-  // User interactions, onInteraction/onIdle callbacks
-  useEffect(() => {
-    let timerId: NodeJS.Timeout | null = null;
+  const addGridWave = useCallback(
+    (evt: React.MouseEvent<HTMLCanvasElement, MouseEvent>): void => {
+      const maxX = absMax(evt.clientX, evt.clientX - canvasWidth);
+      const maxY = absMax(evt.clientY, evt.clientY - canvasHeight);
 
-    // function addGridWave(evt: MouseEvent): void {
-    //   const maxX = absMax(evt.clientX, evt.clientX - canvasWidth);
-    //   const maxY = absMax(evt.clientY, evt.clientY - canvasHeight);
+      gridWaves.current = [
+        ...gridWaves.current,
+        createGridWave({
+          x: evt.clientX,
+          y: evt.clientY,
+          furthestCornerDistance: Math.sqrt(maxX * maxX + maxY * maxY),
+          sketchDiagonal: canvasDiagonal,
+          isWeak: false,
+        }),
+      ];
+    },
+    [canvasDiagonal, canvasHeight, canvasWidth]
+  );
 
-    //   appendWave(
-    //     createGridWave({
-    //       x: evt.clientX,
-    //       y: evt.clientY,
-    //       furthestCornerDistance: Math.sqrt(maxX * maxX + maxY * maxY),
-    //       sketchDiagonal: canvasDiagonal,
-    //       isWeak: false,
-    //     })
-    //   );
+  function stopIdleTimer(): void {
+    if (timerId.current) {
+      clearTimeout(timerId.current);
+      timerId.current = null;
+    }
+  }
 
-    //   console.log(maxX, maxY);
-    // }
+  function startIdleTimer(): void {
+    stopIdleTimer();
+    timerId.current = setTimeout(() => {
+      onIdle();
+      timerId.current = null;
+    }, 3000);
+  }
 
-    function stopIdleTimer(): void {
-      if (timerId) {
-        clearTimeout(timerId);
-        timerId = null;
-      }
+  function onCanvasMouseUp(evt: React.MouseEvent<HTMLCanvasElement, MouseEvent>): void {
+    addGridWave(evt);
+    startIdleTimer();
+  }
+
+  function onCanvasMouseDown(): void {
+    if (timerId.current === null) {
+      onInteraction();
     }
 
-    function startIdleTimer(): void {
-      stopIdleTimer();
-      timerId = setTimeout(() => {
-        onIdle();
-        timerId = null;
-      }, 5000);
-    }
-
-    function onCanvasMouseUp(evt: MouseEvent): void {
-      // addGridWave(evt);
-      startIdleTimer();
-    }
-
-    function onCanvasMouseDown(): void {
-      if (timerId === null) {
-        onInteraction();
-      }
-
-      stopIdleTimer();
-    }
-
-    let canvasEl: HTMLCanvasElement;
-    if (canvasRef && canvasRef.current) {
-      canvasEl = canvasRef.current;
-      canvasEl.addEventListener('mouseup', onCanvasMouseUp);
-      canvasEl.addEventListener('mousedown', onCanvasMouseDown);
-    }
-
-    return (): void => {
-      stopIdleTimer();
-
-      if (canvasEl) {
-        canvasEl.removeEventListener('mouseup', onCanvasMouseUp);
-        canvasEl.removeEventListener('mousedown', onCanvasMouseDown);
-      }
-    };
-  }, [canvasRef, onIdle, onInteraction]);
+    stopIdleTimer();
+  }
 
   // Resize events (set canvas width / height to match its page dimensions)
   useEffect(() => {
@@ -182,7 +163,6 @@ const HomeGrid: NextComponentType<{}, HomeGridProps, HomeGridProps> = ({
         const { width, height } = canvasRef.current.getBoundingClientRect();
         setCanvasWidth(width);
         setCanvasHeight(height);
-        setCanvasDiagonal(getDistance2d(0, 0, width, height));
       }
     }
 
@@ -196,10 +176,12 @@ const HomeGrid: NextComponentType<{}, HomeGridProps, HomeGridProps> = ({
 
   return (
     <canvas
-      className="absolute top-0 left-0 w-full h-full z-0 text-primary"
+      className="absolute top-0 left-0 w-full h-full z-0 text-primary contain-strict"
       ref={canvasRef}
       width={canvasWidth}
       height={canvasHeight}
+      onMouseUp={onCanvasMouseUp}
+      onMouseDown={onCanvasMouseDown}
     />
   );
 };
