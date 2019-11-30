@@ -94,6 +94,7 @@ const HomeGrid: NextComponentType<{}, HomeGridProps, HomeGridProps> = ({
   const programmaticWavesTimerId = useRef<NodeJS.Timeout | null>(null);
   const isPointerDown = useRef<boolean>(false);
   const didPointerMoveWhileDown = useRef<boolean>(false);
+  const lastPointerDownTime = useRef<number>(0);
 
   const canvasDiagonal = useMemo(() => getDistance2d(0, 0, canvasWidth, canvasHeight), [
     canvasHeight,
@@ -225,6 +226,8 @@ const HomeGrid: NextComponentType<{}, HomeGridProps, HomeGridProps> = ({
     if (idleTimerId.current === null && onInteraction) {
       onInteraction();
     }
+
+    lastPointerDownTime.current = Date.now();
   }
 
   // Pointer move: add weak wave (if dragging).
@@ -237,7 +240,9 @@ const HomeGrid: NextComponentType<{}, HomeGridProps, HomeGridProps> = ({
 
   // Pointer up: add strong wave (if click), start idle timer.
   function onPointerUp({ clientX, clientY }: React.PointerEvent<HTMLCanvasElement>): void {
-    if (!didPointerMoveWhileDown.current) {
+    // Allow for a strong wave to be released if the pointer was pressed down for less than 150ms
+    // or if it didn't move at all while down.
+    if (Date.now() - lastPointerDownTime.current <= 150 || !didPointerMoveWhileDown.current) {
       addGridWave({ clientX, clientY }, false);
     }
 
