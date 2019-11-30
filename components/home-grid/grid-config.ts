@@ -20,7 +20,7 @@ const gridConfig: GridConfig = {
   waveCrestVelocity: 8,
   waveCrestEasingFunction: easeOutQuad,
   waveStrengthStrong: 2.5,
-  waveStrengthWeak: 0.7,
+  waveStrengthWeak: 0.9,
   waveMaxOpacity: 0.02,
   waveOpacityEasingFunction: easeInQuart,
   wavePercEasingFunction: easeInOutQuad,

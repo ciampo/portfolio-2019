@@ -44,20 +44,6 @@ export function computePointsToWavesInfo(
   gridPoints: GridPoint[],
   waves: GridWave[]
 ): GridPointWavesInfo[][] {
-  // const toReturn = [];
-
-  // for (const p of gridPoints) {
-  //   const pWavesInfo: GridPointWavesInfo[] = [];
-
-  //   for (const w of waves) {
-  //     pWavesInfo.push(computePointToWaveInfo(p, w));
-  //   }
-
-  //   toReturn.push(pWavesInfo);
-  // }
-
-  // return toReturn;
-
   return gridPoints.map((p) => waves.map((w) => computePointToWaveInfo(p, w)));
 }
 
@@ -121,7 +107,6 @@ export function updateGridPoints(
     p.size = gridConfig.dotSize;
 
     waves.forEach((wave, wIndex) => {
-      // const { distance: distFromWave, angle: angleFromWave } = getWaveInfo(p, wIndex, wave);
       const { distance: distFromWave, angle: angleFromWave } = pointToWavesInfo[pIndex][wIndex];
 
       distFromCrest = Math.abs(distFromWave - getWaveEasedCrestValue(wave));

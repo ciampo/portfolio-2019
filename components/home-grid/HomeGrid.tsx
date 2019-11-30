@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, RefObject, useState, useCallback, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { NextComponentType } from 'next';
+import { throttle } from 'throttle-debounce';
 
 import {
   createGridPoints,
@@ -15,6 +16,12 @@ import {
 import { drawGrid } from './grid-draw';
 import { getDistance2d, absMax, bitwiseRound } from './grid-utils';
 import { GridWave, GridPoint, GridPointWavesInfo } from '../../typings';
+
+type HomeGridProps = {
+  onInit?: Function;
+  onInteraction?: Function;
+  onIdle?: Function;
+};
 
 function useCanvas(draw: Function): RefObject<HTMLCanvasElement> {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -42,7 +49,7 @@ function useCanvas(draw: Function): RefObject<HTMLCanvasElement> {
       };
 
       updateFillColor();
-      fillColorIntervalId = setInterval(updateFillColor, 500);
+      fillColorIntervalId = setInterval(updateFillColor, 1000);
 
       // Rendering loop using rAF.
       const renderFrame = (): void => {
@@ -68,12 +75,6 @@ function useCanvas(draw: Function): RefObject<HTMLCanvasElement> {
   return canvasRef;
 }
 
-type HomeGridProps = {
-  onInit?: Function;
-  onInteraction?: Function;
-  onIdle?: Function;
-};
-
 const HomeGrid: NextComponentType<{}, HomeGridProps, HomeGridProps> = ({
   onInit,
   onInteraction,
@@ -87,12 +88,15 @@ const HomeGrid: NextComponentType<{}, HomeGridProps, HomeGridProps> = ({
   const gridPointsToWawesInfo = useRef<GridPointWavesInfo[][]>([]);
   const idleTimerId = useRef<NodeJS.Timeout | null>(null);
   const programmaticWavesTimerId = useRef<NodeJS.Timeout | null>(null);
+  const isPointerDown = useRef<boolean>(false);
+  const didPointerMoveWhileDown = useRef<boolean>(false);
 
   const canvasDiagonal = useMemo(() => getDistance2d(0, 0, canvasWidth, canvasHeight), [
     canvasHeight,
     canvasWidth,
   ]);
 
+  // Canvas drawing loop
   const draw = useCallback(
     (
       ctx: CanvasRenderingContext2D,
@@ -134,16 +138,9 @@ const HomeGrid: NextComponentType<{}, HomeGridProps, HomeGridProps> = ({
 
   const canvasRef = useCanvas(draw);
 
-  // Call onInit at component mounting time.
-  // This notifies the component host that the grid initialised correctly.
-  useEffect(() => {
-    if (onInit) {
-      onInit();
-    }
-  }, [onInit]);
-
+  // Adds a wave to the grid. Throttled every 50ms to avoid overcrowding.
   const addGridWave = useCallback(
-    (evt: React.MouseEvent<HTMLCanvasElement, MouseEvent>, isWeak: boolean): void => {
+    throttle(50, (evt: { clientX: number; clientY: number }, isWeak: boolean): void => {
       const maxX = absMax(evt.clientX, evt.clientX - canvasWidth);
       const maxY = absMax(evt.clientY, evt.clientY - canvasHeight);
 
@@ -162,7 +159,7 @@ const HomeGrid: NextComponentType<{}, HomeGridProps, HomeGridProps> = ({
       );
 
       gridWaves.current = [...gridWaves.current, wave];
-    },
+    }),
     [canvasDiagonal, canvasHeight, canvasWidth]
   );
 
@@ -173,6 +170,7 @@ const HomeGrid: NextComponentType<{}, HomeGridProps, HomeGridProps> = ({
     }
   }
 
+  // The programmatic wave timer waits for a random amount of time
   const startProgrammaticWaveTimer = useCallback((): void => {
     stopProgrammaticWaveTimer();
     programmaticWavesTimerId.current = setTimeout(() => {
@@ -182,7 +180,7 @@ const HomeGrid: NextComponentType<{}, HomeGridProps, HomeGridProps> = ({
           {
             clientX: bitwiseRound(Math.random() * canvasWidth),
             clientY: bitwiseRound(Math.random() * canvasHeight),
-          } as React.MouseEvent<HTMLCanvasElement, MouseEvent>,
+          },
           false
         );
         programmaticWavesTimerId.current = null;
@@ -198,34 +196,58 @@ const HomeGrid: NextComponentType<{}, HomeGridProps, HomeGridProps> = ({
     }
   }
 
+  // The idle timer waits for 3 seconds of user inactivity on the grid,
+  // before notifying the parent component.
   function startIdleTimer(): void {
     stopIdleTimer();
     idleTimerId.current = setTimeout(() => {
       if (onIdle) {
         onIdle();
       }
+
       idleTimerId.current = null;
       startProgrammaticWaveTimer();
     }, 3000);
   }
 
-  function onCanvasMouseUp(evt: React.MouseEvent<HTMLCanvasElement, MouseEvent>): void {
-    addGridWave(evt, false);
-    startIdleTimer();
-  }
+  // Pointer down: notify parent component that interaction occurred.
+  function onPointerDown(): void {
+    isPointerDown.current = true;
+    didPointerMoveWhileDown.current = false;
 
-  function onCanvasMouseDown(): void {
     stopProgrammaticWaveTimer();
+    stopIdleTimer();
 
     if (idleTimerId.current === null && onInteraction) {
       onInteraction();
     }
-
-    stopIdleTimer();
   }
 
+  // Pointer move: add weak wave (if dragging).
+  function onPointerMove({ clientX, clientY }: React.PointerEvent<HTMLCanvasElement>): void {
+    if (isPointerDown.current) {
+      didPointerMoveWhileDown.current = true;
+      addGridWave({ clientX, clientY }, true);
+    }
+  }
+
+  // Pointer up: add strong wave (if click), start idle timer.
+  function onPointerUp({ clientX, clientY }: React.PointerEvent<HTMLCanvasElement>): void {
+    if (!didPointerMoveWhileDown.current) {
+      addGridWave({ clientX, clientY }, false);
+    }
+
+    isPointerDown.current = false;
+    startIdleTimer();
+  }
+
+  // Programmatic waves, shown when user is idle
   useEffect(() => {
     startProgrammaticWaveTimer();
+
+    return (): void => {
+      stopProgrammaticWaveTimer();
+    };
   }, [startProgrammaticWaveTimer]);
 
   // Resize events (set canvas width / height to match its page dimensions)
@@ -259,14 +281,23 @@ const HomeGrid: NextComponentType<{}, HomeGridProps, HomeGridProps> = ({
     };
   }, [canvasRef]);
 
+  // Call onInit at component mounting time.
+  // This notifies the component host that the grid initialised correctly.
+  useEffect(() => {
+    if (onInit) {
+      onInit();
+    }
+  }, [onInit]);
+
   return (
     <canvas
       className="absolute top-0 left-0 w-full h-full z-0 text-primary contain-strict cursor-pointer"
       ref={canvasRef}
       width={canvasWidth}
       height={canvasHeight}
-      onMouseUp={onCanvasMouseUp}
-      onMouseDown={onCanvasMouseDown}
+      onPointerDown={onPointerDown}
+      onPointerMove={onPointerMove}
+      onPointerUp={onPointerUp}
     />
   );
 };
