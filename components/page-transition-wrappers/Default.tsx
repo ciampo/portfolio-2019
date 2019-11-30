@@ -18,7 +18,14 @@ const fadeOutTransitionDown = {
   transition: { duration: 0.6, delay: 0.1, ease: customEaseOut },
 };
 
-const DefaultPageTransitionWrapper: React.FC<{}> = ({ children }) => (
+type CustomPageTransitionProps = React.PropsWithChildren<{
+  onComplete?: () => void;
+}>;
+
+const DefaultPageTransitionWrapper: React.FC<CustomPageTransitionProps> = ({
+  children,
+  onComplete,
+}) => (
   <motion.div
     initial="exit"
     animate="enter"
@@ -27,6 +34,7 @@ const DefaultPageTransitionWrapper: React.FC<{}> = ({ children }) => (
       enter: fadeInTransitionUp,
       exit: fadeOutTransitionDown,
     }}
+    onAnimationComplete={onComplete}
   >
     {children}
   </motion.div>
@@ -34,6 +42,7 @@ const DefaultPageTransitionWrapper: React.FC<{}> = ({ children }) => (
 
 DefaultPageTransitionWrapper.propTypes = {
   children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]).isRequired,
+  onComplete: PropTypes.func,
 };
 
 export default DefaultPageTransitionWrapper;

@@ -73,6 +73,12 @@ module.exports = {
         '.transition-d-300': {
           transitionDuration: '0.3s',
         },
+        '.transition-d-500': {
+          transitionDuration: '0.5s',
+        },
+        '.transition-p-opacity': {
+          transitionProperty: 'opacity',
+        },
         '.transition-p-opacity-transform': {
           transitionProperty: 'opacity, transform',
         },
@@ -88,6 +94,10 @@ module.exports = {
         },
         '.transform-none': {
           transform: 'none',
+        },
+        // Tap color
+        '.tap-transparent': {
+          ['-webkit-tap-highlight-color']: 'transparent',
         },
       };
 

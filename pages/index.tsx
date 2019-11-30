@@ -1,24 +1,27 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import { NextComponentType, NextPageContext } from 'next';
+import dynamic from 'next/dynamic';
 import { motion } from 'framer-motion';
 
 import DefaultPageTransitionWrapper from '../components/page-transition-wrappers/Default';
 import PageMeta from '../components/PageMeta';
 import { ContentfulApiPageHome } from '../typings';
 import routesConfig from '../routes-config';
+import gridConfig from '../components/home-grid/grid-config';
+
+const HomeGrid = dynamic(() => import('../components/home-grid/HomeGrid'));
 
 type PageHomeProps = ContentfulApiPageHome & {
   path: string;
 };
 
-const dotSize = 1;
-const tileSize = 32;
-const dotOffset = tileSize - 1;
+const { dotSize, tileSize, getDotCoordinate } = gridConfig;
+const dotOffset = getDotCoordinate(tileSize, dotSize);
 
 const lettersTransition = {
   delay: 0.2,
-  duration: 3,
+  duration: 2.5,
 };
 
 const letterGroupAnimationVariants = {
@@ -42,7 +45,7 @@ const roleAnimationVariants = {
   enter: {
     fillOpacity: 0.6,
     transition: {
-      delay: 2.2,
+      delay: 1.7,
       duration: 1,
     },
   },
@@ -79,6 +82,17 @@ const Home: NextComponentType<{}, PageHomeProps, PageHomeProps> = ({ path, meta,
     };
   }, []);
 
+  const [isCanvasGridVisible, setCanvasGridVisibility] = useState(false);
+  const [isSvgFallbackGridVisible, setSvgFallbackGridVisibility] = useState(true);
+
+  function onCanvasInit(): void {
+    setSvgFallbackGridVisibility(false);
+  }
+
+  function onHomeLogoEnterAnimationComplete(): void {
+    setCanvasGridVisibility(true);
+  }
+
   return (
     <>
       <PageMeta title={meta.fields.title} description={meta.fields.description} path={path} />
@@ -88,28 +102,34 @@ const Home: NextComponentType<{}, PageHomeProps, PageHomeProps> = ({ path, meta,
           ref={gridWrapperEl}
           className="dot-grid flex w-full h-screen items-center justify-center relative"
         >
-          <svg aria-hidden="true" className="absolute w-full h-full top-0 left-0 z-0">
-            <defs>
-              <pattern
-                id="dots-grid"
-                x="0"
-                y="0"
-                width={tileSize}
-                height={tileSize}
-                patternUnits="userSpaceOnUse"
-              >
-                <path
-                  fill="currentColor"
-                  d={`M${dotOffset} ${dotOffset}h${dotSize}v${dotSize}h${-dotSize}z`}
-                  fillRule="evenodd"
-                />
-              </pattern>
-            </defs>
+          {/* Interactive canvas grid */}
+          {isCanvasGridVisible && <HomeGrid onInit={onCanvasInit} />}
+          {/* Static SVG used as fallback on first render */}
+          {isSvgFallbackGridVisible && (
+            <svg aria-hidden="true" className="absolute w-full h-full top-0 left-0 z-0">
+              <defs>
+                <pattern
+                  id="dots-grid"
+                  x="0"
+                  y="0"
+                  width={tileSize}
+                  height={tileSize}
+                  patternUnits="userSpaceOnUse"
+                >
+                  <path
+                    fill="currentColor"
+                    d={`M${dotOffset} ${dotOffset}h${dotSize}v${dotSize}h${-dotSize}z`}
+                    fillRule="evenodd"
+                    opacity="0.75"
+                  />
+                </pattern>
+              </defs>
 
-            <rect x="0" y="0" width="100%" height="100%" fill="url(#dots-grid)"></rect>
-          </svg>
+              <rect x="0" y="0" width="100%" height="100%" fill="url(#dots-grid)"></rect>
+            </svg>
+          )}
 
-          <h1 className="contain-layout-paint text-primary bg-background z-10 pointer-events-none home-logo-title">
+          <h1 className="contain-layout-paint text-primary bg-background z-10 pointer-events-none transition-d-500 transition-p-opacity transition-tf-custom home-logo-title">
             <span className="sr-only">{pageTitle}</span>
             <motion.svg
               initial="exit"
@@ -118,6 +138,7 @@ const Home: NextComponentType<{}, PageHomeProps, PageHomeProps> = ({ path, meta,
               aria-hidden="true"
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 172 124"
+              onAnimationComplete={onHomeLogoEnterAnimationComplete}
             >
               <defs>
                 <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
