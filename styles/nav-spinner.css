@@ -1,5 +1,5 @@
-.nav-spinner {
-  animation-delay: 1s;
+.nav-spinner svg {
+  animation-delay: 0.5s;
   animation-direction: forwards;
   animation-duration: 2s;
   animation-iteration-count: infinite;
@@ -8,7 +8,7 @@
   opacity: 0;
 }
 
-.nav-spinner > circle {
+.nav-spinner circle {
   animation-delay: inherit;
   animation-duration: 1.5s;
   animation-iteration-count: inherit;

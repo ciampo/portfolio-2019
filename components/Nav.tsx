@@ -61,13 +61,22 @@ const Nav: NextComponentType<{}, NavProps, NavProps> = ({ links }) => {
       </nav>
 
       {isRouteLoading && (
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 50 50"
-          className="fixed top-0 right-0 block w-4 h-4 lg:w-8 lg:h-8 m-3 lg:m-4 nav-spinner"
-        >
-          <circle cx="25" cy="25" r="20" fill="none" stroke="currentColor" strokeWidth="4"></circle>
-        </svg>
+        <div aria-hidden="true" className="nav-spinner fixed z-50 top-0 right-0 bg-background">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 50 50"
+            className="block w-4 h-4 md:w-8 md:h-8 m-3 md:m-4"
+          >
+            <circle
+              cx="25"
+              cy="25"
+              r="20"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="4"
+            ></circle>
+          </svg>
+        </div>
       )}
     </>
   );
