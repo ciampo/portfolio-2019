@@ -256,7 +256,7 @@ const HomeGrid: NextComponentType<{}, HomeGridProps, HomeGridProps> = ({
 
   // Resize events (set canvas width / height to match its page dimensions)
   useEffect(() => {
-    function resizeCanvas(): void {
+    const resizeCanvas = throttle(100, (): void => {
       if (canvasRef && canvasRef.current) {
         const { width, height } = canvasRef.current.getBoundingClientRect();
         setCanvasWidth(width);
@@ -275,7 +275,7 @@ const HomeGrid: NextComponentType<{}, HomeGridProps, HomeGridProps> = ({
           gridWaves.current
         );
       }
-    }
+    });
 
     window.addEventListener('resize', resizeCanvas);
     resizeCanvas();
