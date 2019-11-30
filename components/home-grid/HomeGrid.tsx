@@ -51,6 +51,10 @@ function useCanvas(draw: Function): RefObject<HTMLCanvasElement> {
       updateFillColor();
       fillColorIntervalId = setInterval(updateFillColor, 1000);
 
+      if (ctx) {
+        ctx.imageSmoothingEnabled = false;
+      }
+
       // Rendering loop using rAF.
       const renderFrame = (): void => {
         if (canvasRef && canvasRef.current) {
@@ -291,7 +295,7 @@ const HomeGrid: NextComponentType<{}, HomeGridProps, HomeGridProps> = ({
 
   return (
     <canvas
-      className="absolute top-0 left-0 w-full h-full z-0 text-primary contain-strict cursor-pointer"
+      className="absolute top-0 left-0 w-full h-full z-0 text-primary contain-strict cursor-pointer tap-transparent"
       ref={canvasRef}
       width={canvasWidth}
       height={canvasHeight}
