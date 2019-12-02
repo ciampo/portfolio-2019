@@ -1,0 +1,9 @@
+.project-dl dt,
+.project-dl dd {
+ display: inline;
+}
+
+.project-dl dd:after {
+ content:"\a";
+ white-space: pre;
+}

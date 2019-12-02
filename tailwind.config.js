@@ -39,6 +39,8 @@ module.exports = {
   },
   variants: {
     zIndex: ['responsive', 'focus'],
+    borderStyle: ['responsive', 'focus'],
+    borderWidth: ['responsive', 'focus'],
   },
   plugins: [
     require('tailwindcss-aspect-ratio')(),

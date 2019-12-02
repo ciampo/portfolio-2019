@@ -8,7 +8,6 @@ export type ContentfulApiProject = {
   slug: string;
   tileImage: ContentfulMedia;
   client: string;
-  type: string;
   url: string;
   date: string;
   description: Document;

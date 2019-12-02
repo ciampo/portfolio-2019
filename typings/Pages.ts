@@ -20,4 +20,9 @@ export type ContentfulApiPageProjectsList = ContentfulApiPageGeneric & {
   title: string;
 };
 
-export type ContentfulApiPageProject = ContentfulApiPageGeneric & {};
+export type ContentfulApiPageProject = ContentfulApiPageGeneric & {
+  dateLabel: string;
+  clientLabel: string;
+  linkLabel: string;
+  linkText: string;
+};
