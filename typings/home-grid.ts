@@ -9,7 +9,6 @@ export type GridPoint = {
   displayX: number;
   displayY: number;
   size: number;
-  wavesInfo: (GridPointWavesInfo | null)[];
 };
 
 export type GridConfig = {

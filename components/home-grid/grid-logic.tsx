@@ -40,37 +40,7 @@ function computePointToWaveInfo(p: GridPoint, w: GridWave): GridPointWavesInfo {
   };
 }
 
-export function computePointsToWavesInfo(
-  gridPoints: GridPoint[],
-  waves: GridWave[]
-): GridPointWavesInfo[][] {
-  return gridPoints.map((p) => waves.map((w) => computePointToWaveInfo(p, w)));
-}
-
-export function addWaveToPointsToWavesInfo(
-  gridPointsToWavesInfo: GridPointWavesInfo[][],
-  gridPoints: GridPoint[],
-  wave: GridWave
-): GridPointWavesInfo[][] {
-  return gridPointsToWavesInfo.map((gpwi, pIndex) => {
-    return [...gpwi, computePointToWaveInfo(gridPoints[pIndex], wave)];
-  });
-}
-
-export function removeWaveFromPointsToWavesInfo(
-  gridPointsToWavesInfo: GridPointWavesInfo[][],
-  gridPoints: GridPoint[],
-  waveIndex: number
-): GridPointWavesInfo[][] {
-  return gridPointsToWavesInfo.map((gpwi) => {
-    return [...gpwi.slice(0, waveIndex), ...gpwi.slice(waveIndex + 1)];
-  });
-}
-
-export function createGridPoints(
-  dimensions: { width: number; height: number },
-  waves: GridWave[]
-): GridPoint[] {
+export function createGridPoints(dimensions: { width: number; height: number }): GridPoint[] {
   const toReturn = [];
 
   const numCols = Math.floor(dimensions.width / gridConfig.tileSize);
@@ -86,7 +56,6 @@ export function createGridPoints(
         displayX: x,
         displayY: y,
         size: gridConfig.dotSize,
-        wavesInfo: Array(waves.length).fill(null),
       });
     }
   }
@@ -94,20 +63,16 @@ export function createGridPoints(
   return toReturn;
 }
 
-export function updateGridPoints(
-  points: GridPoint[],
-  waves: GridWave[],
-  pointToWavesInfo: GridPointWavesInfo[][]
-): GridPoint[] {
+export function updateGridPoints(points: GridPoint[], waves: GridWave[]): GridPoint[] {
   let distFromCrest, displayDiffFactor;
 
-  return points.map((p, pIndex) => {
-    p.displayX = p.originX;
-    p.displayY = p.originY;
-    p.size = gridConfig.dotSize;
+  return points.map((point) => {
+    point.displayX = point.originX;
+    point.displayY = point.originY;
+    point.size = gridConfig.dotSize;
 
-    waves.forEach((wave, wIndex) => {
-      const { distance: distFromWave, angle: angleFromWave } = pointToWavesInfo[pIndex][wIndex];
+    waves.forEach((wave) => {
+      const { distance: distFromWave, angle: angleFromWave } = computePointToWaveInfo(point, wave);
 
       distFromCrest = Math.abs(distFromWave - getWaveEasedCrestValue(wave));
 
@@ -118,21 +83,21 @@ export function updateGridPoints(
           wave.crestAOE *
           wave.strength;
 
-        p.displayX -= displayDiffFactor * Math.cos(angleFromWave);
-        p.displayY -= displayDiffFactor * Math.sin(angleFromWave);
+        point.displayX -= displayDiffFactor * Math.cos(angleFromWave);
+        point.displayY -= displayDiffFactor * Math.sin(angleFromWave);
 
-        p.size +=
+        point.size +=
           gridConfig.dotSizeResistance *
           gridConfig.dotSizeEasingFunction(1 - distFromCrest / wave.crestAOE) *
           wave.strength;
       }
     });
 
-    p.size = Math.min(p.size, gridConfig.maxDotSize);
+    point.size = Math.min(point.size, gridConfig.maxDotSize);
 
-    p.displayX -= p.size / 2;
-    p.displayY -= p.size / 2;
+    point.displayX -= point.size / 2;
+    point.displayY -= point.size / 2;
 
-    return p;
+    return point;
   });
 }
