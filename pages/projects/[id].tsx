@@ -16,6 +16,10 @@ type PageProjectProps = ContentfulApiPageProject & {
 const PageProject: NextComponentType<{}, PageProjectProps, PageProjectProps> = ({
   project,
   meta,
+  dateLabel,
+  clientLabel,
+  linkLabel,
+  linkText,
   path,
 }) =>
   project ? (
@@ -23,13 +27,51 @@ const PageProject: NextComponentType<{}, PageProjectProps, PageProjectProps> = (
       <PageMeta title={meta.fields.title} description={meta.fields.description} path={path} />
 
       <DefaultPageTransitionWrapper>
-        <section className="pt-24 pb-12 md:pt-32 md:pb-16 lg:pt-48 container mx-auto">
-          <h1 className="text-center text-2xl sm:text-3xl md:text-4xl lg:text-5xl">
-            {project.title}
-          </h1>
-          <div className="mt-12 md:mt-24 rich-text-container">
-            {documentToReactComponents(project.description)}
-          </div>
+        <h1 className="pt-24 px-6 md:pt-32 lg:pt-48 text-center text-2xl sm:text-3xl md:text-4xl lg:text-5xl">
+          {project.title}
+        </h1>
+
+        <section className="mt-4 md:mt-6 px-6">
+          <h2 className="sr-only">Information</h2>
+
+          <dl className="text-center leading-relaxed md:leading-loose project-dl">
+            <dt className="text-xs md:text-sm lg:text-base uppercase font-normal pr-2">
+              {dateLabel}
+            </dt>
+            <dd className="text-sm md:text-base lg:text-lg font-thin pl-2">
+              {project.date.split('-')[0]}
+            </dd>
+
+            <dt className="text-xs md:text-sm lg:text-base uppercase font-normal pr-2">
+              {clientLabel}
+            </dt>
+            <dd className="text-sm md:text-base lg:text-lg font-thin pl-2">{project.client}</dd>
+
+            {project.url && (
+              <>
+                <dt className="sr-only">{linkLabel}</dt>
+                <dd className="text-xs md:text-sm lg:text-base uppercase font-normal">
+                  <a
+                    href={project.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-block border-b border-dashed border-primary outline-none focus:border-solid"
+                  >
+                    {linkText}
+                  </a>
+                </dd>
+              </>
+            )}
+          </dl>
+        </section>
+
+        <section className="container max-w-md sm:max-w-lg md:max-w-xl lg:max-w-2xl mx-auto px-6 mt-20 sm:mt-24 md:mt-32 text-sm sm:text-base md:text-lg rich-text-container">
+          <h2 className="sr-only">Description</h2>
+          {documentToReactComponents(project.description)}
+        </section>
+
+        <section className="container mx-auto mt-20 sm:mt-24 md:mt-32 lg:mt-40 pb-12 md:pb-16">
+          <h2 className="sr-only">Media</h2>
         </section>
       </DefaultPageTransitionWrapper>
     </>
@@ -40,7 +82,11 @@ PageProject.getInitialProps = async ({
   query,
 }: NextPageContext): Promise<PageProjectProps> => {
   const toReturn: PageProjectProps = {
-    path: '/na',
+    path: 'N/A',
+    dateLabel: '2019-00-00',
+    clientLabel: 'N/A',
+    linkLabel: 'Link',
+    linkText: 'View project',
     meta: {
       fields: {
         title: 'Project',
@@ -87,6 +133,11 @@ PageProject.getInitialProps = async ({
         },
       };
 
+      toReturn.dateLabel = projectPageData[0].dateLabel;
+      toReturn.clientLabel = projectPageData[0].clientLabel;
+      toReturn.linkLabel = projectPageData[0].linkLabel;
+      toReturn.linkText = projectPageData[0].linkText;
+
       // Path and projects are set from the current project API data.
       toReturn.path = pathname;
       for (const [pattern, replacerFn] of Object.entries(routeConfig.dynamicRoute.params)) {
@@ -110,6 +161,10 @@ PageProject.propTypes = {
       description: PropTypes.string.isRequired,
     }),
   }).isRequired,
+  dateLabel: PropTypes.string.isRequired,
+  clientLabel: PropTypes.string.isRequired,
+  linkLabel: PropTypes.string.isRequired,
+  linkText: PropTypes.string.isRequired,
   project: PropTypes.object,
 };
 

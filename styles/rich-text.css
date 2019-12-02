@@ -13,9 +13,9 @@
 }
 
 .rich-text-container a {
-  @apply border-b border-dashed border-primary;
+  @apply border-b border-dashed border-primary outline-none;
 }
 
 .rich-text-container a:focus {
-  @apply outline-none border-b-2 border-solid;
+  @apply border-solid;
 }

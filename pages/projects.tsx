@@ -39,7 +39,10 @@ const ProjectTile: React.FC<{ id: string; label: string; img: { src: string; alt
   label,
   img,
 }) => (
-  <motion.li className="w-full sm:w-1/2 lg:w-1/3 project-tile" variants={tileAnimationVariants}>
+  <motion.li
+    className="w-full sm:w-1/2 lg:w-1/3 relative project-tile"
+    variants={tileAnimationVariants}
+  >
     <Link href={singleProjectRoute} as={`/projects/${id}`} scroll={false}>
       <a className="contain-strict relative block w-full h-0 border-4 border-background aspect-ratio-16/9 lg:aspect-ratio-4/3 overflow-hidden outline-none transition-tf-custom transition-d-300 transition-p-opacity-transform focus:z-20 focus:transform-scale-up">
         <span className="z-10 absolute bottom-0 mb-2 sm:mb-3 left-0 pl-1 pr-3 py-1 bg-background font-light text-primary text-lg md:text-xl rounded-tr rounded-br transition-inherit">
@@ -50,6 +53,9 @@ const ProjectTile: React.FC<{ id: string; label: string; img: { src: string; alt
           className="z-0 absolute top-0 left-0 w-full h-full object-cover"
           src={`${img.src}?w=600&h=450&fit=fill&fm=jpg&q=70`}
           alt={img.alt}
+          loading="lazy"
+          height="450"
+          width="600"
         />
       </a>
     </Link>

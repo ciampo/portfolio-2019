@@ -9,13 +9,10 @@ import {
   growWave,
   isWaveExpired,
   createGridWave,
-  computePointsToWavesInfo,
-  addWaveToPointsToWavesInfo,
-  removeWaveFromPointsToWavesInfo,
 } from './grid-logic';
 import { drawGrid } from './grid-draw';
 import { getDistance2d, absMax, bitwiseRound } from './grid-utils';
-import { GridWave, GridPoint, GridPointWavesInfo } from '../../typings';
+import { GridWave, GridPoint } from '../../typings';
 
 type HomeGridProps = {
   onInit?: Function;
@@ -89,7 +86,6 @@ const HomeGrid: NextComponentType<{}, HomeGridProps, HomeGridProps> = ({
   const [canvasHeight, setCanvasHeight] = useState(0);
   const gridWaves = useRef<GridWave[]>([]);
   const gridPoints = useRef<GridPoint[]>([]);
-  const gridPointsToWawesInfo = useRef<GridPointWavesInfo[][]>([]);
   const idleTimerId = useRef<NodeJS.Timeout | null>(null);
   const programmaticWavesTimerId = useRef<NodeJS.Timeout | null>(null);
   const isPointerDown = useRef<boolean>(false);
@@ -108,35 +104,18 @@ const HomeGrid: NextComponentType<{}, HomeGridProps, HomeGridProps> = ({
       dimensions: { width: number; height: number },
       fillColor: string
     ): void => {
-      // Update grid points based on the waves
-      gridPoints.current = updateGridPoints(
-        gridPoints.current,
-        gridWaves.current,
-        gridPointsToWawesInfo.current
-      );
-
-      // Grow waves, remove expired ones.
-      gridWaves.current = gridWaves.current
-        .map(growWave)
-        .map((w, wIndex) => {
-          if (isWaveExpired(w)) {
-            gridPointsToWawesInfo.current = removeWaveFromPointsToWavesInfo(
-              gridPointsToWawesInfo.current,
-              gridPoints.current,
-              wIndex
-            );
-          }
-
-          return w;
-        })
-        .filter((w) => !isWaveExpired(w));
-
       // Draw current status of the grid
       ctx.fillStyle = fillColor;
       drawGrid(ctx, dimensions, {
         points: gridPoints.current,
         waves: gridWaves.current,
       });
+
+      // Update grid points based on the waves
+      gridPoints.current = updateGridPoints(gridPoints.current, gridWaves.current);
+
+      // Grow waves, remove expired ones.
+      gridWaves.current = gridWaves.current.map(growWave).filter((w) => !isWaveExpired(w));
     },
     []
   );
@@ -145,7 +124,7 @@ const HomeGrid: NextComponentType<{}, HomeGridProps, HomeGridProps> = ({
 
   // Adds a wave to the grid. Throttled every 50ms to avoid overcrowding.
   const addGridWave = useCallback(
-    throttle(50, (evt: { clientX: number; clientY: number }, isWeak: boolean): void => {
+    throttle(100, (evt: { clientX: number; clientY: number }, isWeak: boolean): void => {
       const maxX = absMax(evt.clientX, evt.clientX - canvasWidth);
       const maxY = absMax(evt.clientY, evt.clientY - canvasHeight);
 
@@ -156,12 +135,6 @@ const HomeGrid: NextComponentType<{}, HomeGridProps, HomeGridProps> = ({
         sketchDiagonal: canvasDiagonal,
         isWeak,
       });
-
-      gridPointsToWawesInfo.current = addWaveToPointsToWavesInfo(
-        gridPointsToWawesInfo.current,
-        gridPoints.current,
-        wave
-      );
 
       gridWaves.current = [...gridWaves.current, wave];
     }),
@@ -267,18 +240,10 @@ const HomeGrid: NextComponentType<{}, HomeGridProps, HomeGridProps> = ({
         setCanvasWidth(width);
         setCanvasHeight(height);
 
-        gridPoints.current = createGridPoints(
-          {
-            width,
-            height,
-          },
-          gridWaves.current
-        );
-
-        gridPointsToWawesInfo.current = computePointsToWavesInfo(
-          gridPoints.current,
-          gridWaves.current
-        );
+        gridPoints.current = createGridPoints({
+          width,
+          height,
+        });
       }
     });
 
@@ -300,7 +265,7 @@ const HomeGrid: NextComponentType<{}, HomeGridProps, HomeGridProps> = ({
 
   return (
     <canvas
-      className="absolute top-0 left-0 w-full h-full z-0 text-primary contain-strict cursor-pointer tap-transparent"
+      className="absolute top-0 left-0 w-full h-full z-0 text-primary contain-strict cursor-pointer"
       ref={canvasRef}
       width={canvasWidth}
       height={canvasHeight}
