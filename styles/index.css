@@ -29,7 +29,6 @@
 body {
   background: var(--color-background, #000);
   color: var(--color-primary, #fff);
-  font-family: -apple-system, BlinkMacSystemFont, Avenir Next, Avenir, Helvetica, sans-serif;
   margin: 0;
 }
 
