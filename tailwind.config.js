@@ -97,10 +97,6 @@ module.exports = {
         '.transform-none': {
           transform: 'none',
         },
-        // Tap color
-        '.tap-transparent': {
-          ['-webkit-tap-highlight-color']: 'transparent',
-        },
       };
 
       addUtilities(newUtilities, ['responsive', 'focus']);

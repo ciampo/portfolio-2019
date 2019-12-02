@@ -300,7 +300,7 @@ const HomeGrid: NextComponentType<{}, HomeGridProps, HomeGridProps> = ({
 
   return (
     <canvas
-      className="absolute top-0 left-0 w-full h-full z-0 text-primary contain-strict cursor-pointer tap-transparent"
+      className="absolute top-0 left-0 w-full h-full z-0 text-primary contain-strict cursor-pointer"
       ref={canvasRef}
       width={canvasWidth}
       height={canvasHeight}

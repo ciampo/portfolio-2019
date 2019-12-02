@@ -34,7 +34,8 @@ body {
 }
 
 a,
-button {
+button,
+canvas {
   -webkit-tap-highlight-color: transparent;
 }
 
