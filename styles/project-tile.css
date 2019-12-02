@@ -4,6 +4,13 @@ html:not(.js-app) .project-tile {
   transform: none !important;
 }
 
+.project-tile::before {
+  @apply absolute top-0 left-0 w-full h-full;
+  background: linear-gradient(135deg, var(--color-primary), var(--color-background));
+  content: '';
+  opacity: 0.05;
+}
+
 .project-tile a:focus > span {
   transform: translateY(-50%);
 }
