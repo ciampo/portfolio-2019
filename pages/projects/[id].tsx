@@ -20,6 +20,8 @@ const PageProject: NextComponentType<{}, PageProjectProps, PageProjectProps> = (
   clientLabel,
   linkLabel,
   linkText,
+  descriptionSectionTitle,
+  mediaSectionTitle,
   path,
 }) =>
   project ? (
@@ -66,12 +68,12 @@ const PageProject: NextComponentType<{}, PageProjectProps, PageProjectProps> = (
         </section>
 
         <section className="container max-w-md sm:max-w-lg md:max-w-xl lg:max-w-2xl mx-auto px-6 mt-20 sm:mt-24 md:mt-32 text-sm sm:text-base md:text-lg rich-text-container">
-          <h2 className="sr-only">Description</h2>
+          <h2 className="sr-only">{descriptionSectionTitle}</h2>
           {documentToReactComponents(project.description)}
         </section>
 
         <section className="container mx-auto mt-20 sm:mt-24 md:mt-32 lg:mt-40 pb-12 md:pb-16">
-          <h2 className="sr-only">Media</h2>
+          <h2 className="sr-only">{mediaSectionTitle}</h2>
         </section>
       </DefaultPageTransitionWrapper>
     </>
@@ -87,6 +89,8 @@ PageProject.getInitialProps = async ({
     clientLabel: 'N/A',
     linkLabel: 'Link',
     linkText: 'View project',
+    descriptionSectionTitle: 'Description',
+    mediaSectionTitle: 'Media',
     meta: {
       fields: {
         title: 'Project',
@@ -137,6 +141,8 @@ PageProject.getInitialProps = async ({
       toReturn.clientLabel = projectPageData[0].clientLabel;
       toReturn.linkLabel = projectPageData[0].linkLabel;
       toReturn.linkText = projectPageData[0].linkText;
+      toReturn.descriptionSectionTitle = projectPageData[0].descriptionSectionTitle;
+      toReturn.mediaSectionTitle = projectPageData[0].mediaSectionTitle;
 
       // Path and projects are set from the current project API data.
       toReturn.path = pathname;
@@ -165,6 +171,8 @@ PageProject.propTypes = {
   clientLabel: PropTypes.string.isRequired,
   linkLabel: PropTypes.string.isRequired,
   linkText: PropTypes.string.isRequired,
+  descriptionSectionTitle: PropTypes.string.isRequired,
+  mediaSectionTitle: PropTypes.string.isRequired,
   project: PropTypes.object,
 };
 

@@ -25,4 +25,6 @@ export type ContentfulApiPageProject = ContentfulApiPageGeneric & {
   clientLabel: string;
   linkLabel: string;
   linkText: string;
+  descriptionSectionTitle: string;
+  mediaSectionTitle: string;
 };
