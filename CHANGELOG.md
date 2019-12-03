@@ -35,6 +35,21 @@ for any bug fixes.
 in case of vulnerabilities.
 -->
 
+## [0.0.6] - 2019-12-03
+
+### Added
+
+- home page logo enter animation (per letter)
+- home page logo neon effect
+- home page lazy-loading interactive grid
+- top right corner spinner while transitioning between pages
+- individual project page header
+
+### Changed
+
+- nav links compute selected property automously inside the Nav component
+- project tiles background color
+
 ## [0.0.5] - 2019-11-25
 
 ### Added
@@ -103,8 +118,9 @@ in case of vulnerabilities.
 - Updated README and added Netlify badge
 - Updated package.json
 
-[Unreleased]: https://github.com/ciampo/portfolio-2019/compare/v0.0.5...HEAD
-<!-- [X.Y.Z]: https://github.com/ciampo/portfolio-2019/compare/v0.0.5...vX.Y.Z -->
+[Unreleased]: https://github.com/ciampo/portfolio-2019/compare/v0.0.6...HEAD
+<!-- [X.Y.Z]: https://github.com/ciampo/portfolio-2019/compare/v0.0.6...vX.Y.Z -->
+[0.0.6]: https://github.com/ciampo/portfolio-2019/compare/v0.0.5...v0.0.6
 [0.0.5]: https://github.com/ciampo/portfolio-2019/compare/v0.0.4...v0.0.5
 [0.0.4]: https://github.com/ciampo/portfolio-2019/compare/v0.0.3...v0.0.4
 [0.0.3]: https://github.com/ciampo/portfolio-2019/compare/v0.0.2...v0.0.3
