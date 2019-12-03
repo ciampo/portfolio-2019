@@ -57,7 +57,7 @@ const PageProject: NextComponentType<{}, PageProjectProps, PageProjectProps> = (
                     href={project.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-block border-b border-dashed border-primary outline-none focus:border-solid"
+                    className="inline-block border-b-2 border-dashed border-primary outline-none focus:border-solid"
                   >
                     {linkText}
                   </a>
