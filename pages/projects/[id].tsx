@@ -29,30 +29,30 @@ const PageProject: NextComponentType<{}, PageProjectProps, PageProjectProps> = (
       <PageMeta title={meta.fields.title} description={meta.fields.description} path={path} />
 
       <DefaultPageTransitionWrapper>
-        <h1 className="pt-24 px-6 md:pt-32 lg:pt-48 text-center text-2xl sm:text-3xl md:text-4xl lg:text-5xl">
-          {project.title}
-        </h1>
+        <header className="relative pt-24 md:pt-32 pb-20 sm:pb-24 md:pb-32 px-6 lg:pt-48 text-center project-header">
+          <h1 className="relative z-10 text-2xl sm:text-3xl md:text-4xl lg:text-5xl">
+            {project.title}
+          </h1>
 
-        <section className="mt-4 md:mt-6 px-6">
-          <h2 className="sr-only">Information</h2>
-
-          <dl className="text-center leading-relaxed md:leading-loose project-dl">
-            <dt className="text-xs md:text-sm lg:text-base uppercase font-normal pr-2">
+          <dl className="relative z-10 mt-4 md:mt-6 px-6 leading-relaxed md:leading-loose">
+            <dt className="inline text-xs md:text-sm lg:text-base uppercase font-normal pr-2">
               {dateLabel}
             </dt>
-            <dd className="text-sm md:text-base lg:text-lg font-thin pl-2">
+            <dd className="inline text-sm md:text-base lg:text-lg font-thin pl-2">
               {project.date.split('-')[0]}
             </dd>
 
-            <dt className="text-xs md:text-sm lg:text-base uppercase font-normal pr-2">
+            <dt className="inline text-xs md:text-sm lg:text-base uppercase font-normal pr-2">
               {clientLabel}
             </dt>
-            <dd className="text-sm md:text-base lg:text-lg font-thin pl-2">{project.client}</dd>
+            <dd className="inline text-sm md:text-base lg:text-lg font-thin pl-2">
+              {project.client}
+            </dd>
 
             {project.url && (
               <>
                 <dt className="sr-only">{linkLabel}</dt>
-                <dd className="text-xs md:text-sm lg:text-base uppercase font-normal">
+                <dd className="inline text-xs md:text-sm lg:text-base uppercase font-normal">
                   <a
                     href={project.url}
                     target="_blank"
@@ -65,14 +65,14 @@ const PageProject: NextComponentType<{}, PageProjectProps, PageProjectProps> = (
               </>
             )}
           </dl>
-        </section>
+        </header>
 
-        <section className="container max-w-md sm:max-w-lg md:max-w-xl lg:max-w-2xl mx-auto px-6 mt-20 sm:mt-24 md:mt-32 text-sm sm:text-base md:text-lg rich-text-container">
+        <section className="container max-w-md sm:max-w-lg md:max-w-xl lg:max-w-2xl mx-auto px-6 my-16 sm:my-20 md:my-24 text-sm sm:text-base md:text-lg rich-text-container">
           <h2 className="sr-only">{descriptionSectionTitle}</h2>
           {documentToReactComponents(project.description)}
         </section>
 
-        <section className="container mx-auto mt-20 sm:mt-24 md:mt-32 lg:mt-40 pb-12 md:pb-16">
+        <section className="container mx-auto py-16 sm:py-20 md:py-24">
           <h2 className="sr-only">{mediaSectionTitle}</h2>
         </section>
       </DefaultPageTransitionWrapper>

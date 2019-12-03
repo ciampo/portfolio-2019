@@ -1,9 +1,15 @@
-.project-dl dt,
-.project-dl dd {
- display: inline;
+.project-header::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: currentColor;
+  opacity: 0.01;
 }
 
-.project-dl dd:after {
+.project-header dd::after {
  content:"\a";
  white-space: pre;
 }
