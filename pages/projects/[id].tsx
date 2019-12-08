@@ -4,9 +4,12 @@ import { NextComponentType, NextPageContext } from 'next';
 import { documentToReactComponents } from '@contentful/rich-text-react-renderer';
 
 import PageMeta from '../../components/PageMeta';
+import ContentfulImage from '../../components/media/image';
+import ContentfulVideo from '../../components/media/video';
 import DefaultPageTransitionWrapper from '../../components/page-transition-wrappers/Default';
 import { ContentfulApiPageProject, ContentfulApiProject } from '../../typings';
 import routesConfig from '../../routes-config';
+import { content } from '../../components/media/sizes-presets';
 
 type PageProjectProps = ContentfulApiPageProject & {
   path: string;
@@ -74,6 +77,45 @@ const PageProject: NextComponentType<{}, PageProjectProps, PageProjectProps> = (
 
         <section className="container mx-auto px-6 mt-24 sm:mt-32 md:mt-40 mb-16 sm:mb-20 md:mb-24">
           <h2 className="sr-only">{mediaSectionTitle}</h2>
+
+          {project.widePictures &&
+            project.widePictures.map((widePic) =>
+              /video/.test(widePic.fields.source.fields.file.contentType) ? (
+                <ContentfulVideo src={widePic.fields.source.fields.file.url} className="mt-24" />
+              ) : (
+                <ContentfulImage
+                  baseSrc={widePic.fields.source.fields.file.url}
+                  resolutions={content.resolutions}
+                  sizes={content.sizes}
+                  label={widePic.fields.source.fields.description}
+                  className="mt-24"
+                  ratio={
+                    widePic.fields.source.fields.file.details.image
+                      ? widePic.fields.source.fields.file.details.image.height /
+                        widePic.fields.source.fields.file.details.image.width
+                      : undefined
+                  }
+                  lazy={true}
+                  base64Thumb="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAlgCWAAD/2wBDAFA3PEY8MlBGQUZaVVBfeMiCeG5uePWvuZHI////////////////////////////////////////////////////2wBDAVVaWnhpeOuCguv/////////////////////////////////////////////////////////////////////////wAARCAAxAAoDASIAAhEBAxEB/8QAFwABAQEBAAAAAAAAAAAAAAAAAgABBP/EAB0QAAMAAQUBAAAAAAAAAAAAAAABESECE0FScZH/xAAUAQEAAAAAAAAAAAAAAAAAAAAA/8QAFBEBAAAAAAAAAAAAAAAAAAAAAP/aAAwDAQACEQMRAD8A62qmrPA7b76vozQDctJpv0RnJoBuZciMICIiA//Z"
+                />
+              )
+            )}
+
+          {/* {project.narrowPictures &&
+            project.narrowPictures.map((narrowPic) =>
+              /video/.test(narrowPic.fields.source.fields.file.contentType) ? (
+                <ContentfulVideo
+                  baseSrc={narrowPic.fields.source.fields.file.url}
+                  className="mx-auto max-w-xs mt-24"
+                />
+              ) : (
+                <ContentfulImage
+                  baseSrc={narrowPic.fields.source.fields.file.url}
+                  label={narrowPic.fields.source.fields.description}
+                  className="mx-auto max-w-xs mt-24"
+                />
+              )
+            )} */}
         </section>
       </DefaultPageTransitionWrapper>
     </>

@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 
-const { colors, screens, maxWidth } = require('tailwindcss/defaultTheme');
+const { colors, screens, maxWidth, spacing } = require('tailwindcss/defaultTheme');
 
 module.exports = {
   theme: {
@@ -17,6 +17,9 @@ module.exports = {
     screens: {
       xsm: '480px',
       ...screens,
+    },
+    spacing: {
+      ...spacing,
     },
     colors: {
       ...colors,

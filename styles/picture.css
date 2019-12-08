@@ -1,0 +1,16 @@
+.picture noscript + * {
+  display: none;
+}
+
+.js-app .picture noscript + * {
+  display: block;
+}
+
+.js-app .picture img {
+  filter: blur(10px);
+}
+
+.js-app .picture--loaded img {
+  filter: none;
+  transition: 0.5s filter ease-out;
+}

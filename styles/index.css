@@ -3,6 +3,7 @@
 @import './project-tile.css';
 @import './project-page.css';
 @import './rich-text.css';
+@import './picture.css';
 
 :root {
   --color-primary: theme('colors.gray.100');
