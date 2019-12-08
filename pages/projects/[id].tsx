@@ -7,14 +7,49 @@ import PageMeta from '../../components/PageMeta';
 import ContentfulImage from '../../components/media/image';
 import ContentfulVideo from '../../components/media/video';
 import DefaultPageTransitionWrapper from '../../components/page-transition-wrappers/Default';
-import { ContentfulApiPageProject, ContentfulApiProject } from '../../typings';
+import { ContentfulApiPageProject, ContentfulApiProject, ContentfulMedia } from '../../typings';
 import routesConfig from '../../routes-config';
-import { content } from '../../components/media/sizes-presets';
+import { content, narrowMedia } from '../../components/media/sizes-presets';
 
 type PageProjectProps = ContentfulApiPageProject & {
   path: string;
   project?: ContentfulApiProject;
 };
+
+const articleMedia = (
+  mediaObj: {
+    fields: {
+      source: ContentfulMedia;
+    };
+  },
+  sizePreset: {
+    sizes: string;
+    resolutions: number[];
+  },
+  wrapperClassName?: string
+): JSX.Element => (
+  <div className={wrapperClassName}>
+    {/video/.test(mediaObj.fields.source.fields.file.contentType) ? (
+      <ContentfulVideo src={mediaObj.fields.source.fields.file.url} className="mt-24" />
+    ) : (
+      <ContentfulImage
+        baseSrc={mediaObj.fields.source.fields.file.url}
+        resolutions={sizePreset.resolutions}
+        sizes={sizePreset.sizes}
+        label={mediaObj.fields.source.fields.description}
+        className="mt-24"
+        ratio={
+          mediaObj.fields.source.fields.file.details.image
+            ? mediaObj.fields.source.fields.file.details.image.height /
+              mediaObj.fields.source.fields.file.details.image.width
+            : undefined
+        }
+        lazy={true}
+        base64Thumb="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAlgCWAAD/2wBDAFA3PEY8MlBGQUZaVVBfeMiCeG5uePWvuZHI////////////////////////////////////////////////////2wBDAVVaWnhpeOuCguv/////////////////////////////////////////////////////////////////////////wAARCAAxAAoDASIAAhEBAxEB/8QAFwABAQEBAAAAAAAAAAAAAAAAAgABBP/EAB0QAAMAAQUBAAAAAAAAAAAAAAABESECE0FScZH/xAAUAQEAAAAAAAAAAAAAAAAAAAAA/8QAFBEBAAAAAAAAAAAAAAAAAAAAAP/aAAwDAQACEQMRAD8A62qmrPA7b76vozQDctJpv0RnJoBuZciMICIiA//Z"
+      />
+    )}
+  </div>
+);
 
 const PageProject: NextComponentType<{}, PageProjectProps, PageProjectProps> = ({
   project,
@@ -78,44 +113,15 @@ const PageProject: NextComponentType<{}, PageProjectProps, PageProjectProps> = (
         <section className="container mx-auto px-6 mt-24 sm:mt-32 md:mt-40 mb-16 sm:mb-20 md:mb-24">
           <h2 className="sr-only">{mediaSectionTitle}</h2>
 
+          {/* Wide pictures */}
           {project.widePictures &&
-            project.widePictures.map((widePic) =>
-              /video/.test(widePic.fields.source.fields.file.contentType) ? (
-                <ContentfulVideo src={widePic.fields.source.fields.file.url} className="mt-24" />
-              ) : (
-                <ContentfulImage
-                  baseSrc={widePic.fields.source.fields.file.url}
-                  resolutions={content.resolutions}
-                  sizes={content.sizes}
-                  label={widePic.fields.source.fields.description}
-                  className="mt-24"
-                  ratio={
-                    widePic.fields.source.fields.file.details.image
-                      ? widePic.fields.source.fields.file.details.image.height /
-                        widePic.fields.source.fields.file.details.image.width
-                      : undefined
-                  }
-                  lazy={true}
-                  base64Thumb="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAlgCWAAD/2wBDAFA3PEY8MlBGQUZaVVBfeMiCeG5uePWvuZHI////////////////////////////////////////////////////2wBDAVVaWnhpeOuCguv/////////////////////////////////////////////////////////////////////////wAARCAAxAAoDASIAAhEBAxEB/8QAFwABAQEBAAAAAAAAAAAAAAAAAgABBP/EAB0QAAMAAQUBAAAAAAAAAAAAAAABESECE0FScZH/xAAUAQEAAAAAAAAAAAAAAAAAAAAA/8QAFBEBAAAAAAAAAAAAAAAAAAAAAP/aAAwDAQACEQMRAD8A62qmrPA7b76vozQDctJpv0RnJoBuZciMICIiA//Z"
-                />
-              )
-            )}
+            project.widePictures.map((mediaObj) => articleMedia(mediaObj, content))}
 
-          {/* {project.narrowPictures &&
-            project.narrowPictures.map((narrowPic) =>
-              /video/.test(narrowPic.fields.source.fields.file.contentType) ? (
-                <ContentfulVideo
-                  baseSrc={narrowPic.fields.source.fields.file.url}
-                  className="mx-auto max-w-xs mt-24"
-                />
-              ) : (
-                <ContentfulImage
-                  baseSrc={narrowPic.fields.source.fields.file.url}
-                  label={narrowPic.fields.source.fields.description}
-                  className="mx-auto max-w-xs mt-24"
-                />
-              )
-            )} */}
+          {/* Narrow pictures */}
+          {project.narrowPictures &&
+            project.narrowPictures.map((mediaObj) =>
+              articleMedia(mediaObj, narrowMedia, 'mx-auto max-w-xs')
+            )}
         </section>
       </DefaultPageTransitionWrapper>
     </>
