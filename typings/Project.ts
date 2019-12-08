@@ -11,5 +11,14 @@ export type ContentfulApiProject = {
   url: string;
   date: string;
   description: Document;
-  media: ContentfulMedia[];
+  widePictures?: {
+    fields: {
+      source: ContentfulMedia;
+    };
+  }[];
+  narrowPictures?: {
+    fields: {
+      source: ContentfulMedia;
+    };
+  }[];
 };
