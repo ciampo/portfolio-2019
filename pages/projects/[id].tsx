@@ -72,7 +72,7 @@ const PageProject: NextComponentType<{}, PageProjectProps, PageProjectProps> = (
           {documentToReactComponents(project.description)}
         </section>
 
-        <section className="container mx-auto py-16 sm:py-20 md:py-24">
+        <section className="container mx-auto px-6 mt-24 sm:mt-32 md:mt-40 mb-16 sm:mb-20 md:mb-24">
           <h2 className="sr-only">{mediaSectionTitle}</h2>
         </section>
       </DefaultPageTransitionWrapper>
