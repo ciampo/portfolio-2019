@@ -45,7 +45,7 @@ const articleMedia = (
             : undefined
         }
         lazy={true}
-        base64Thumb="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAlgCWAAD/2wBDAFA3PEY8MlBGQUZaVVBfeMiCeG5uePWvuZHI////////////////////////////////////////////////////2wBDAVVaWnhpeOuCguv/////////////////////////////////////////////////////////////////////////wAARCAAxAAoDASIAAhEBAxEB/8QAFwABAQEBAAAAAAAAAAAAAAAAAgABBP/EAB0QAAMAAQUBAAAAAAAAAAAAAAABESECE0FScZH/xAAUAQEAAAAAAAAAAAAAAAAAAAAA/8QAFBEBAAAAAAAAAAAAAAAAAAAAAP/aAAwDAQACEQMRAD8A62qmrPA7b76vozQDctJpv0RnJoBuZciMICIiA//Z"
+        base64Thumb={mediaObj.fields.source.fields.file.__base64Thumb}
       />
     )}
   </div>
