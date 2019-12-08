@@ -46,7 +46,6 @@ async function downloadBase64ThumbData(url) {
             chunks.push(chunk);
           })
           .on('end', () => {
-            console.log('adding thumb');
             resolve(`data:image/jpeg;base64,${Buffer.concat(chunks).toString('base64')}`);
           });
       })

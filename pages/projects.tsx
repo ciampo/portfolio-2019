@@ -6,9 +6,11 @@ import { motion } from 'framer-motion';
 
 import DefaultPageTransitionWrapper from '../components/page-transition-wrappers/Default';
 import PageMeta from '../components/PageMeta';
-import { ContentfulApiPageProjectsList, ContentfulApiProject } from '../typings';
+import { ContentfulApiPageProjectsList, ContentfulApiProject, ContentfulMedia } from '../typings';
 import routesConfig from '../routes-config';
 import { customEaseOut } from '../components/utils/utils';
+import ContentfulImage from '../components/media/image';
+import { projectTile } from '../components/media/sizes-presets';
 
 type PageProjectsListProps = ContentfulApiPageProjectsList & {
   path: string;
@@ -34,7 +36,7 @@ const tileAnimationVariants = {
 
 const singleProjectRoute = '/projects/[id]';
 
-const ProjectTile: React.FC<{ id: string; label: string; img: { src: string; alt?: string } }> = ({
+const ProjectTile: React.FC<{ id: string; label: string; img: ContentfulMedia }> = ({
   id,
   label,
   img,
@@ -49,13 +51,14 @@ const ProjectTile: React.FC<{ id: string; label: string; img: { src: string; alt
           {label}
         </span>
 
-        <img
-          className="z-0 absolute top-0 left-0 w-full h-full object-cover"
-          src={`${img.src}?w=600&h=450&fit=fill&fm=jpg&q=70`}
-          alt={img.alt}
-          loading="lazy"
-          height="450"
-          width="600"
+        <ContentfulImage
+          baseSrc={img.fields.file.url}
+          resolutions={projectTile.resolutions}
+          sizes={projectTile.sizes}
+          label={img.fields.description}
+          className="z-0 absolute top-0 left-0 w-full h-full"
+          lazy={true}
+          base64Thumb={img.fields.file.__base64Thumb}
         />
       </a>
     </Link>
@@ -66,8 +69,23 @@ ProjectTile.propTypes = {
   id: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
   img: PropTypes.shape({
-    src: PropTypes.string.isRequired,
-    alt: PropTypes.string,
+    fields: PropTypes.shape({
+      title: PropTypes.string.isRequired,
+      description: PropTypes.string,
+      file: PropTypes.shape({
+        url: PropTypes.string.isRequired,
+        __base64Thumb: PropTypes.string,
+        details: PropTypes.shape({
+          size: PropTypes.number.isRequired,
+          image: PropTypes.shape({
+            width: PropTypes.number.isRequired,
+            height: PropTypes.number.isRequired,
+          }),
+        }).isRequired,
+        contentType: PropTypes.string.isRequired,
+        fileName: PropTypes.string.isRequired,
+      }).isRequired,
+    }).isRequired,
   }).isRequired,
 };
 
@@ -101,12 +119,7 @@ const PageProjectsList: NextComponentType<{}, PageProjectsListProps, PageProject
 
         <ul className="mt-12 md:mt-24 flex flex-wrap">
           {projects.map(({ slug, title, tileImage }) => (
-            <ProjectTile
-              key={`project-${slug}`}
-              id={slug}
-              label={title}
-              img={{ src: tileImage.fields.file.url, alt: tileImage.fields.description }}
-            />
+            <ProjectTile key={`project-${slug}`} id={slug} label={title} img={tileImage} />
           ))}
         </ul>
       </motion.section>

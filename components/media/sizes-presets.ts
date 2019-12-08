@@ -43,4 +43,26 @@ const narrowMedia = {
   ].join(','),
 };
 
-export { content, narrowMedia };
+const projectTile = {
+  resolutions: [312, 334, 376, 419, 472],
+  sizes: [
+    `(min-width: ${theme.screens.xl}) calc(${pxToRem(theme.screens.xl) / 3}rem - 2 * ${pxToRem(
+      '4px'
+    )}rem)`,
+    `(min-width: ${theme.screens.lg}) calc(${pxToRem(theme.screens.lg) / 3}rem - 2 * ${pxToRem(
+      '4px'
+    )}rem)`,
+    `(min-width: ${theme.screens.md}) calc(${pxToRem(theme.screens.md) / 2}rem - 2 * ${pxToRem(
+      '4px'
+    )}rem)`,
+    `(min-width: ${theme.screens.sm}) calc(${pxToRem(theme.screens.sm) / 2}rem - 2 * ${pxToRem(
+      '4px'
+    )}rem)`,
+    `(min-width: ${theme.screens.xsm}) calc(${pxToRem(theme.screens.xsm)}rem - 2 * ${pxToRem(
+      '4px'
+    )}rem)`,
+    `calc(100vw - 2 * ${pxToRem('4px')}rem)`,
+  ].join(','),
+};
+
+export { content, narrowMedia, projectTile };

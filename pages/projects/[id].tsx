@@ -37,7 +37,7 @@ const articleMedia = (
         resolutions={sizePreset.resolutions}
         sizes={sizePreset.sizes}
         label={mediaObj.fields.source.fields.description}
-        className="mt-24"
+        className="relative mt-24"
         ratio={
           mediaObj.fields.source.fields.file.details.image
             ? mediaObj.fields.source.fields.file.details.image.height /

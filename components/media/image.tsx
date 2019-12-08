@@ -66,9 +66,7 @@ const ContentfulImage: NextComponentType<{}, ContentfulImageProps, ContentfulIma
 
   return (
     <div
-      className={`relative overflow-hidden picture ${
-        hasLoaded ? 'picture--loaded' : ''
-      } ${className}`}
+      className={`overflow-hidden picture ${hasLoaded ? 'picture--loaded' : ''} ${className}`}
       style={ratio ? { height: 0, paddingBottom: `${ratio * 100}%` } : {}}
       ref={wrapperRef}
     >
