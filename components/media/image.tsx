@@ -82,6 +82,12 @@ const ContentfulImage: NextComponentType<{}, ContentfulImageProps, ContentfulIma
               src=${getImageUrl(baseSrc, allResolutions.slice(-1)[0], 'jpg')}
               alt=${label || ''}
               loading="lazy"
+              ${
+                ratio
+                  ? `width="${allResolutions.slice(-1)[0]}" height="${ratio *
+                      allResolutions.slice(-1)[0]}"`
+                  : ''
+              }
             />`,
           }}
         ></noscript>
