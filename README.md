@@ -53,10 +53,6 @@ Lints scripts and styles.
 
 Lints scripts and styles, and tries to auto-fix any errors.
 
-## Coming Soon ⌛️
-
-Caught up!
-
 ## Nice to have 💭
 
 - inline critical styles. It's not supported out of the box, but there may be a few inspirational examples (like [this one](https://github.com/zeit/next.js/pull/3451)). Also, follow [this GH issue](https://github.com/GoogleChromeLabs/critters/issues/44).

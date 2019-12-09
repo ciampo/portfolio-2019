@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import Link from 'next/link';
 import { NextComponentType, NextPageContext } from 'next';
@@ -40,30 +40,42 @@ const ProjectTile: React.FC<{ id: string; label: string; img: ContentfulMedia }>
   id,
   label,
   img,
-}) => (
-  <motion.li
-    className="w-full sm:w-1/2 lg:w-1/3 relative project-tile"
-    variants={tileAnimationVariants}
-  >
-    <Link href={singleProjectRoute} as={`/projects/${id}`} scroll={false}>
-      <a className="contain-strict relative block w-full h-0 border-4 border-background aspect-ratio-16/9 lg:aspect-ratio-4/3 overflow-hidden outline-none transition-tf-custom transition-d-300 transition-p-opacity-transform focus:z-20 focus:transform-scale-up">
-        <span className="z-10 absolute bottom-0 mb-2 sm:mb-3 left-0 pl-1 pr-3 py-1 bg-background font-light text-primary text-lg md:text-xl rounded-tr rounded-br transition-inherit">
-          {label}
-        </span>
+}) => {
+  const [stallImageLazyInit, setStallImageLazyInit] = useState(true);
 
-        <ContentfulImage
-          baseSrc={img.fields.file.url}
-          resolutions={projectTile.resolutions}
-          sizes={projectTile.sizes}
-          label={img.fields.description}
-          className="z-0 absolute top-0 left-0 w-full h-full"
-          lazy={true}
-          base64Thumb={img.fields.file.__base64Thumb}
-        />
-      </a>
-    </Link>
-  </motion.li>
-);
+  function onAnimationUpdate(latest: { scale: number }): void {
+    if (latest.scale === 1) {
+      setStallImageLazyInit(false);
+    }
+  }
+
+  return (
+    <motion.li
+      className="w-full sm:w-1/2 lg:w-1/3 relative project-tile"
+      variants={tileAnimationVariants}
+      onUpdate={onAnimationUpdate}
+    >
+      <Link href={singleProjectRoute} as={`/projects/${id}`} scroll={false}>
+        <a className="contain-strict relative block w-full h-0 border-4 border-background aspect-ratio-16/9 lg:aspect-ratio-4/3 overflow-hidden outline-none transition-tf-custom transition-d-300 transition-p-opacity-transform focus:z-20 focus:transform-scale-up">
+          <span className="z-10 absolute bottom-0 mb-2 sm:mb-3 left-0 pl-1 pr-3 py-1 bg-background font-light text-primary text-lg md:text-xl rounded-tr rounded-br transition-inherit">
+            {label}
+          </span>
+
+          <ContentfulImage
+            baseSrc={img.fields.file.url}
+            resolutions={projectTile.resolutions}
+            sizes={projectTile.sizes}
+            label={img.fields.description}
+            className="z-0 absolute top-0 left-0 w-full h-full"
+            lazy={true}
+            base64Thumb={img.fields.file.__base64Thumb}
+            stallLazyInit={stallImageLazyInit}
+          />
+        </a>
+      </Link>
+    </motion.li>
+  );
+};
 
 ProjectTile.propTypes = {
   id: PropTypes.string.isRequired,

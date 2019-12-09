@@ -13,6 +13,7 @@ type ContentfulImageProps = {
   className?: string;
   ratio?: number;
   lazy?: boolean;
+  stallLazyInit?: boolean;
   base64Thumb?: string;
 };
 
@@ -38,6 +39,7 @@ const ContentfulImage: NextComponentType<{}, ContentfulImageProps, ContentfulIma
   className,
   ratio,
   lazy,
+  stallLazyInit,
   base64Thumb,
 }) => {
   const wrapperRef = useRef(null);
@@ -60,7 +62,7 @@ const ContentfulImage: NextComponentType<{}, ContentfulImageProps, ContentfulIma
 
   // Download full res verison the first time that the image comes into view
   const ioResults = useIntersection(wrapperRef, ioOptions);
-  if (!showFullRes && ioResults && ioResults.intersectionRatio > 0) {
+  if (!showFullRes && !stallLazyInit && ioResults && ioResults.intersectionRatio > 0) {
     setShowFullRes(true);
   }
 
@@ -117,6 +119,7 @@ ContentfulImage.propTypes = {
   className: PropTypes.string,
   ratio: PropTypes.number,
   lazy: PropTypes.bool,
+  stallLazyInit: PropTypes.bool,
   base64Thumb: PropTypes.string,
 };
 
