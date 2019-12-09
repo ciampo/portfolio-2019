@@ -3,15 +3,17 @@
 const fs = require('fs');
 const path = require('path');
 
+const nextConfig = require('../next.config.js');
+
 // Follows the convention for Netlify's _headers file
 // Can't have tailored caching stategies because of https://github.com/zeit/next.js/issues/6303
-// TODO: `/` should become all of the known pages
-const _headersContent = `
-/*
+const _headersContent = `/*
   X-Content-Type-Options: nosniff
   X-Frame-Options: DENY
   Strict-Transport-Security: max-age=63072000; includeSubDomains; preload
-/
+${Object.keys(nextConfig.exportPathMap())
+  .map(
+    (pagePath) => `${pagePath}
   Content-Security-Policy: ${[
     // No sources accepted for generic content. Single content types are specified below.
     `default-src 'none'`,
@@ -30,7 +32,9 @@ const _headersContent = `
     // Allow webmanifest files from same origin
     `manifest-src 'self'`,
   ].join('; ')}
-  X-XSS-Protection: 1; mode=block
+  X-XSS-Protection: 1; mode=block`
+  )
+  .join('\n')}
 /*js
   Content-Type: application/javascript; charset=utf-8
 /*webmanifest
