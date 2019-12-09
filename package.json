@@ -10,7 +10,7 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "analyze": "ANALYZE=true next build",
+    "analyze": "ANALYZE=true yarn build",
     "data": "node scripts/get-contentful-content.js",
     "dev": "yarn generate:seo && node server.js",
     "build": "yarn generate:seo && next build",

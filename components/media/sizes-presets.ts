@@ -1,4 +1,24 @@
-import { theme } from '../../tailwind.config';
+// This replicates the values in the tailwind config.
+// Massive savings in terms of bundle size are achieved by
+// not importing tailwind's config directly.
+
+// @TODO: move this config in a common place, then use it
+// in both this file and the tailwind config.
+const theme = {
+  screens: {
+    xsm: '480px',
+    sm: '640px',
+    md: '768px',
+    lg: '1024px',
+    xl: '1280px',
+  },
+  spacing: {
+    '6': '1.5rem',
+  },
+  maxWidth: {
+    xs: '20rem',
+  },
+};
 
 function remToPx(rem: string): number {
   return parseFloat(rem) * 16;
