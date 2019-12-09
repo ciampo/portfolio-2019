@@ -35,6 +35,29 @@ for any bug fixes.
 in case of vulnerabilities.
 -->
 
+## [0.0.7] - 2019-12-09
+
+### Added
+
+- contentful data download script:
+  - singleton option
+  - slim down API objects by removing all `sys` and `fields`
+  - download all images base64 thumb and attach to API data
+- media components:
+  - lazy image
+  - video
+  - `sizes` presets
+
+### Changed
+
+- project media structure: now split between wide and narrow pictures
+- using lazy image in project tiles
+- single project hero markup/background color, sections spacing
+
+### Fixed
+
+- Force page to be scrolled to top inbetween page transitions.
+
 ## [0.0.6] - 2019-12-03
 
 ### Added
@@ -118,8 +141,9 @@ in case of vulnerabilities.
 - Updated README and added Netlify badge
 - Updated package.json
 
-[Unreleased]: https://github.com/ciampo/portfolio-2019/compare/v0.0.6...HEAD
-<!-- [X.Y.Z]: https://github.com/ciampo/portfolio-2019/compare/v0.0.6...vX.Y.Z -->
+[Unreleased]: https://github.com/ciampo/portfolio-2019/compare/v0.0.7...HEAD
+<!-- [X.Y.Z]: https://github.com/ciampo/portfolio-2019/compare/v0.0.7...vX.Y.Z -->
+[0.0.7]: https://github.com/ciampo/portfolio-2019/compare/v0.0.6...v0.0.7
 [0.0.6]: https://github.com/ciampo/portfolio-2019/compare/v0.0.5...v0.0.6
 [0.0.5]: https://github.com/ciampo/portfolio-2019/compare/v0.0.4...v0.0.5
 [0.0.4]: https://github.com/ciampo/portfolio-2019/compare/v0.0.3...v0.0.4
