@@ -40,6 +40,12 @@ export default class MyApp extends App<CustomAppProps> {
     return { pageProps, navLinks };
   }
 
+  scrollToTop(): void {
+    if (process.browser) {
+      window.scrollTo(0, 0);
+    }
+  }
+
   render(): JSX.Element {
     const { Component, pageProps, router, navLinks } = this.props;
 
@@ -48,7 +54,7 @@ export default class MyApp extends App<CustomAppProps> {
         <Analytics />
 
         <MainLayout navLinks={navLinks}>
-          <AnimatePresence initial={false} exitBeforeEnter>
+          <AnimatePresence initial={false} exitBeforeEnter onExitComplete={this.scrollToTop}>
             <Component {...pageProps} key={router.route} />
           </AnimatePresence>
         </MainLayout>
