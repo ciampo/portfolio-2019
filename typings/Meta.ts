@@ -5,8 +5,6 @@ export type ContentfulApiGlobalMeta = {
 };
 
 export type Meta = {
-  fields: {
-    title: string;
-    description: string;
-  };
+  title: string;
+  description: string;
 };

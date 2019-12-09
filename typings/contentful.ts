@@ -10,9 +10,7 @@ export type ContentfulFile = {
 };
 
 export type ContentfulMedia = {
-  fields: {
-    title: string;
-    description?: string;
-    file: ContentfulFile;
-  };
+  title: string;
+  description?: string;
+  file: ContentfulFile;
 };

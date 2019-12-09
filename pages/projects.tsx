@@ -62,13 +62,13 @@ const ProjectTile: React.FC<{ id: string; label: string; img: ContentfulMedia }>
           </span>
 
           <ContentfulImage
-            baseSrc={img.fields.file.url}
+            baseSrc={img.file.url}
             resolutions={projectTile.resolutions}
             sizes={projectTile.sizes}
-            label={img.fields.description}
+            label={img.description}
             className="z-0 absolute top-0 left-0 w-full h-full"
             lazy={true}
-            base64Thumb={img.fields.file.__base64Thumb}
+            base64Thumb={img.file.__base64Thumb}
             stallLazyInit={stallImageLazyInit}
           />
         </a>
@@ -81,22 +81,20 @@ ProjectTile.propTypes = {
   id: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
   img: PropTypes.shape({
-    fields: PropTypes.shape({
-      title: PropTypes.string.isRequired,
-      description: PropTypes.string,
-      file: PropTypes.shape({
-        url: PropTypes.string.isRequired,
-        __base64Thumb: PropTypes.string,
-        details: PropTypes.shape({
-          size: PropTypes.number.isRequired,
-          image: PropTypes.shape({
-            width: PropTypes.number.isRequired,
-            height: PropTypes.number.isRequired,
-          }),
-        }).isRequired,
-        contentType: PropTypes.string.isRequired,
-        fileName: PropTypes.string.isRequired,
+    title: PropTypes.string.isRequired,
+    description: PropTypes.string,
+    file: PropTypes.shape({
+      url: PropTypes.string.isRequired,
+      __base64Thumb: PropTypes.string,
+      details: PropTypes.shape({
+        size: PropTypes.number.isRequired,
+        image: PropTypes.shape({
+          width: PropTypes.number.isRequired,
+          height: PropTypes.number.isRequired,
+        }),
       }).isRequired,
+      contentType: PropTypes.string.isRequired,
+      fileName: PropTypes.string.isRequired,
     }).isRequired,
   }).isRequired,
 };
@@ -117,7 +115,7 @@ const PageProjectsList: NextComponentType<{}, PageProjectsListProps, PageProject
   projects,
 }) => (
   <>
-    <PageMeta title={meta.fields.title} description={meta.fields.description} path={path} />
+    <PageMeta title={meta.title} description={meta.description} path={path} />
 
     <DefaultPageTransitionWrapper>
       <motion.section
@@ -146,10 +144,8 @@ PageProjectsList.getInitialProps = async ({
     path: '/na',
     title: 'Projects',
     meta: {
-      fields: {
-        title: 'Projects',
-        description: 'Projects I worked on',
-      },
+      title: 'Projects',
+      description: 'Projects I worked on',
     },
     projects: [],
   };
@@ -157,13 +153,13 @@ PageProjectsList.getInitialProps = async ({
   const routeConfig = routesConfig.find(({ route }) => route === pathname);
 
   if (routeConfig && routeConfig.contentfulPageId) {
-    const projectsListPageData: ContentfulApiPageProjectsList[] = await import(
+    const projectsListPageData: ContentfulApiPageProjectsList = await import(
       `../data/${routeConfig.contentfulPageId}.json`
     ).then((m) => m.default);
 
     toReturn.path = pathname;
-    toReturn.title = projectsListPageData[0].title;
-    toReturn.meta = projectsListPageData[0].meta;
+    toReturn.title = projectsListPageData.title;
+    toReturn.meta = projectsListPageData.meta;
   }
 
   const singleProjectPage = routesConfig.find(({ route }) => route === singleProjectRoute);
@@ -190,15 +186,11 @@ PageProjectsList.getInitialProps = async ({
   return toReturn;
 };
 
-/* eslint-disable @typescript-eslint/ban-ts-ignore */
-// @ts-ignore
 PageProjectsList.propTypes = {
   path: PropTypes.string.isRequired,
   meta: PropTypes.shape({
-    fields: PropTypes.shape({
-      title: PropTypes.string.isRequired,
-      description: PropTypes.string.isRequired,
-    }),
+    title: PropTypes.string.isRequired,
+    description: PropTypes.string.isRequired,
   }).isRequired,
   title: PropTypes.string.isRequired,
   projects: PropTypes.array.isRequired,

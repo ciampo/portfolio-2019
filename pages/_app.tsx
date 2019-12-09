@@ -24,14 +24,14 @@ export default class MyApp extends App<CustomAppProps> {
     const navLinks: UiLink[] = [];
     for (const { route, contentfulPageId } of routesConfig) {
       if (contentfulPageId) {
-        const routeData: ContentfulApiPageGeneric[] = await import(
+        const routeData: ContentfulApiPageGeneric = await import(
           `../data/${contentfulPageId}.json`
         ).then((m) => m.default);
 
-        if (routeData[0] && routeData[0].navTitle) {
+        if (routeData && routeData.navTitle) {
           navLinks.push({
             href: route,
-            label: routeData[0].navTitle,
+            label: routeData.navTitle,
           });
         }
       }

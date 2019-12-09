@@ -18,9 +18,7 @@ type PageProjectProps = ContentfulApiPageProject & {
 
 const articleMedia = (
   mediaObj: {
-    fields: {
-      source: ContentfulMedia;
-    };
+    source: ContentfulMedia;
   },
   sizePreset: {
     sizes: string;
@@ -29,23 +27,22 @@ const articleMedia = (
   wrapperClassName?: string
 ): JSX.Element => (
   <div className={wrapperClassName}>
-    {/video/.test(mediaObj.fields.source.fields.file.contentType) ? (
-      <ContentfulVideo src={mediaObj.fields.source.fields.file.url} className="mt-24" />
+    {/video/.test(mediaObj.source.file.contentType) ? (
+      <ContentfulVideo src={mediaObj.source.file.url} className="mt-24" />
     ) : (
       <ContentfulImage
-        baseSrc={mediaObj.fields.source.fields.file.url}
+        baseSrc={mediaObj.source.file.url}
         resolutions={sizePreset.resolutions}
         sizes={sizePreset.sizes}
-        label={mediaObj.fields.source.fields.description}
+        label={mediaObj.source.description}
         className="relative mt-24"
         ratio={
-          mediaObj.fields.source.fields.file.details.image
-            ? mediaObj.fields.source.fields.file.details.image.height /
-              mediaObj.fields.source.fields.file.details.image.width
+          mediaObj.source.file.details.image
+            ? mediaObj.source.file.details.image.height / mediaObj.source.file.details.image.width
             : undefined
         }
         lazy={true}
-        base64Thumb={mediaObj.fields.source.fields.file.__base64Thumb}
+        base64Thumb={mediaObj.source.file.__base64Thumb}
       />
     )}
   </div>
@@ -64,7 +61,7 @@ const PageProject: NextComponentType<{}, PageProjectProps, PageProjectProps> = (
 }) =>
   project ? (
     <>
-      <PageMeta title={meta.fields.title} description={meta.fields.description} path={path} />
+      <PageMeta title={meta.title} description={meta.description} path={path} />
 
       <DefaultPageTransitionWrapper>
         <header className="relative pt-24 md:pt-32 pb-20 sm:pb-24 md:pb-32 px-6 lg:pt-48 text-center project-header">
@@ -140,11 +137,10 @@ PageProject.getInitialProps = async ({
     descriptionSectionTitle: 'Description',
     mediaSectionTitle: 'Media',
     meta: {
-      fields: {
-        title: 'Project',
-        description: 'Project',
-      },
+      title: 'Project',
+      description: 'Project',
     },
+    project: undefined,
   };
 
   const routeConfig = routesConfig.find(({ route }) => route === pathname);
@@ -169,28 +165,26 @@ PageProject.getInitialProps = async ({
     });
 
     if (currentPost) {
-      const projectPageData: ContentfulApiPageProject[] = await import(
+      const projectPageData: ContentfulApiPageProject = await import(
         `../../data/${routeConfig.contentfulPageId}.json`
       ).then((m) => m.default);
 
       // Meta data comes from projectPageData, and then placeholders are swapped
       // for the actual title/description of the current project.
       toReturn.meta = {
-        fields: {
-          title: projectPageData[0].meta.fields.title.replace('[project-title]', currentPost.title),
-          description: projectPageData[0].meta.fields.description.replace(
-            '[project-description]',
-            currentPost.title
-          ),
-        },
+        title: projectPageData.meta.title.replace('[project-title]', currentPost.title),
+        description: projectPageData.meta.description.replace(
+          '[project-description]',
+          currentPost.title
+        ),
       };
 
-      toReturn.dateLabel = projectPageData[0].dateLabel;
-      toReturn.clientLabel = projectPageData[0].clientLabel;
-      toReturn.linkLabel = projectPageData[0].linkLabel;
-      toReturn.linkText = projectPageData[0].linkText;
-      toReturn.descriptionSectionTitle = projectPageData[0].descriptionSectionTitle;
-      toReturn.mediaSectionTitle = projectPageData[0].mediaSectionTitle;
+      toReturn.dateLabel = projectPageData.dateLabel;
+      toReturn.clientLabel = projectPageData.clientLabel;
+      toReturn.linkLabel = projectPageData.linkLabel;
+      toReturn.linkText = projectPageData.linkText;
+      toReturn.descriptionSectionTitle = projectPageData.descriptionSectionTitle;
+      toReturn.mediaSectionTitle = projectPageData.mediaSectionTitle;
 
       // Path and projects are set from the current project API data.
       toReturn.path = pathname;
@@ -205,15 +199,11 @@ PageProject.getInitialProps = async ({
   return toReturn;
 };
 
-/* eslint-disable @typescript-eslint/ban-ts-ignore */
-// @ts-ignore
 PageProject.propTypes = {
   path: PropTypes.string.isRequired,
   meta: PropTypes.shape({
-    fields: PropTypes.shape({
-      title: PropTypes.string.isRequired,
-      description: PropTypes.string.isRequired,
-    }),
+    title: PropTypes.string.isRequired,
+    description: PropTypes.string.isRequired,
   }).isRequired,
   dateLabel: PropTypes.string.isRequired,
   clientLabel: PropTypes.string.isRequired,
@@ -221,7 +211,7 @@ PageProject.propTypes = {
   linkText: PropTypes.string.isRequired,
   descriptionSectionTitle: PropTypes.string.isRequired,
   mediaSectionTitle: PropTypes.string.isRequired,
-  project: PropTypes.object,
+  project: PropTypes.any,
 };
 
 export default PageProject;

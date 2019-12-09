@@ -1,12 +1,12 @@
-import React from 'react';
+import React, { PropsWithChildren } from 'react';
 import PropTypes from 'prop-types';
 
 import Nav from '../Nav';
 import { UiLink } from '../../typings';
 
-type MainLayoutProps = {
+type MainLayoutProps = PropsWithChildren<{
   navLinks: UiLink[];
-};
+}>;
 
 const MainLayout: React.FC<MainLayoutProps> = ({ children, navLinks }) => (
   <>
@@ -18,9 +18,7 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children, navLinks }) => (
   </>
 );
 
-/* eslint-disable @typescript-eslint/ban-ts-ignore */
 MainLayout.propTypes = {
-  // @ts-ignore
   children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]).isRequired,
   navLinks: PropTypes.array.isRequired,
 };

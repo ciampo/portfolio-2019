@@ -82,15 +82,13 @@ const Nav: NextComponentType<{}, NavProps, NavProps> = ({ links }) => {
   );
 };
 
-/* eslint-disable @typescript-eslint/ban-ts-ignore */
-// @ts-ignore
 Nav.propTypes = {
   links: PropTypes.arrayOf(
     PropTypes.shape({
       href: PropTypes.string.isRequired,
       label: PropTypes.string.isRequired,
       selected: PropTypes.bool,
-    })
+    }).isRequired
   ).isRequired,
 };
 

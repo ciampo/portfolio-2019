@@ -95,7 +95,7 @@ const Home: NextComponentType<{}, PageHomeProps, PageHomeProps> = ({ path, meta,
 
   return (
     <>
-      <PageMeta title={meta.fields.title} description={meta.fields.description} path={path} />
+      <PageMeta title={meta.title} description={meta.description} path={path} />
 
       <DefaultPageTransitionWrapper>
         <div
@@ -375,37 +375,31 @@ Home.getInitialProps = async ({ pathname }: NextPageContext): Promise<PageHomePr
     path: '/na',
     pageTitle: 'Home',
     meta: {
-      fields: {
-        title: 'Home',
-        description: 'Home page',
-      },
+      title: 'Home',
+      description: 'Home page',
     },
   };
 
   const routeConfig = routesConfig.find(({ route }) => route === pathname);
 
   if (routeConfig && routeConfig.contentfulPageId) {
-    const homeData: ContentfulApiPageHome[] = await import(
+    const homeData: ContentfulApiPageHome = await import(
       `../data/${routeConfig.contentfulPageId}.json`
     ).then((m) => m.default);
 
     toReturn.path = pathname;
-    toReturn.pageTitle = homeData[0].pageTitle;
-    toReturn.meta = homeData[0].meta;
+    toReturn.pageTitle = homeData.pageTitle;
+    toReturn.meta = homeData.meta;
   }
 
   return toReturn;
 };
 
-/* eslint-disable @typescript-eslint/ban-ts-ignore */
-// @ts-ignore
 Home.propTypes = {
   path: PropTypes.string.isRequired,
   meta: PropTypes.shape({
-    fields: PropTypes.shape({
-      title: PropTypes.string.isRequired,
-      description: PropTypes.string.isRequired,
-    }),
+    title: PropTypes.string.isRequired,
+    description: PropTypes.string.isRequired,
   }).isRequired,
   pageTitle: PropTypes.string.isRequired,
 };

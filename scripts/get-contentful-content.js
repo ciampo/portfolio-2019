@@ -38,7 +38,7 @@ const cleanDataFolder = async () => {
 async function downloadBase64ThumbData(url) {
   return new Promise((resolve) => {
     https
-      .get(urlParser.parse(`https:${url}?w=20&fit=fill&fm=jpg&q=10`), (response) => {
+      .get(urlParser.parse(`https:${url}?w=20&fit=fill&fm=jpg&q=1`), (response) => {
         const chunks = [];
 
         response
@@ -78,18 +78,50 @@ async function addBase64ThumbData(obj) {
   return obj;
 }
 
-async function getEntries(type, filterFuntion = () => true) {
+// 'sys' gets replaced by 'just the id'
+// all properties in 'fields' are moved up
+function flattenContentfulApis(obj) {
+  if (Array.isArray(obj)) {
+    let i = 0;
+    for (const child of obj) {
+      obj[i] = flattenContentfulApis(child);
+      i += 1;
+    }
+  } else if (typeof obj === 'object') {
+    if ('sys' in obj && 'fields' in obj) {
+      const id = obj.sys.id;
+      const fields = obj.fields;
+
+      obj = {
+        id,
+        ...fields,
+      };
+    }
+
+    for (const [key, value] of Object.entries(obj)) {
+      obj[key] = flattenContentfulApis(value);
+    }
+  }
+
+  return obj;
+}
+
+async function getEntries(type, isSingleton = false, filterFuntion = () => true) {
   const entries = await client.getEntries({
     // eslint-disable-next-line @typescript-eslint/camelcase
     content_type: type,
   });
 
-  let contents = entries.items
-    .map(({ sys, fields }) => ({
-      id: sys.id,
-      ...fields,
-    }))
-    .filter(filterFuntion);
+  let contents = flattenContentfulApis(entries.items).filter(filterFuntion);
+
+  if (contents.length === 0) {
+    return;
+  }
+
+  // When singleton, assume the first entry is the only entry.
+  if (isSingleton) {
+    contents = contents[0];
+  }
 
   contents = await addBase64ThumbData(contents);
 
@@ -98,12 +130,12 @@ async function getEntries(type, filterFuntion = () => true) {
 
 const pullContentfulData = async () => {
   await cleanDataFolder();
-  await getEntries('homePage');
-  await getEntries('pageProjects');
-  await getEntries('pageProject');
-  await getEntries('about');
+  await getEntries('homePage', true);
+  await getEntries('pageProjects', true);
+  await getEntries('pageProject', true);
+  await getEntries('about', true);
+  await getEntries('globalMeta', true);
   await getEntries('project');
-  await getEntries('globalMeta');
 };
 
 pullContentfulData();

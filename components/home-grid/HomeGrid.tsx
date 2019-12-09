@@ -276,8 +276,6 @@ const HomeGrid: NextComponentType<{}, HomeGridProps, HomeGridProps> = ({
   );
 };
 
-/* eslint-disable @typescript-eslint/ban-ts-ignore */
-// @ts-ignore
 HomeGrid.propTypes = {
   onInit: PropTypes.func,
   onInteraction: PropTypes.func,

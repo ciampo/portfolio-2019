@@ -45,12 +45,7 @@ const About: NextComponentType<{}, PageAboutProps, PageAboutProps> = ({
 }) => {
   return (
     <>
-      <PageMeta
-        key="page-meta"
-        title={meta.fields.title}
-        description={meta.fields.description}
-        path={path}
-      />
+      <PageMeta key="page-meta" title={meta.title} description={meta.description} path={path} />
 
       <DefaultPageTransitionWrapper>
         <motion.section
@@ -173,41 +168,37 @@ About.getInitialProps = async ({ pathname }: NextPageContext): Promise<PageAbout
     path: '/na',
     title: 'About me',
     meta: {
-      fields: {
-        title: 'About',
-        description: 'About page',
-      },
+      title: 'About',
+      description: 'About page',
     },
+    bio: undefined,
   };
 
   const routeConfig = routesConfig.find(({ route }) => route === pathname);
 
   if (routeConfig && routeConfig.contentfulPageId) {
-    const aboutData: ContentfulApiPageAbout[] = await import(
+    const aboutData: ContentfulApiPageAbout = await import(
       `../data/${routeConfig.contentfulPageId}.json`
     ).then((m) => m.default);
 
     toReturn.path = pathname;
-    toReturn.title = aboutData[0].title;
-    toReturn.meta = aboutData[0].meta;
-    toReturn.bio = aboutData[0].bio;
+    toReturn.title = aboutData.title;
+    toReturn.meta = aboutData.meta;
+    toReturn.bio = aboutData.bio;
   }
 
   return toReturn;
 };
 
-/* eslint-disable @typescript-eslint/ban-ts-ignore */
-// @ts-ignore
 About.propTypes = {
   path: PropTypes.string.isRequired,
   meta: PropTypes.shape({
-    fields: PropTypes.shape({
-      title: PropTypes.string.isRequired,
-      description: PropTypes.string.isRequired,
-    }),
+    title: PropTypes.string.isRequired,
+    description: PropTypes.string.isRequired,
   }).isRequired,
   title: PropTypes.string.isRequired,
-  bio: PropTypes.object,
+  // using 'any' avoids strange incompatibilities with Typescript type
+  bio: PropTypes.any,
 };
 
 export default About;
