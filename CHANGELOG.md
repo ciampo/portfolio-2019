@@ -35,6 +35,15 @@ for any bug fixes.
 in case of vulnerabilities.
 -->
 
+## [0.0.8] - 2019-12-09
+
+### Fixed
+
+- moved shared tailwind config to separate file, avoids pulling all of tailwind deps (including full lodash) into the clientside bundle
+- `Content-Security-Policy` and `X-XSS-Protection` HTTP headers applied only to HTML pages
+- Correct `Content-Type` for `.js` and `.webmanifest` files
+- Correct `<meta name="vieport" />` tag
+
 ## [0.0.7] - 2019-12-09
 
 ### Added
@@ -141,8 +150,9 @@ in case of vulnerabilities.
 - Updated README and added Netlify badge
 - Updated package.json
 
-[Unreleased]: https://github.com/ciampo/portfolio-2019/compare/v0.0.7...HEAD
-<!-- [X.Y.Z]: https://github.com/ciampo/portfolio-2019/compare/v0.0.7...vX.Y.Z -->
+[Unreleased]: https://github.com/ciampo/portfolio-2019/compare/v0.0.8...HEAD
+<!-- [X.Y.Z]: https://github.com/ciampo/portfolio-2019/compare/v0.0.8...vX.Y.Z -->
+[0.0.8]: https://github.com/ciampo/portfolio-2019/compare/v0.0.7...v0.0.8
 [0.0.7]: https://github.com/ciampo/portfolio-2019/compare/v0.0.6...v0.0.7
 [0.0.6]: https://github.com/ciampo/portfolio-2019/compare/v0.0.5...v0.0.6
 [0.0.5]: https://github.com/ciampo/portfolio-2019/compare/v0.0.4...v0.0.5
