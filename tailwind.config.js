@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
-
 const { colors, screens, maxWidth, spacing } = require('tailwindcss/defaultTheme');
+
+const { sharedTheme } = require('./tailwind.shared.js');
 
 module.exports = {
   theme: {
@@ -17,9 +18,11 @@ module.exports = {
     screens: {
       xsm: '480px',
       ...screens,
+      ...sharedTheme.screens,
     },
     spacing: {
       ...spacing,
+      ...sharedTheme.spacing,
     },
     colors: {
       ...colors,
@@ -35,6 +38,7 @@ module.exports = {
     },
     maxWidth: {
       ...maxWidth,
+      ...sharedTheme.maxWidth,
       '1/4': '25%',
       '1/2': '50%',
       '3/4': '75%',
