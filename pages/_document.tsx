@@ -41,7 +41,6 @@ class CustomDocument extends Document<DocumentProps & CustomDocumentProps> {
     return (
       <Html lang="en">
         <Head>
-          <meta name="viewport" content="width=device-width,initial-scale=1" key="viewport"></meta>
           <meta name="twitter:card" content="summary" />
           <meta property="og:type" content="website" />
           <meta property="og:image" content={previewSharingImage} />

@@ -12,6 +12,8 @@ interface PageMetaProps {
 
 const PageMeta: React.FC<PageMetaProps> = ({ title, description, path }) => (
   <Head>
+    <meta name="viewport" content="width=device-width,initial-scale=1" key="viewport" />
+
     <title key="page-title">{title}</title>
     <meta key="page-description" name="description" content={description} />
 
