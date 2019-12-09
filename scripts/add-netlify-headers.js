@@ -29,7 +29,12 @@ const _headersContent = `
   X-Content-Type-Options: nosniff
   X-Frame-Options: DENY
   Strict-Transport-Security: max-age=63072000; includeSubDomains; preload
+/*html
   X-XSS-Protection: 1; mode=block
+/*js
+  Content-Type: application/javascript; charset=utf-8
+/*webmanifest
+  Content-Type: application/manifest+json; charset=utf-8
 `;
 
 console.log('\nGenerating Netlify headers...');
