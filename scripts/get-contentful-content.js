@@ -38,7 +38,7 @@ const cleanDataFolder = async () => {
 async function downloadBase64ThumbData(url) {
   return new Promise((resolve) => {
     https
-      .get(urlParser.parse(`https:${url}?w=20&fit=fill&fm=jpg&q=1`), (response) => {
+      .get(urlParser.parse(`https:${url}?w=20&fit=fill&fm=jpg&q=10`), (response) => {
         const chunks = [];
 
         response
