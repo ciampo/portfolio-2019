@@ -7,20 +7,20 @@ function getDotCoordinate(tileEdgeEndCoordinate: number, dotSize: number): numbe
 
 const gridConfig: GridConfig = {
   // Dot
-  dotSize: 2,
-  maxDotSize: 16,
+  dotSize: 1,
+  maxDotSize: 32,
   dotSizeEasingFunction: easeInCubic,
   dotSizeResistance: 3.5,
   getDotCoordinate,
   dotPositionResistance: 1 / 20,
   // Tile (grid gap)
-  tileSize: 32,
+  tileSize: 36,
   // Waves
   waveCrestDecay: 200,
   waveCrestVelocity: 8,
   waveCrestEasingFunction: easeOutQuad,
-  waveStrengthStrong: 2.5,
-  waveStrengthWeak: 1.25,
+  waveStrengthStrong: 2,
+  waveStrengthWeak: 1.5,
   waveMaxOpacity: 0.02,
   waveOpacityEasingFunction: easeInQuart,
   wavePercEasingFunction: easeInOutQuad,

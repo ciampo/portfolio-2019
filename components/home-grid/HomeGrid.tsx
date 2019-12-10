@@ -156,15 +156,15 @@ const HomeGrid: NextComponentType<{}, HomeGridProps, HomeGridProps> = ({
       requestAnimationFrame(() => {
         addGridWave(
           {
-            clientX: bitwiseRound(Math.random() * canvasWidth),
-            clientY: bitwiseRound(Math.random() * canvasHeight),
+            clientX: bitwiseRound(canvasWidth / 2),
+            clientY: bitwiseRound(canvasHeight / 2),
           },
           false
         );
         programmaticWavesTimerId.current = null;
         startProgrammaticWaveTimer();
       });
-    }, 500 + Math.random() * 2000);
+    }, 750 + Math.random() * 1500);
   }, [addGridWave, canvasHeight, canvasWidth]);
 
   function stopIdleTimer(): void {

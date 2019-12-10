@@ -21,7 +21,7 @@ const dotOffset = getDotCoordinate(tileSize, dotSize);
 
 const lettersTransition = {
   delay: 0.2,
-  duration: 2.5,
+  duration: 2,
 };
 
 const letterGroupAnimationVariants = {
@@ -120,7 +120,7 @@ const Home: NextComponentType<{}, PageHomeProps, PageHomeProps> = ({ path, meta,
                     fill="currentColor"
                     d={`M${dotOffset} ${dotOffset}h${dotSize}v${dotSize}h${-dotSize}z`}
                     fillRule="evenodd"
-                    opacity="0.75"
+                    opacity="0.8"
                   />
                 </pattern>
               </defs>
@@ -129,7 +129,7 @@ const Home: NextComponentType<{}, PageHomeProps, PageHomeProps> = ({ path, meta,
             </svg>
           )}
 
-          <h1 className="contain-layout-paint text-primary bg-background z-10 pointer-events-none transition-d-500 transition-p-opacity transition-tf-custom home-logo-title">
+          <h1 className="contain-layout-paint text-primary bg-background z-10 pointer-events-none transition-d-500 transition-p-opacity transition-tf-custom home-logo-title shadow-lg">
             <span className="sr-only">{pageTitle}</span>
             <motion.svg
               initial="exit"
@@ -145,13 +145,7 @@ const Home: NextComponentType<{}, PageHomeProps, PageHomeProps> = ({ path, meta,
                   {/* Blur */}
                   <feGaussianBlur in="SourceGraphic" stdDeviation="1" result="blur" />
                   {/* Opacity 0.5 */}
-                  <feColorMatrix
-                    type="matrix"
-                    values="1   0   0   0   0
-                            0   1   0   0   0
-                            0   0   1   0   0
-                            0   0   0   0.5 0"
-                  />
+                  <feColorMatrix type="matrix" values="1 0 0 0 0 0 1 0 0 0 0 0 1 0 0 0 0 0 0.5 0" />
                   <feMerge>
                     <feMergeNode />
                     <feMergeNode in="SourceGraphic" />
