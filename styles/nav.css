@@ -1,0 +1,48 @@
+.nav-link {
+  position: relative;
+}
+
+.nav-link::after {
+  background: currentColor;
+  bottom: 0;
+  content: '';
+  height: 0.0625rem;
+  left: 0;
+  width: 100%;
+  opacity: 0;
+  transform-origin: 0 0;
+  transition: opacity .3s ease-out;
+  position: absolute;
+  z-index: 1;
+}
+
+.nav-link--selected::after,
+.nav-link--loading::after {
+  opacity: 1;
+  transition-delay: 0.1s;
+}
+
+.nav-link--loading::after {
+  animation-name: loading-link;
+  animation-duration: 2s;
+  animation-iteration-count: infinite;
+  animation-timing-function: cubic-bezier(0.175, 0.85, 0.42, 0.96);
+}
+
+@keyframes loading-link {
+  0% {
+    transform: translateX(0%) scaleX(0);
+  }
+
+  30% {
+    transform: translateX(0%) scaleX(1);
+  }
+
+  60% {
+    transform: translateX(100%) scaleX(0);
+  }
+
+  100% {
+    transform: translateX(100%) scaleX(0);
+  }
+}

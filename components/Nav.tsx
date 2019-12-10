@@ -12,16 +12,16 @@ type NavProps = {
 };
 
 const Nav: NextComponentType<{}, NavProps, NavProps> = ({ links }) => {
-  const [isRouteLoading, setRouteLoading] = useState(false);
+  const [loadingRoute, setLoadingRoute] = useState<string | null>(null);
   const router = useRouter();
 
   useEffect(() => {
-    function handleRouteChange(): void {
-      setRouteLoading(true);
+    function handleRouteChange(url: string): void {
+      setLoadingRoute(url);
     }
 
     function handleRouteComplete(): void {
-      setRouteLoading(false);
+      setLoadingRoute(null);
     }
 
     router.events.on('routeChangeStart', handleRouteChange);
@@ -42,8 +42,9 @@ const Nav: NextComponentType<{}, NavProps, NavProps> = ({ links }) => {
               <li key={`${index}-${slugify(label)}`} className="flex pt-1 pb-2 px-4">
                 <Link href={href} scroll={false}>
                   <a
-                    className={`no-underline text-base md:text-lg lg:text-xl text-primary font-light lowercase opacity-75 border-b border-transparent border-solid focus:opacity-100 focus:border-primary outline-none contain-layout-paint ${router.route ===
-                      href && 'border-primary'}`}
+                    className={`no-underline text-base md:text-lg lg:text-xl text-primary font-light lowercase opacity-75 focus:opacity-100 focus:border-primary outline-none contain-layout-paint nav-link ${
+                      router.route === href ? 'nav-link--selected' : ''
+                    } ${loadingRoute === href ? 'nav-link--loading' : ''}`}
                   >
                     <span
                       className={`hidden lg:inline ${router.route !== href && 'opacity-0'}`}
@@ -60,7 +61,7 @@ const Nav: NextComponentType<{}, NavProps, NavProps> = ({ links }) => {
         )}
       </nav>
 
-      {isRouteLoading && (
+      {/* {isRouteLoading && (
         <div aria-hidden="true" className="nav-spinner fixed z-50 top-0 right-0 bg-background">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -77,7 +78,7 @@ const Nav: NextComponentType<{}, NavProps, NavProps> = ({ links }) => {
             ></circle>
           </svg>
         </div>
-      )}
+      )} */}
     </>
   );
 };
