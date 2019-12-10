@@ -17,7 +17,7 @@ const gridConfig: GridConfig = {
   tileSize: 36,
   // Waves
   waveCrestDecay: 200,
-  waveCrestVelocity: 8,
+  waveCrestVelocity: 6,
   waveCrestEasingFunction: easeOutQuad,
   waveStrengthStrong: 2,
   waveStrengthWeak: 1.5,

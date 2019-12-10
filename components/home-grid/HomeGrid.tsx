@@ -164,7 +164,7 @@ const HomeGrid: NextComponentType<{}, HomeGridProps, HomeGridProps> = ({
         programmaticWavesTimerId.current = null;
         startProgrammaticWaveTimer();
       });
-    }, 750 + Math.random() * 1500);
+    }, 2500 + Math.random() * 1000);
   }, [addGridWave, canvasHeight, canvasWidth]);
 
   function stopIdleTimer(): void {
