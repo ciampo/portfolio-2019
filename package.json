@@ -22,8 +22,9 @@
     "serve:ssr": "NODE_ENV=production node server.js"
   },
   "browserslist": [
+    "> 1%",
     "last 2 versions",
-    "ie > 10",
+    "Firefox ESR",
     "not dead"
   ],
   "husky": {
