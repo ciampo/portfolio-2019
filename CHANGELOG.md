@@ -35,6 +35,22 @@ for any bug fixes.
 in case of vulnerabilities.
 -->
 
+## [0.0.9] - 2019-12-09
+
+### Changed
+
+- tweaked grid config (slower waves, smaller dots, larger grid gaps, centered programmatic waves...)
+- removed loading spinner, replaced with animated nav link underline
+- nav menu keeps the mobile menu on desktop too
+- use rAF when loading full res in lazy image
+- updated browserlist
+
+### Fixed
+
+- base64 thumb qualitty back to 10 (below 10 itt loses color info)
+- project page's text size is same as about page
+- netlify headers file uses placeholders instead of all the explicit routes
+
 ## [0.0.8] - 2019-12-09
 
 ### Fixed
@@ -150,8 +166,9 @@ in case of vulnerabilities.
 - Updated README and added Netlify badge
 - Updated package.json
 
-[Unreleased]: https://github.com/ciampo/portfolio-2019/compare/v0.0.8...HEAD
-<!-- [X.Y.Z]: https://github.com/ciampo/portfolio-2019/compare/v0.0.8...vX.Y.Z -->
+[Unreleased]: https://github.com/ciampo/portfolio-2019/compare/v0.0.9...HEAD
+<!-- [X.Y.Z]: https://github.com/ciampo/portfolio-2019/compare/v0.0.9...vX.Y.Z -->
+[0.0.9]: https://github.com/ciampo/portfolio-2019/compare/v0.0.8...v0.0.9
 [0.0.8]: https://github.com/ciampo/portfolio-2019/compare/v0.0.7...v0.0.8
 [0.0.7]: https://github.com/ciampo/portfolio-2019/compare/v0.0.6...v0.0.7
 [0.0.6]: https://github.com/ciampo/portfolio-2019/compare/v0.0.5...v0.0.6
