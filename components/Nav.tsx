@@ -37,7 +37,7 @@ const Nav: NextComponentType<{}, NavProps, NavProps> = ({ links }) => {
     <>
       <nav className="fixed contain-layout-paint z-50 top-0 left-0 bg-background">
         {links && links.length && (
-          <ul className="py-1 px-2 flex lg:block lg:py-2 lg:px-4">
+          <ul className="py-1 px-2 flex lg:py-2 lg:px-4">
             {links.map(({ href, label }, index) => (
               <li key={`${index}-${slugify(label)}`} className="flex pt-1 pb-2 px-4">
                 <Link href={href} scroll={false}>
@@ -46,12 +46,6 @@ const Nav: NextComponentType<{}, NavProps, NavProps> = ({ links }) => {
                       router.route === href ? 'nav-link--selected' : ''
                     } ${loadingRoute === href ? 'nav-link--loading' : ''}`}
                   >
-                    <span
-                      className={`hidden lg:inline ${router.route !== href && 'opacity-0'}`}
-                      aria-hidden="true"
-                    >
-                      &bull;&nbsp;
-                    </span>
                     {label}
                   </a>
                 </Link>
