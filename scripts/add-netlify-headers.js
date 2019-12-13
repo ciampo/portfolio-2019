@@ -3,7 +3,7 @@
 const fs = require('fs');
 const path = require('path');
 
-const nextConfig = require('../next.config.js');
+const routesConfig = require('../routes-config.js');
 
 // Follows the convention for Netlify's _headers file
 // Can't have tailored caching stategies because of https://github.com/zeit/next.js/issues/6303
@@ -11,9 +11,11 @@ const _headersContent = `/*
   X-Content-Type-Options: nosniff
   X-Frame-Options: DENY
   Strict-Transport-Security: max-age=63072000; includeSubDomains; preload
-${Object.keys(nextConfig.exportPathMap())
+${routesConfig
+  // reaplce [placeholder] with :placeholder
+  .map((rc) => rc.route.replace(/\/\[([^/]+)\]/g, '/:$1'))
   .map(
-    (pagePath) => `${pagePath}
+    (routePath) => `${routePath}
   Content-Security-Policy: ${[
     // No sources accepted for generic content. Single content types are specified below.
     `default-src 'none'`,
