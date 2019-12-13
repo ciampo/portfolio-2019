@@ -102,7 +102,7 @@ const PageProject: NextComponentType<{}, PageProjectProps, PageProjectProps> = (
           </dl>
         </header>
 
-        <section className="container max-w-md sm:max-w-lg md:max-w-xl lg:max-w-2xl mx-auto px-6 my-16 sm:my-20 md:my-24 text-sm sm:text-base md:text-lg rich-text-container">
+        <section className="container max-w-md sm:max-w-lg md:max-w-xl lg:max-w-2xl mx-auto px-6 my-16 sm:my-20 md:my-24 rich-text-container">
           <h2 className="sr-only">{descriptionSectionTitle}</h2>
           {documentToReactComponents(project.description)}
         </section>
