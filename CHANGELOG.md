@@ -35,7 +35,7 @@ for any bug fixes.
 in case of vulnerabilities.
 -->
 
-## [0.0.9] - 2019-12-09
+## [0.0.9] - 2019-12-13
 
 ### Changed
 
