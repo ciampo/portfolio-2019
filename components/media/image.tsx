@@ -63,7 +63,7 @@ const ContentfulImage: NextComponentType<{}, ContentfulImageProps, ContentfulIma
   // Download full res verison the first time that the image comes into view
   const ioResults = useIntersection(wrapperRef, ioOptions);
   if (!showFullRes && !stallLazyInit && ioResults && ioResults.intersectionRatio > 0) {
-    setShowFullRes(true);
+    requestAnimationFrame(() => setShowFullRes(true));
   }
 
   return (
