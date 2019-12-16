@@ -35,16 +35,16 @@ const Nav: NextComponentType<{}, NavProps, NavProps> = ({ links }) => {
 
   return (
     <>
-      <nav className="fixed contain-layout-paint z-50 top-0 left-0 bg-background">
+      <nav className="fixed contain-layout-paint z-50 top-0 left-0 flex items-stretch">
         {links && links.length && (
-          <ul className="py-1 px-2 flex lg:py-2 lg:px-4">
+          <ul className="bg-background flex py-1 px-2 lg:py-2 lg:px-4">
             {links.map(({ href, label }, index) => (
               <li key={`${index}-${slugify(label)}`} className="flex pt-1 pb-2 px-4">
                 <Link href={href} scroll={false}>
                   <a
                     className={`no-underline text-base md:text-lg lg:text-xl text-primary font-light lowercase opacity-75 focus:opacity-100 focus:border-primary outline-none contain-layout-paint nav-link ${
                       router.route === href ? 'nav-link--selected' : ''
-                    } ${loadingRoute === href ? 'nav-link--loading' : ''}`}
+                    }`}
                   >
                     {label}
                   </a>
@@ -53,14 +53,17 @@ const Nav: NextComponentType<{}, NavProps, NavProps> = ({ links }) => {
             ))}
           </ul>
         )}
-      </nav>
 
-      {/* {isRouteLoading && (
-        <div aria-hidden="true" className="nav-spinner fixed z-50 top-0 right-0 bg-background">
+        <div
+          aria-hidden="true"
+          className={`bg-background flex items-center p-2 lg:p-4 nav-spinner ${
+            loadingRoute !== null ? 'nav-spinner--animated' : ''
+          }`}
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             viewBox="0 0 50 50"
-            className="block w-4 h-4 md:w-8 md:h-8 m-3 md:m-4"
+            className="block w-5 h-5 lg:w-6 lg:h-6"
           >
             <circle
               cx="25"
@@ -72,7 +75,7 @@ const Nav: NextComponentType<{}, NavProps, NavProps> = ({ links }) => {
             ></circle>
           </svg>
         </div>
-      )} */}
+      </nav>
     </>
   );
 };
