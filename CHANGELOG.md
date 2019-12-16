@@ -35,6 +35,13 @@ for any bug fixes.
 in case of vulnerabilities.
 -->
 
+## [0.0.10] - 2019-12-16
+
+### Changed
+
+- more explicit page loading spinner in the Nav component
+- use Trillium Web font instead of system fonts
+
 ## [0.0.9] - 2019-12-13
 
 ### Changed
@@ -51,7 +58,7 @@ in case of vulnerabilities.
 - project page's text size is same as about page
 - netlify headers file uses placeholders instead of all the explicit routes
 
-## [0.0.8] - 2019-12-09
+## [0.0.8] - 2019-12-11
 
 ### Fixed
 
@@ -166,8 +173,9 @@ in case of vulnerabilities.
 - Updated README and added Netlify badge
 - Updated package.json
 
-[Unreleased]: https://github.com/ciampo/portfolio-2019/compare/v0.0.9...HEAD
-<!-- [X.Y.Z]: https://github.com/ciampo/portfolio-2019/compare/v0.0.9...vX.Y.Z -->
+[Unreleased]: https://github.com/ciampo/portfolio-2019/compare/v0.0.10...HEAD
+<!-- [X.Y.Z]: https://github.com/ciampo/portfolio-2019/compare/v0.0.10...vX.Y.Z -->
+[X.Y.Z]: https://github.com/ciampo/portfolio-2019/compare/v0.0.9...v0.0.10
 [0.0.9]: https://github.com/ciampo/portfolio-2019/compare/v0.0.8...v0.0.9
 [0.0.8]: https://github.com/ciampo/portfolio-2019/compare/v0.0.7...v0.0.8
 [0.0.7]: https://github.com/ciampo/portfolio-2019/compare/v0.0.6...v0.0.7
