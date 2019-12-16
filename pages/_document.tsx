@@ -64,10 +64,18 @@ class CustomDocument extends Document<DocumentProps & CustomDocumentProps> {
           ></script>
 
           {/* Perf improvements */}
+          <link rel="preconnect" href="https://fonts.gstatic.com/" crossOrigin="" />
+
           <link
             rel="preconnect dns-prefetch"
             href="https://www.google-analytics.com"
             crossOrigin="anonymous"
+          />
+
+          {/* Web Fonts */}
+          <link
+            href="https://fonts.googleapis.com/css?family=Titillium+Web:200,300,400&amp;display=swap&amp;subset=latin"
+            rel="stylesheet"
           />
         </Head>
         <body>

@@ -1,0 +1,34 @@
+:root {
+  --color-primary: theme('colors.gray.100');
+  --color-secondary: theme('colors.orange.500');
+  --color-background: theme('colors.gray.900');
+  /* ... */
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    --color-primary: theme('colors.gray.900');
+    --color-secondary: theme('colors.teal.700');
+    --color-background: theme('colors.gray.100');
+    /* ... */
+  }
+}
+
+/* purgecss start ignore */
+@tailwind base;
+/* purgecss end ignore */
+@tailwind components;
+@tailwind utilities;
+
+body {
+  background: var(--color-background, #000);
+  color: var(--color-primary, #fff);
+  font-family: 'Titillium Web', sans-serif;
+  margin: 0;
+}
+
+a,
+button,
+canvas {
+  -webkit-tap-highlight-color: transparent;
+}

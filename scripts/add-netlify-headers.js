@@ -24,9 +24,9 @@ ${routesConfig
     // Allow audio/video from same origin, Netlify and data scheme (e.g. base64)
     `media-src 'self' https://images.ctfassets.net data:`,
     // Allow styles from same origin and inline
-    `style-src 'self' 'unsafe-inline'`,
+    `style-src 'self' 'unsafe-inline' https://fonts.googleapis.com`,
     // No external fonts allowed
-    `font-src 'self' data:`,
+    `font-src 'self' data: https://fonts.gstatic.com`,
     // Allow script coming from same origin and Google Analytics (and inline)
     `script-src 'self' 'unsafe-inline' https://www.google-analytics.com`,
     // Allow XHR to same origin and Google Analytics
