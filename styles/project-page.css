@@ -13,3 +13,35 @@
  content:"\a";
  white-space: pre;
 }
+
+.project-narrow-media-container > div {
+  @apply mx-auto max-w-xs w-full;
+}
+
+@supports (display: grid) {
+  @screen md {
+    .project-narrow-media-container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .project-narrow-media-container > div {
+      @apply mx-0;
+    }
+
+    .project-narrow-media-container > div:nth-child(2n) {
+      justify-self: end;
+    }
+
+    .project-narrow-media-container > div:nth-child(2n + 1) {
+      justify-self: start;
+    }
+  }
+
+  @screen lg {
+    .project-narrow-media-container > div:nth-child(2n),
+    .project-narrow-media-container > div:nth-child(2n + 1) {
+      justify-self: center;
+    }
+  }
+}

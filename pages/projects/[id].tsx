@@ -92,7 +92,7 @@ const PageProject: NextComponentType<{}, PageProjectProps, PageProjectProps> = (
                     href={project.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-block border-b-2 border-dashed border-primary outline-none focus:border-solid"
+                    className="inline-block pt-2 border-b-2 border-dashed border-primary outline-none focus:border-solid"
                   >
                     {linkText}
                   </a>
@@ -114,11 +114,11 @@ const PageProject: NextComponentType<{}, PageProjectProps, PageProjectProps> = (
           {project.widePictures &&
             project.widePictures.map((mediaObj) => articleMedia(mediaObj, content))}
 
-          {/* Narrow pictures */}
-          {project.narrowPictures &&
-            project.narrowPictures.map((mediaObj) =>
-              articleMedia(mediaObj, narrowMedia, 'mx-auto max-w-xs')
-            )}
+          <div className="project-narrow-media-container">
+            {/* Narrow pictures */}
+            {project.narrowPictures &&
+              project.narrowPictures.map((mediaObj) => articleMedia(mediaObj, narrowMedia))}
+          </div>
         </section>
       </DefaultPageTransitionWrapper>
     </>
