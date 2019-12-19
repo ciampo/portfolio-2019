@@ -11,7 +11,18 @@ const ContentfulVideo: NextComponentType<{}, ContentfulVideoProps, ContentfulVid
   src,
   className,
 }) => {
-  return <video src={src} className={`block ${className || ''}`} />;
+  return (
+    <video
+      muted
+      autoPlay
+      loop
+      controls
+      preload="metadata"
+      playsInline
+      src={src}
+      className={`block ${className || ''}`}
+    />
+  );
 };
 
 ContentfulVideo.propTypes = {
