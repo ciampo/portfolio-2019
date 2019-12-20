@@ -22,7 +22,7 @@ ${routesConfig
     // Allow images from same origin, Netlify, Google Analytics and data scheme (e.g. base64)
     `img-src 'self' https://images.ctfassets.net http://www.google-analytics.com data:`,
     // Allow audio/video from same origin, Netlify and data scheme (e.g. base64)
-    `media-src 'self' https://images.ctfassets.net data:`,
+    `media-src 'self' https://images.ctfassets.net https://videos.ctfassets.net  data:`,
     // Allow styles from same origin and inline
     `style-src 'self' 'unsafe-inline' https://fonts.googleapis.com`,
     // No external fonts allowed
