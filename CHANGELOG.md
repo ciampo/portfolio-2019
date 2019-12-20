@@ -35,6 +35,18 @@ for any bug fixes.
 in case of vulnerabilities.
 -->
 
+## [1.0.0-rc.1] - 2019-12-20
+
+### Fixed
+
+- better nav spinner out transition
+- prevented browser's native scroll restoration, as it conflicts with next router and page transitions
+
+### Changed
+
+- videos now autoplay inline while being muted
+- narrow media are now displayed on destkop side-by-side
+
 ## [0.0.10] - 2019-12-16
 
 ### Changed
@@ -173,9 +185,10 @@ in case of vulnerabilities.
 - Updated README and added Netlify badge
 - Updated package.json
 
-[Unreleased]: https://github.com/ciampo/portfolio-2019/compare/v0.0.10...HEAD
+[Unreleased]: https://github.com/ciampo/portfolio-2019/compare/v1.0.0-rc.1...HEAD
 <!-- [X.Y.Z]: https://github.com/ciampo/portfolio-2019/compare/v0.0.10...vX.Y.Z -->
-[X.Y.Z]: https://github.com/ciampo/portfolio-2019/compare/v0.0.9...v0.0.10
+[1.0.0-rc.1]: https://github.com/ciampo/portfolio-2019/compare/v0.0.10...v1.0.0-rc.1
+[0.0.10]: https://github.com/ciampo/portfolio-2019/compare/v0.0.9...v0.0.10
 [0.0.9]: https://github.com/ciampo/portfolio-2019/compare/v0.0.8...v0.0.9
 [0.0.8]: https://github.com/ciampo/portfolio-2019/compare/v0.0.7...v0.0.8
 [0.0.7]: https://github.com/ciampo/portfolio-2019/compare/v0.0.6...v0.0.7
