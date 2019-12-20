@@ -23,11 +23,14 @@
 
 .nav-spinner {
   opacity: 0;
-  transition: opacity .2s ease-out 0.5s;
+  transition: opacity 0.2s ease-out;
+  visibility: hidden;
 }
 
 .nav-spinner--animated {
   opacity: 1;
+  transition-delay: 0.5s;
+  visibility: visible;
 }
 
 .nav-spinner--animated svg {

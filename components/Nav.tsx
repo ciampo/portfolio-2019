@@ -56,7 +56,7 @@ const Nav: NextComponentType<{}, NavProps, NavProps> = ({ links }) => {
 
         <div
           aria-hidden="true"
-          className={`bg-background flex items-center p-2 lg:p-4 nav-spinner ${
+          className={`bg-background pointer-events-none flex items-center p-2 lg:p-4 nav-spinner ${
             loadingRoute !== null ? 'nav-spinner--animated' : ''
           }`}
         >
