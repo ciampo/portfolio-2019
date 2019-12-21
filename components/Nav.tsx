@@ -90,7 +90,7 @@ const Nav: NextComponentType<{}, NavProps, NavProps> = ({ links }) => {
       />
       <label
         htmlFor="light-theme"
-        className="z-50 fixed right-0 top-0 block bg-background text-primary p-3 cursor-pointer"
+        className="z-50 absolute right-0 top-0 block bg-background text-primary p-3 cursor-pointer"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
