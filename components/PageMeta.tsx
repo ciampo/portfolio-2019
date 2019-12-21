@@ -8,9 +8,10 @@ interface PageMetaProps {
   title: string;
   description: string;
   path: string;
+  structuredData: object;
 }
 
-const PageMeta: React.FC<PageMetaProps> = ({ title, description, path }) => (
+const PageMeta: React.FC<PageMetaProps> = ({ title, description, path, structuredData }) => (
   <Head>
     <meta name="viewport" content="width=device-width,initial-scale=1" key="viewport" />
 
@@ -27,6 +28,15 @@ const PageMeta: React.FC<PageMetaProps> = ({ title, description, path }) => (
         content={joinUrl(process.env.CANONICAL_URL, path)}
       />
     )}
+
+    {/* Structured data */}
+    <script
+      type="application/ld+json"
+      key="structured-data"
+      dangerouslySetInnerHTML={{
+        __html: JSON.stringify(structuredData),
+      }}
+    ></script>
   </Head>
 );
 
@@ -34,6 +44,7 @@ PageMeta.propTypes = {
   title: PropTypes.string.isRequired,
   description: PropTypes.string.isRequired,
   path: PropTypes.string.isRequired,
+  structuredData: PropTypes.any.isRequired,
 };
 
 export default PageMeta;

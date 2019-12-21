@@ -17,4 +17,5 @@ export type ContentfulApiProject = {
   narrowPictures?: {
     source: ContentfulMedia;
   }[];
+  publicationDate: string;
 };

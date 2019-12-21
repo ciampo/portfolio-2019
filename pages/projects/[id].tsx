@@ -10,6 +10,7 @@ import DefaultPageTransitionWrapper from '../../components/page-transition-wrapp
 import { ContentfulApiPageProject, ContentfulApiProject, ContentfulMedia } from '../../typings';
 import routesConfig from '../../routes-config';
 import { content, narrowMedia } from '../../components/media/sizes-presets';
+import { generatePostStructuredData } from '../../components/utils/structured-data';
 
 type PageProjectProps = ContentfulApiPageProject & {
   path: string;
@@ -61,7 +62,16 @@ const PageProject: NextComponentType<{}, PageProjectProps, PageProjectProps> = (
 }) =>
   project ? (
     <>
-      <PageMeta title={meta.title} description={meta.description} path={path} />
+      <PageMeta
+        title={meta.title}
+        description={meta.description}
+        path={path}
+        structuredData={generatePostStructuredData({
+          title: project.title,
+          image: `https:${project.tileImage.file.url}?w=1280&fit=fill&fm=jpg&q=70`,
+          publicationDate: project.publicationDate,
+        })}
+      />
 
       <DefaultPageTransitionWrapper>
         <header className="relative pt-24 md:pt-32 pb-20 sm:pb-24 md:pb-32 px-6 lg:pt-48 text-center project-header">

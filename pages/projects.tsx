@@ -11,6 +11,7 @@ import routesConfig from '../routes-config';
 import { customEaseOut } from '../components/utils/utils';
 import ContentfulImage from '../components/media/image';
 import { projectTile } from '../components/media/sizes-presets';
+import { website } from '../components/utils/structured-data';
 
 type PageProjectsListProps = ContentfulApiPageProjectsList & {
   path: string;
@@ -115,7 +116,12 @@ const PageProjectsList: NextComponentType<{}, PageProjectsListProps, PageProject
   projects,
 }) => (
   <>
-    <PageMeta title={meta.title} description={meta.description} path={path} />
+    <PageMeta
+      title={meta.title}
+      description={meta.description}
+      path={path}
+      structuredData={website}
+    />
 
     <DefaultPageTransitionWrapper>
       <motion.section

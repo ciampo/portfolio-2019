@@ -9,6 +9,7 @@ import PageMeta from '../components/PageMeta';
 import { ContentfulApiPageHome } from '../typings';
 import routesConfig from '../routes-config';
 import gridConfig from '../components/home-grid/grid-config';
+import { website } from '../components/utils/structured-data';
 
 const HomeGrid = dynamic(() => import('../components/home-grid/HomeGrid'));
 
@@ -95,7 +96,12 @@ const Home: NextComponentType<{}, PageHomeProps, PageHomeProps> = ({ path, meta,
 
   return (
     <>
-      <PageMeta title={meta.title} description={meta.description} path={path} />
+      <PageMeta
+        title={meta.title}
+        description={meta.description}
+        path={path}
+        structuredData={website}
+      />
 
       <DefaultPageTransitionWrapper>
         <div

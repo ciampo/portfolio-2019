@@ -9,6 +9,7 @@ import PageMeta from '../components/PageMeta';
 import { ContentfulApiPageAbout } from '../typings';
 import routesConfig from '../routes-config';
 import { customEaseOut } from '../components/utils/utils';
+import { website } from '../components/utils/structured-data';
 
 type PageAboutProps = ContentfulApiPageAbout & {
   path: string;
@@ -45,7 +46,13 @@ const About: NextComponentType<{}, PageAboutProps, PageAboutProps> = ({
 }) => {
   return (
     <>
-      <PageMeta key="page-meta" title={meta.title} description={meta.description} path={path} />
+      <PageMeta
+        key="page-meta"
+        title={meta.title}
+        description={meta.description}
+        path={path}
+        structuredData={website}
+      />
 
       <DefaultPageTransitionWrapper>
         <motion.section
