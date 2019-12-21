@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { NextComponentType, NextPageContext } from 'next';
-import { documentToReactComponents } from '@contentful/rich-text-react-renderer';
 
 import PageMeta from '../../components/PageMeta';
 import ContentfulImage from '../../components/media/image';
@@ -10,6 +9,7 @@ import DefaultPageTransitionWrapper from '../../components/page-transition-wrapp
 import { ContentfulApiPageProject, ContentfulApiProject, ContentfulMedia } from '../../typings';
 import routesConfig from '../../routes-config';
 import { content, narrowMedia } from '../../components/media/sizes-presets';
+import RichTextRenderer from '../../components/utils/RichTextRenderer';
 import { generatePostStructuredData } from '../../components/utils/structured-data';
 
 type PageProjectProps = ContentfulApiPageProject & {
@@ -114,7 +114,7 @@ const PageProject: NextComponentType<{}, PageProjectProps, PageProjectProps> = (
 
         <section className="container max-w-md sm:max-w-lg md:max-w-xl lg:max-w-2xl mx-auto px-6 my-16 sm:my-20 md:my-24 rich-text-container">
           <h2 className="sr-only">{descriptionSectionTitle}</h2>
-          {documentToReactComponents(project.description)}
+          <RichTextRenderer richText={project.description} />
         </section>
 
         <section className="container mx-auto px-6 mt-24 sm:mt-32 md:mt-40 mb-16 sm:mb-20 md:mb-24">

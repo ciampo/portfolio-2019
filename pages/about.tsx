@@ -1,19 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { NextComponentType, NextPageContext } from 'next';
-import { documentToReactComponents } from '@contentful/rich-text-react-renderer';
+import RichTextRenderer from '../components/utils/RichTextRenderer';
 import { motion } from 'framer-motion';
 
 import DefaultPageTransitionWrapper from '../components/page-transition-wrappers/Default';
 import PageMeta from '../components/PageMeta';
-import { ContentfulApiPageAbout, ContentfulMedia } from '../typings';
+import { ContentfulApiPageAbout } from '../typings';
 import routesConfig from '../routes-config';
 import { customEaseOut } from '../components/utils/utils';
 import { website } from '../components/utils/structured-data';
 
 type PageAboutProps = ContentfulApiPageAbout & {
   path: string;
-  cvItems: ContentfulMedia[];
 };
 
 const aboutItemAnimationVariants = {
@@ -44,7 +43,6 @@ const About: NextComponentType<{}, PageAboutProps, PageAboutProps> = ({
   path,
   title,
   bio,
-  cvItems,
 }) => {
   return (
     <>
@@ -162,20 +160,7 @@ const About: NextComponentType<{}, PageAboutProps, PageAboutProps> = ({
                 className="lg:flex-1 rich-text-container"
                 variants={aboutItemAnimationVariants}
               >
-                {documentToReactComponents(bio)}
-
-                {cvItems.length > 0 && (
-                  <p>
-                    <a
-                      href={cvItems[0].file.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      download
-                    >
-                      {cvItems[0].description}
-                    </a>
-                  </p>
-                )}
+                <RichTextRenderer richText={bio} />
               </motion.div>
             )}
           </div>
@@ -194,7 +179,6 @@ About.getInitialProps = async ({ pathname }: NextPageContext): Promise<PageAbout
       description: 'About page',
     },
     bio: undefined,
-    cvItems: [],
   };
 
   const routeConfig = routesConfig.find(({ route }) => route === pathname);
@@ -210,12 +194,6 @@ About.getInitialProps = async ({ pathname }: NextPageContext): Promise<PageAbout
     toReturn.bio = aboutData.bio;
   }
 
-  const cvData: ContentfulMedia[] = await import('../data/cv.json').then((m) => m.default);
-
-  if (cvData) {
-    toReturn.cvItems = cvData;
-  }
-
   return toReturn;
 };
 
@@ -228,7 +206,6 @@ About.propTypes = {
   title: PropTypes.string.isRequired,
   // using 'any' avoids strange incompatibilities with Typescript type
   bio: PropTypes.any,
-  cvItems: PropTypes.array.isRequired,
 };
 
 export default About;
