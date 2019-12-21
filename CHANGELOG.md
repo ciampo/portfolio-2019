@@ -35,6 +35,13 @@ for any bug fixes.
 in case of vulnerabilities.
 -->
 
+## [1.0.0-rc.3] - 2019-12-21
+
+### Fixed
+
+- theme switcher aria label
+- CSS variables value set in :root instead of html selector
+
 ## [1.0.0-rc.2] - 2019-12-21
 
 ### Changed
@@ -192,8 +199,9 @@ in case of vulnerabilities.
 - Updated README and added Netlify badge
 - Updated package.json
 
-[Unreleased]: https://github.com/ciampo/portfolio-2019/compare/v1.0.0-rc.2...HEAD
-<!-- [X.Y.Z]: https://github.com/ciampo/portfolio-2019/compare/v1.0.0-rc.2...vX.Y.Z -->
+[Unreleased]: https://github.com/ciampo/portfolio-2019/compare/v1.0.0-rc.3...HEAD
+<!-- [X.Y.Z]: https://github.com/ciampo/portfolio-2019/compare/v1.0.0-rc.3...vX.Y.Z -->
+[1.0.0-rc.2]: https://github.com/ciampo/portfolio-2019/compare/v1.0.0-rc.2...v1.0.0-rc.3
 [1.0.0-rc.2]: https://github.com/ciampo/portfolio-2019/compare/v1.0.0-rc.1...v1.0.0-rc.2
 [1.0.0-rc.1]: https://github.com/ciampo/portfolio-2019/compare/v0.0.10...v1.0.0-rc.1
 [0.0.10]: https://github.com/ciampo/portfolio-2019/compare/v0.0.9...v0.0.10
