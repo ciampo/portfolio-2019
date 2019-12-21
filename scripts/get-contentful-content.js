@@ -136,14 +136,6 @@ const pullContentfulData = async () => {
   await getEntries('about', true);
   await getEntries('globalMeta', true);
   await getEntries('project');
-
-  const cvQuery = await client.getAssets({
-    'fields.title': 'CV',
-  });
-  await writeFileAsync(
-    path.join(DATA_FOLDER, `cv.json`),
-    JSON.stringify(flattenContentfulApis(cvQuery.items), null, 2)
-  );
 };
 
 pullContentfulData();
