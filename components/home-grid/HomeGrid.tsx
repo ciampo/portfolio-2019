@@ -32,31 +32,11 @@ type HomeGridProps = {
 function useCanvas(draw: Function): RefObject<HTMLCanvasElement> {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
-  const [fillColor, setFillColor] = useState('#000');
-
   useEffect(() => {
     let animationFrameId: number;
-    let fillColorIntervalId: NodeJS.Timeout;
 
     if (canvasRef && canvasRef.current) {
       const ctx = canvasRef.current.getContext('2d');
-
-      // Read the 'color' css property on the canvas element and use it
-      // for the ctx fillColor.
-      // Do the check ones at setup time, and then check  every 500ms,
-      // as this really just changes only when the theme changes
-      const updateFillColor = (): void => {
-        if (canvasRef && canvasRef.current) {
-          const computedStyles = window.getComputedStyle(canvasRef.current);
-          if (computedStyles && computedStyles.color) {
-            setFillColor(computedStyles.color);
-          }
-        }
-      };
-
-      updateFillColor();
-      fillColorIntervalId = setInterval(updateFillColor, 1000);
-
       if (ctx) {
         ctx.imageSmoothingEnabled = false;
       }
@@ -65,11 +45,7 @@ function useCanvas(draw: Function): RefObject<HTMLCanvasElement> {
       const renderFrame = (): void => {
         if (canvasRef && canvasRef.current) {
           animationFrameId = requestAnimationFrame(renderFrame);
-          draw(
-            ctx,
-            { width: canvasRef.current.width, height: canvasRef.current.height },
-            fillColor
-          );
+          draw(ctx, { width: canvasRef.current.width, height: canvasRef.current.height });
         }
       };
 
@@ -78,9 +54,8 @@ function useCanvas(draw: Function): RefObject<HTMLCanvasElement> {
 
     return (): void => {
       cancelAnimationFrame(animationFrameId);
-      clearInterval(fillColorIntervalId);
     };
-  }, [draw, fillColor]);
+  }, [draw]);
 
   return canvasRef;
 }
