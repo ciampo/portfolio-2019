@@ -1,3 +1,4 @@
+/* Links */
 .nav-link {
   position: relative;
 }
@@ -21,6 +22,13 @@
   transition-delay: 0.1s;
 }
 
+/* Checkbox */
+.light-theme-checkbox:focus + label > svg > g {
+  fill: var(--color-primary);
+  stroke: var(--color-background);
+}
+
+/* Spinner */
 .nav-spinner {
   opacity: 0;
   transition: opacity 0.2s ease-out;

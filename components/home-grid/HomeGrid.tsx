@@ -1,4 +1,12 @@
-import React, { useEffect, useRef, RefObject, useState, useCallback, useMemo } from 'react';
+import React, {
+  useEffect,
+  useRef,
+  RefObject,
+  useState,
+  useCallback,
+  useMemo,
+  useContext,
+} from 'react';
 import PropTypes from 'prop-types';
 import { NextComponentType } from 'next';
 import { throttle } from 'throttle-debounce';
@@ -12,6 +20,7 @@ import {
 } from './grid-logic';
 import { drawGrid } from './grid-draw';
 import { getDistance2d, absMax, bitwiseRound } from './grid-utils';
+import { ThemeContext } from '../utils/ThemeContext';
 import { GridWave, GridPoint } from '../../typings';
 
 type HomeGridProps = {
@@ -91,6 +100,7 @@ const HomeGrid: NextComponentType<{}, HomeGridProps, HomeGridProps> = ({
   const isPointerDown = useRef<boolean>(false);
   const didPointerMoveWhileDown = useRef<boolean>(false);
   const lastPointerDownTime = useRef<number>(0);
+  const { value: themeColor } = useContext(ThemeContext);
 
   const canvasDiagonal = useMemo(() => getDistance2d(0, 0, canvasWidth, canvasHeight), [
     canvasHeight,
@@ -99,13 +109,9 @@ const HomeGrid: NextComponentType<{}, HomeGridProps, HomeGridProps> = ({
 
   // Canvas drawing loop
   const draw = useCallback(
-    (
-      ctx: CanvasRenderingContext2D,
-      dimensions: { width: number; height: number },
-      fillColor: string
-    ): void => {
+    (ctx: CanvasRenderingContext2D, dimensions: { width: number; height: number }): void => {
       // Draw current status of the grid
-      ctx.fillStyle = fillColor;
+      ctx.fillStyle = themeColor;
       drawGrid(ctx, dimensions, {
         points: gridPoints.current,
         waves: gridWaves.current,
@@ -117,7 +123,7 @@ const HomeGrid: NextComponentType<{}, HomeGridProps, HomeGridProps> = ({
       // Grow waves, remove expired ones.
       gridWaves.current = gridWaves.current.map(growWave).filter((w) => !isWaveExpired(w));
     },
-    []
+    [themeColor]
   );
 
   const canvasRef = useCanvas(draw);
