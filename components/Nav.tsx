@@ -86,12 +86,12 @@ const Nav: NextComponentType<{}, NavProps, NavProps> = ({ links }) => {
         checked={theme === themes.LIGHT}
         onChange={toggleTheme}
         className="sr-only light-theme-checkbox"
+        aria-label={'Toggle between dark and light theme'}
       />
       <label
         htmlFor="light-theme"
         className="z-50 fixed right-0 top-0 block bg-background text-primary p-3 cursor-pointer"
       >
-        <span className="sr-only">Toggle between dark and light theme</span>
         <svg
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 48 48"
