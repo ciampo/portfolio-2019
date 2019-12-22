@@ -35,6 +35,16 @@ for any bug fixes.
 in case of vulnerabilities.
 -->
 
+## [1.0.1] - 2019-12-23
+
+### Changed
+
+- different sharing images per page
+
+### Added
+
+- twitter card meta data
+
 ## [1.0.0] - 2019-12-22
 
 ### Changed
@@ -230,8 +240,9 @@ in case of vulnerabilities.
 - Updated README and added Netlify badge
 - Updated package.json
 
-[Unreleased]: https://github.com/ciampo/portfolio-2019/compare/v1.0.0...HEAD
-<!-- [X.Y.Z]: https://github.com/ciampo/portfolio-2019/compare/v1.0.0...vX.Y.Z -->
+[Unreleased]: https://github.com/ciampo/portfolio-2019/compare/v1.0.1...HEAD
+<!-- [X.Y.Z]: https://github.com/ciampo/portfolio-2019/compare/v1.0.1...vX.Y.Z -->
+[1.0.1]: https://github.com/ciampo/portfolio-2019/compare/v1.0.0...v1.0.1
 [1.0.0]: https://github.com/ciampo/portfolio-2019/compare/v1.0.0-rc.4...v1.0.0
 [1.0.0-rc.4]: https://github.com/ciampo/portfolio-2019/compare/v1.0.0-rc.3...v1.0.0-rc.4
 [1.0.0-rc.3]: https://github.com/ciampo/portfolio-2019/compare/v1.0.0-rc.2...v1.0.0-rc.3
