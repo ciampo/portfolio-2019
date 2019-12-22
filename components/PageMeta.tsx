@@ -12,9 +12,6 @@ interface PageMetaProps {
   articleStructuredData?: object;
 }
 
-const structuredDataPageKey = 'structured-data-webpage';
-const structuredDataArticleKey = 'structured-data-article';
-
 const PageMeta: React.FC<PageMetaProps> = ({
   title,
   description,
@@ -43,20 +40,20 @@ const PageMeta: React.FC<PageMetaProps> = ({
     {webPageStructuredData && (
       <script
         type="application/ld+json"
-        key={structuredDataPageKey}
+        key="structured-data-webpage"
         dangerouslySetInnerHTML={{
           __html: JSON.stringify(webPageStructuredData),
         }}
-      ></script>
+      />
     )}
     {articleStructuredData && (
       <script
         type="application/ld+json"
-        key={structuredDataArticleKey}
+        key="structured-data-article"
         dangerouslySetInnerHTML={{
           __html: JSON.stringify(articleStructuredData),
         }}
-      ></script>
+      />
     )}
   </Head>
 );
