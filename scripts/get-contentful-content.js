@@ -137,6 +137,7 @@ const pullContentfulData = async () => {
   await getEntries('pageProject', true);
   await getEntries('about', true);
   await getEntries('globalMeta', true);
+  await getEntries('structuredData', true);
   await getEntries('project');
 };
 

@@ -1,10 +1,12 @@
 import { Document } from '@contentful/rich-text-types';
 
 import { Meta } from './Meta';
+import { ContentfulApiStructuredData } from './StructuredData';
 
 export type ContentfulApiPageGeneric = {
   meta: Meta;
   navTitle?: string;
+  templateStructuredData?: ContentfulApiStructuredData;
 };
 
 export type ContentfulApiPageHome = ContentfulApiPageGeneric & {
