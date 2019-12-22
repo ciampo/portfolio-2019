@@ -90,10 +90,12 @@ function flattenContentfulApis(obj) {
   } else if (typeof obj === 'object' && obj.nodeType !== 'document') {
     if ('sys' in obj && 'fields' in obj) {
       const id = obj.sys.id;
+      const updatedAt = obj.sys.updatedAt;
       const fields = obj.fields;
 
       obj = {
         id,
+        _updatedAt: updatedAt,
         ...fields,
       };
     }

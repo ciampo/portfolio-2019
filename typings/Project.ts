@@ -4,6 +4,7 @@ import { ContentfulMedia } from './contentful';
 
 export type ContentfulApiProject = {
   id: string;
+  _updatedAt: string;
   title: string;
   slug: string;
   tileImage: ContentfulMedia;
