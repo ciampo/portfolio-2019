@@ -11,7 +11,7 @@ import gridConfig from '../components/home-grid/grid-config';
 import { generateWebpageStructuredData } from '../components/utils/structured-data';
 import { ContentfulApiPageHome, ContentfulApiStructuredData } from '../typings';
 
-const HomeGrid = dynamic(() => import('../components/home-grid/HomeGrid'));
+const HomeGrid = dynamic(() => import('../components/home-grid/HomeGrid'), { ssr: false });
 
 type PageHomeProps = ContentfulApiPageHome & {
   path: string;
