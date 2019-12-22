@@ -35,6 +35,26 @@ for any bug fixes.
 in case of vulnerabilities.
 -->
 
+## [1.0.0-rc.4] - 2019-12-22
+
+### Added
+
+- Added Structured Data (Author, Organization, WebSite, WebPages + breadcrumbs, Article)
+
+### Changed
+
+- Theme Switcher isnow position absolute (previously was fixed)
+- Lazy load Web Font (+ JS fallback)
+
+### Fixed
+
+- Link to CV in about page
+- Contentful Rich Text Renderer can now handle Assets links
+
+### Removed
+
+- dead code in home grid for setting `fillcolor`
+
 ## [1.0.0-rc.3] - 2019-12-21
 
 ### Fixed
@@ -199,8 +219,9 @@ in case of vulnerabilities.
 - Updated README and added Netlify badge
 - Updated package.json
 
-[Unreleased]: https://github.com/ciampo/portfolio-2019/compare/v1.0.0-rc.3...HEAD
-<!-- [X.Y.Z]: https://github.com/ciampo/portfolio-2019/compare/v1.0.0-rc.3...vX.Y.Z -->
+[Unreleased]: https://github.com/ciampo/portfolio-2019/compare/v1.0.0-rc.4...HEAD
+<!-- [X.Y.Z]: https://github.com/ciampo/portfolio-2019/compare/v1.0.0-rc.4...vX.Y.Z -->
+[X.Y.Z]: https://github.com/ciampo/portfolio-2019/compare/v1.0.0-rc.3...v1.0.0-rc.4
 [1.0.0-rc.2]: https://github.com/ciampo/portfolio-2019/compare/v1.0.0-rc.2...v1.0.0-rc.3
 [1.0.0-rc.2]: https://github.com/ciampo/portfolio-2019/compare/v1.0.0-rc.1...v1.0.0-rc.2
 [1.0.0-rc.1]: https://github.com/ciampo/portfolio-2019/compare/v0.0.10...v1.0.0-rc.1
