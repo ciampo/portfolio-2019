@@ -1,5 +1,4 @@
 import React from 'react';
-import Link from 'next/link';
 import { INLINES, Document } from '@contentful/rich-text-types';
 import {
   documentToReactComponents,
@@ -10,11 +9,9 @@ import {
 const AssetLink: NodeRenderer = (node, children) => {
   const url: string = node.data ? node.data.target.fields.file.url : null;
   return url ? (
-    <Link href={url}>
-      <a target="_blank" rel="noopener noreferrer">
-        {children}
-      </a>
-    </Link>
+    <a href={url} target="_blank" rel="noopener noreferrer">
+      {children}
+    </a>
   ) : null;
 };
 
