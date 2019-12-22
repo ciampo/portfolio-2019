@@ -37,6 +37,8 @@ class CustomDocument extends Document<DocumentProps> {
           <link rel="shortcut icon" href="/favicon.ico" />
           <meta name="msapplication-TileColor" content="#ffffff" />
           <meta name="theme-color" content="#ffffff"></meta>
+          <meta name="twitter:card" content="summary" />
+          <meta name="twitter:site" content="@marco_ciampini" />
 
           {/* This allows styles based on JS being supported or not */}
           <script

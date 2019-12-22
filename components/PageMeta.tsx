@@ -41,6 +41,13 @@ const PageMeta: React.FC<PageMetaProps> = ({
       />
     )}
 
+    {/* Twitter card */}
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    {previewImage && (
+      <meta key="page-twitter-image" name="twitter:image" content={`https:${previewImage}`} />
+    )}
+
     {/* Structured data */}
     {webPageStructuredData && (
       <script
