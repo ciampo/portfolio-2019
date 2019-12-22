@@ -18,6 +18,9 @@ type CustomDocumentProps = {
 // _document is only rendered on the server side and not on the client side
 // Event handlers like onClick can't be added to this file
 
+const webFontUrl =
+  'https://fonts.googleapis.com/css?family=Titillium+Web:200,300,400&amp;display=swap&amp;subset=latin';
+
 class CustomDocument extends Document<DocumentProps & CustomDocumentProps> {
   static async getInitialProps(
     ctx: DocumentContext
@@ -32,6 +35,10 @@ class CustomDocument extends Document<DocumentProps & CustomDocumentProps> {
       previewSharingImage: globalMeta.previewImage.file.url,
       ...initialProps,
     };
+  }
+
+  onWebFontLinkLoad(e: React.SyntheticEvent<HTMLLinkElement, Event>): void {
+    console.log(e);
   }
 
   render(): JSX.Element {
@@ -72,11 +79,16 @@ class CustomDocument extends Document<DocumentProps & CustomDocumentProps> {
             crossOrigin="anonymous"
           />
 
-          {/* Web Fonts */}
+          {/* Web Fonts (preload and JS fallback) */}
           <link
-            href="https://fonts.googleapis.com/css?family=Titillium+Web:200,300,400&amp;display=swap&amp;subset=latin"
-            rel="stylesheet"
+            href={webFontUrl}
+            rel="preload"
+            as="style"
+            onload="this.onload=null;this.rel='stylesheet'"
           />
+          <noscript>
+            <link href={webFontUrl} rel="stylesheet" />
+          </noscript>
         </Head>
         <body>
           <Main />
