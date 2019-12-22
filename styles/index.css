@@ -1,4 +1,5 @@
 @import './_base.css';
+@import './web-fonts.css';
 @import './nav.css';
 @import './page-home.css';
 @import './project-tile.css';

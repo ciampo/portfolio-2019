@@ -26,7 +26,7 @@ ${routesConfig
     // Allow styles from same origin and inline
     `style-src 'self' 'unsafe-inline' https://fonts.googleapis.com`,
     // No external fonts allowed
-    `font-src 'self' data: https://fonts.gstatic.com`,
+    `font-src 'self' data:`,
     // Allow script coming from same origin and Google Analytics (and inline)
     `script-src 'self' 'unsafe-inline' https://www.google-analytics.com`,
     // Allow XHR to same origin and Google Analytics
@@ -41,6 +41,8 @@ ${routesConfig
   Content-Type: application/javascript; charset=utf-8
 /*webmanifest
   Content-Type: application/manifest+json; charset=utf-8
+/fonts/*
+  Cache-Control: public, max-age=3153600
 `;
 
 console.log('\nGenerating Netlify headers...');

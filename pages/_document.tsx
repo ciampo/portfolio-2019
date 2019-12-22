@@ -63,20 +63,23 @@ class CustomDocument extends Document<DocumentProps & CustomDocumentProps> {
             dangerouslySetInnerHTML={{ __html: `document.documentElement.classList.add('js-app')` }}
           ></script>
 
-          {/* Perf improvements */}
-          <link rel="preconnect" href="https://fonts.gstatic.com/" crossOrigin="" />
-
           <link
             rel="preconnect dns-prefetch"
             href="https://www.google-analytics.com"
             crossOrigin="anonymous"
           />
 
-          {/* Web Fonts (preload and JS fallback) */}
-          <link
-            href="https://fonts.googleapis.com/css?family=Titillium+Web:200,300,400&amp;display=swap&amp;subset=latin"
-            rel="stylesheet"
-          />
+          {/* Preload Web Fonts */}
+          {['200', '300', 'regular'].map((w) => (
+            <link
+              key={w}
+              rel="preload"
+              as="font"
+              type="font/woff2"
+              crossOrigin=""
+              href={`/fonts/titillium-web-v8-latin-${w}.woff2`}
+            />
+          ))}
         </Head>
         <body>
           <Main />
