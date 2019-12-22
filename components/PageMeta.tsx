@@ -8,7 +8,7 @@ interface PageMetaProps {
   title: string;
   description: string;
   path: string;
-  structuredData: object;
+  structuredData?: object;
 }
 
 const PageMeta: React.FC<PageMetaProps> = ({ title, description, path, structuredData }) => (
@@ -30,13 +30,15 @@ const PageMeta: React.FC<PageMetaProps> = ({ title, description, path, structure
     )}
 
     {/* Structured data */}
-    <script
-      type="application/ld+json"
-      key="structured-data"
-      dangerouslySetInnerHTML={{
-        __html: JSON.stringify(structuredData),
-      }}
-    ></script>
+    {structuredData && (
+      <script
+        type="application/ld+json"
+        key="structured-data"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(structuredData),
+        }}
+      ></script>
+    )}
   </Head>
 );
 
@@ -44,7 +46,7 @@ PageMeta.propTypes = {
   title: PropTypes.string.isRequired,
   description: PropTypes.string.isRequired,
   path: PropTypes.string.isRequired,
-  structuredData: PropTypes.any.isRequired,
+  structuredData: PropTypes.any,
 };
 
 export default PageMeta;

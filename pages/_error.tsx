@@ -4,7 +4,6 @@ import { NextComponentType, NextPageContext } from 'next';
 
 import PageMeta from '../components/PageMeta';
 import DefaultPageTransitionWrapper from '../components/page-transition-wrappers/Default';
-import { website } from '../components/utils/structured-data';
 
 type ErrorPageProps = {
   statusCode: number;
@@ -22,12 +21,7 @@ const CustomError: NextComponentType<{}, {}, ErrorPageProps> = ({ statusCode }) 
 
   return (
     <>
-      <PageMeta
-        title={`${statusCode}: ${title}`}
-        description="An error occurred"
-        path="/404"
-        structuredData={website}
-      />
+      <PageMeta title={`${statusCode}: ${title}`} description="An error occurred" path="/404" />
 
       <DefaultPageTransitionWrapper>
         <header className="pt-24 pb-12 md:pt-32 md:pb-16 lg:pt-48 container mx-auto text-center text-primary">

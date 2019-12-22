@@ -6,12 +6,17 @@ import { motion } from 'framer-motion';
 
 import DefaultPageTransitionWrapper from '../components/page-transition-wrappers/Default';
 import PageMeta from '../components/PageMeta';
-import { ContentfulApiPageProjectsList, ContentfulApiProject, ContentfulMedia } from '../typings';
 import routesConfig from '../routes-config';
 import { customEaseOut } from '../components/utils/utils';
 import ContentfulImage from '../components/media/image';
 import { projectTile } from '../components/media/sizes-presets';
-import { website } from '../components/utils/structured-data';
+import { generateWebsiteStructuredData } from '../components/utils/structured-data';
+import {
+  ContentfulApiPageProjectsList,
+  ContentfulApiProject,
+  ContentfulMedia,
+  ContentfulApiStructuredData,
+} from '../typings';
 
 type PageProjectsListProps = ContentfulApiPageProjectsList & {
   path: string;
@@ -114,13 +119,16 @@ const PageProjectsList: NextComponentType<{}, PageProjectsListProps, PageProject
   meta,
   title,
   projects,
+  templateStructuredData,
 }) => (
   <>
     <PageMeta
       title={meta.title}
       description={meta.description}
       path={path}
-      structuredData={website}
+      structuredData={
+        templateStructuredData && generateWebsiteStructuredData(templateStructuredData)
+      }
     />
 
     <DefaultPageTransitionWrapper>
@@ -154,6 +162,7 @@ PageProjectsList.getInitialProps = async ({
       description: 'Projects I worked on',
     },
     projects: [],
+    templateStructuredData: undefined,
   };
 
   const routeConfig = routesConfig.find(({ route }) => route === pathname);
@@ -189,6 +198,11 @@ PageProjectsList.getInitialProps = async ({
     }
   }
 
+  const structuredDataTemplate: ContentfulApiStructuredData = await import(
+    `../data/structuredData.json`
+  ).then((m) => m.default);
+  toReturn.templateStructuredData = structuredDataTemplate;
+
   return toReturn;
 };
 
@@ -200,6 +214,7 @@ PageProjectsList.propTypes = {
   }).isRequired,
   title: PropTypes.string.isRequired,
   projects: PropTypes.array.isRequired,
+  templateStructuredData: PropTypes.any,
 };
 
 export default PageProjectsList;

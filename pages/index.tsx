@@ -6,10 +6,10 @@ import { motion } from 'framer-motion';
 
 import DefaultPageTransitionWrapper from '../components/page-transition-wrappers/Default';
 import PageMeta from '../components/PageMeta';
-import { ContentfulApiPageHome } from '../typings';
 import routesConfig from '../routes-config';
 import gridConfig from '../components/home-grid/grid-config';
-import { website } from '../components/utils/structured-data';
+import { generateWebsiteStructuredData } from '../components/utils/structured-data';
+import { ContentfulApiPageHome, ContentfulApiStructuredData } from '../typings';
 
 const HomeGrid = dynamic(() => import('../components/home-grid/HomeGrid'));
 
@@ -52,7 +52,12 @@ const roleAnimationVariants = {
   },
 };
 
-const Home: NextComponentType<{}, PageHomeProps, PageHomeProps> = ({ path, meta, pageTitle }) => {
+const Home: NextComponentType<{}, PageHomeProps, PageHomeProps> = ({
+  path,
+  meta,
+  pageTitle,
+  templateStructuredData,
+}) => {
   const gridWrapperEl = useRef<HTMLDivElement>(null);
 
   function forceRealViewportSize(): void {
@@ -100,7 +105,9 @@ const Home: NextComponentType<{}, PageHomeProps, PageHomeProps> = ({ path, meta,
         title={meta.title}
         description={meta.description}
         path={path}
-        structuredData={website}
+        structuredData={
+          templateStructuredData && generateWebsiteStructuredData(templateStructuredData)
+        }
       />
 
       <DefaultPageTransitionWrapper>
@@ -370,13 +377,14 @@ const Home: NextComponentType<{}, PageHomeProps, PageHomeProps> = ({ path, meta,
 };
 
 Home.getInitialProps = async ({ pathname }: NextPageContext): Promise<PageHomeProps> => {
-  const toReturn = {
+  const toReturn: PageHomeProps = {
     path: '/na',
     pageTitle: 'Home',
     meta: {
       title: 'Home',
       description: 'Home page',
     },
+    templateStructuredData: undefined,
   };
 
   const routeConfig = routesConfig.find(({ route }) => route === pathname);
@@ -391,6 +399,11 @@ Home.getInitialProps = async ({ pathname }: NextPageContext): Promise<PageHomePr
     toReturn.meta = homeData.meta;
   }
 
+  const structuredDataTemplate: ContentfulApiStructuredData = await import(
+    `../data/structuredData.json`
+  ).then((m) => m.default);
+  toReturn.templateStructuredData = structuredDataTemplate;
+
   return toReturn;
 };
 
@@ -401,6 +414,7 @@ Home.propTypes = {
     description: PropTypes.string.isRequired,
   }).isRequired,
   pageTitle: PropTypes.string.isRequired,
+  templateStructuredData: PropTypes.any,
 };
 
 export default Home;

@@ -6,10 +6,10 @@ import { motion } from 'framer-motion';
 
 import DefaultPageTransitionWrapper from '../components/page-transition-wrappers/Default';
 import PageMeta from '../components/PageMeta';
-import { ContentfulApiPageAbout } from '../typings';
 import routesConfig from '../routes-config';
 import { customEaseOut } from '../components/utils/utils';
-import { website } from '../components/utils/structured-data';
+import { generateWebsiteStructuredData } from '../components/utils/structured-data';
+import { ContentfulApiPageAbout, ContentfulApiStructuredData } from '../typings';
 
 type PageAboutProps = ContentfulApiPageAbout & {
   path: string;
@@ -43,6 +43,7 @@ const About: NextComponentType<{}, PageAboutProps, PageAboutProps> = ({
   path,
   title,
   bio,
+  templateStructuredData,
 }) => {
   return (
     <>
@@ -51,7 +52,9 @@ const About: NextComponentType<{}, PageAboutProps, PageAboutProps> = ({
         title={meta.title}
         description={meta.description}
         path={path}
-        structuredData={website}
+        structuredData={
+          templateStructuredData && generateWebsiteStructuredData(templateStructuredData)
+        }
       />
 
       <DefaultPageTransitionWrapper>
@@ -194,6 +197,11 @@ About.getInitialProps = async ({ pathname }: NextPageContext): Promise<PageAbout
     toReturn.bio = aboutData.bio;
   }
 
+  const structuredDataTemplate: ContentfulApiStructuredData = await import(
+    `../data/structuredData.json`
+  ).then((m) => m.default);
+  toReturn.templateStructuredData = structuredDataTemplate;
+
   return toReturn;
 };
 
@@ -206,6 +214,7 @@ About.propTypes = {
   title: PropTypes.string.isRequired,
   // using 'any' avoids strange incompatibilities with Typescript type
   bio: PropTypes.any,
+  templateStructuredData: PropTypes.any,
 };
 
 export default About;

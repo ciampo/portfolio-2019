@@ -6,11 +6,16 @@ import PageMeta from '../../components/PageMeta';
 import ContentfulImage from '../../components/media/image';
 import ContentfulVideo from '../../components/media/video';
 import DefaultPageTransitionWrapper from '../../components/page-transition-wrappers/Default';
-import { ContentfulApiPageProject, ContentfulApiProject, ContentfulMedia } from '../../typings';
 import routesConfig from '../../routes-config';
 import { content, narrowMedia } from '../../components/media/sizes-presets';
 import RichTextRenderer from '../../components/utils/RichTextRenderer';
-import { generatePostStructuredData } from '../../components/utils/structured-data';
+import { generateArticleStructuredData } from '../../components/utils/structured-data';
+import {
+  ContentfulApiPageProject,
+  ContentfulApiProject,
+  ContentfulMedia,
+  ContentfulApiStructuredData,
+} from '../../typings';
 
 type PageProjectProps = ContentfulApiPageProject & {
   path: string;
@@ -59,6 +64,7 @@ const PageProject: NextComponentType<{}, PageProjectProps, PageProjectProps> = (
   descriptionSectionTitle,
   mediaSectionTitle,
   path,
+  templateStructuredData,
 }) =>
   project ? (
     <>
@@ -66,11 +72,15 @@ const PageProject: NextComponentType<{}, PageProjectProps, PageProjectProps> = (
         title={meta.title}
         description={meta.description}
         path={path}
-        structuredData={generatePostStructuredData({
-          title: project.title,
-          image: `https:${project.tileImage.file.url}?w=1280&fit=fill&fm=jpg&q=70`,
-          publicationDate: project.publicationDate,
-        })}
+        structuredData={
+          templateStructuredData &&
+          generateArticleStructuredData(templateStructuredData, {
+            title: project.title,
+            image: `https:${project.tileImage.file.url}?w=1280&fit=fill&fm=jpg&q=70`,
+            publicationDate: project.publicationDate,
+            modifiedDate: project._updatedAt,
+          })
+        }
       />
 
       <DefaultPageTransitionWrapper>
@@ -151,6 +161,7 @@ PageProject.getInitialProps = async ({
       description: 'Project',
     },
     project: undefined,
+    templateStructuredData: undefined,
   };
 
   const routeConfig = routesConfig.find(({ route }) => route === pathname);
@@ -203,6 +214,11 @@ PageProject.getInitialProps = async ({
       }
 
       toReturn.project = currentPost;
+
+      const structuredDataTemplate: ContentfulApiStructuredData = await import(
+        `../../data/structuredData.json`
+      ).then((m) => m.default);
+      toReturn.templateStructuredData = structuredDataTemplate;
     }
   }
 
@@ -222,6 +238,7 @@ PageProject.propTypes = {
   descriptionSectionTitle: PropTypes.string.isRequired,
   mediaSectionTitle: PropTypes.string.isRequired,
   project: PropTypes.any,
+  templateStructuredData: PropTypes.any,
 };
 
 export default PageProject;

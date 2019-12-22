@@ -1,44 +1,33 @@
+import { ContentfulApiStructuredData } from '../../typings';
+
 interface PostInfo {
   title: string;
   image: string;
   publicationDate: string;
+  modifiedDate: string;
 }
 
-// TODO: get data from contentful
-const author = {
-  '@context': 'https://schema.org',
-  '@type': 'Person',
-  name: 'Marco Ciampini',
-  // description: 'TODO',
-  email: 'marco.ciampo@gmail.com',
-  gender: 'Male',
-  jobTitle: 'Web Developer',
-  nationality: {
-    '@type': 'Country',
-    address: {
-      '@type': 'PostalAddress',
-      addressCountry: 'IT',
-    },
-  },
-  sameAs: 'https://twitter.com/marco_ciampini',
-};
+const generateWebsiteStructuredData = (data: ContentfulApiStructuredData): object =>
+  JSON.parse(
+    JSON.stringify(data.website)
+      .replace(/":organization"/g, JSON.stringify(data.organisation))
+      .replace(/":author"/g, JSON.stringify(data.author))
+      .replace(/:canonicalUrl/g, process.env.CANONICAL_URL || '')
+  );
 
-const website = {
-  '@context': 'https://schema.org',
-  '@type': 'WebSite',
-  url: process.env.CANONICAL_URL,
-  name: 'Marco Ciampini, Web Developer',
-  publisher: author,
-};
+const generateArticleStructuredData = (
+  data: ContentfulApiStructuredData,
+  postInfo: PostInfo
+): object =>
+  JSON.parse(
+    JSON.stringify(data.article)
+      .replace(/":organization"/g, JSON.stringify(data.organisation))
+      .replace(/":author"/g, JSON.stringify(data.author))
+      .replace(/:canonicalUrl/g, process.env.CANONICAL_URL || '')
+      .replace(/:headline/g, postInfo.title)
+      .replace(/:image/g, postInfo.image)
+      .replace(/:datePublished/g, postInfo.publicationDate)
+      .replace(/:dateModified/g, postInfo.modifiedDate)
+  );
 
-const generatePostStructuredData = (postInfo: PostInfo): object => ({
-  '@context': 'https://schema.org',
-  '@type': 'Article',
-  headline: postInfo.title,
-  author: author,
-  publisher: author,
-  image: postInfo.image,
-  datePublished: postInfo.publicationDate,
-});
-
-export { author, website, generatePostStructuredData };
+export { generateWebsiteStructuredData, generateArticleStructuredData };
