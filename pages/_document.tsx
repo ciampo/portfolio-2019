@@ -9,41 +9,21 @@ import Document, {
   DocumentProps,
 } from 'next/document';
 
-import { ContentfulApiGlobalMeta } from '../typings';
-
-type CustomDocumentProps = {
-  previewSharingImage: string;
-};
-
 // _document is only rendered on the server side and not on the client side
 // Event handlers like onClick can't be added to this file
 
-class CustomDocument extends Document<DocumentProps & CustomDocumentProps> {
-  static async getInitialProps(
-    ctx: DocumentContext
-  ): Promise<DocumentInitialProps & CustomDocumentProps> {
+class CustomDocument extends Document<DocumentProps> {
+  static async getInitialProps(ctx: DocumentContext): Promise<DocumentInitialProps> {
     const initialProps = await Document.getInitialProps(ctx);
-
-    const globalMeta: ContentfulApiGlobalMeta = await import('../data/globalMeta.json').then(
-      (m) => m.default
-    );
-
-    return {
-      previewSharingImage: globalMeta.previewImage.file.url,
-      ...initialProps,
-    };
+    return { ...initialProps };
   }
 
   render(): JSX.Element {
-    const previewSharingImage = this.props.previewSharingImage.startsWith('//')
-      ? `https:${this.props.previewSharingImage}`
-      : this.props.previewSharingImage;
     return (
       <Html lang="en">
         <Head>
           <meta name="twitter:card" content="summary" />
           <meta property="og:type" content="website" />
-          <meta property="og:image" content={previewSharingImage} />
 
           {/* Manifests */}
           <link rel="manifest" href="/site.webmanifest" />

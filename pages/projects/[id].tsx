@@ -80,6 +80,7 @@ const PageProject: NextComponentType<{}, PageProjectProps, PageProjectProps> = (
       <PageMeta
         title={meta.title}
         description={meta.description}
+        previewImage={meta.previewImage.file.url}
         path={path}
         webPageStructuredData={
           templateStructuredData &&
@@ -181,6 +182,18 @@ PageProject.getInitialProps = async ({
     meta: {
       title: 'Project',
       description: 'Project',
+      previewImage: {
+        title: '',
+        file: {
+          url: '',
+          contentType: '',
+          fileName: '',
+          __base64Thumb: '',
+          details: {
+            size: -1,
+          },
+        },
+      },
     },
     project: undefined,
     templateStructuredData: undefined,
@@ -221,6 +234,7 @@ PageProject.getInitialProps = async ({
           '[project-description]',
           currentPost.title
         ),
+        previewImage: currentPost.tileImage,
       };
 
       toReturn.dateLabel = projectPageData.dateLabel;
@@ -267,6 +281,23 @@ PageProject.propTypes = {
   meta: PropTypes.shape({
     title: PropTypes.string.isRequired,
     description: PropTypes.string.isRequired,
+    previewImage: PropTypes.shape({
+      title: PropTypes.string.isRequired,
+      description: PropTypes.string,
+      file: PropTypes.shape({
+        url: PropTypes.string.isRequired,
+        fileName: PropTypes.string.isRequired,
+        contentType: PropTypes.string.isRequired,
+        __base64Thumb: PropTypes.string,
+        details: PropTypes.shape({
+          size: PropTypes.number.isRequired,
+          image: PropTypes.shape({
+            width: PropTypes.number.isRequired,
+            height: PropTypes.number.isRequired,
+          }),
+        }).isRequired,
+      }).isRequired,
+    }).isRequired,
   }).isRequired,
   dateLabel: PropTypes.string.isRequired,
   clientLabel: PropTypes.string.isRequired,

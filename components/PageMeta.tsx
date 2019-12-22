@@ -8,6 +8,7 @@ interface PageMetaProps {
   title: string;
   description: string;
   path: string;
+  previewImage?: string;
   webPageStructuredData?: object;
   articleStructuredData?: object;
 }
@@ -16,6 +17,7 @@ const PageMeta: React.FC<PageMetaProps> = ({
   title,
   description,
   path,
+  previewImage,
   webPageStructuredData,
   articleStructuredData,
 }) => (
@@ -28,6 +30,9 @@ const PageMeta: React.FC<PageMetaProps> = ({
     {/* og:tags */}
     <meta key="page-og-title" property="og:title" content={title} />
     <meta key="page-og-description" property="og:description" content={description} />
+    {previewImage && (
+      <meta key="page-og-image" property="og:image" content={`https:${previewImage}`} />
+    )}
     {process.env.CANONICAL_URL && (
       <meta
         key="page-og-url"
@@ -62,6 +67,7 @@ PageMeta.propTypes = {
   title: PropTypes.string.isRequired,
   description: PropTypes.string.isRequired,
   path: PropTypes.string.isRequired,
+  previewImage: PropTypes.string.isRequired,
   webPageStructuredData: PropTypes.any,
   articleStructuredData: PropTypes.any,
 };

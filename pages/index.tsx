@@ -104,6 +104,7 @@ const Home: NextComponentType<{}, PageHomeProps, PageHomeProps> = ({
       <PageMeta
         title={meta.title}
         description={meta.description}
+        previewImage={meta.previewImage.file.url}
         path={path}
         webPageStructuredData={
           templateStructuredData &&
@@ -387,6 +388,18 @@ Home.getInitialProps = async ({ pathname }: NextPageContext): Promise<PageHomePr
     meta: {
       title: 'Home',
       description: 'Home page',
+      previewImage: {
+        title: '',
+        file: {
+          url: '',
+          contentType: '',
+          fileName: '',
+          __base64Thumb: '',
+          details: {
+            size: -1,
+          },
+        },
+      },
     },
     templateStructuredData: undefined,
   };
@@ -416,6 +429,23 @@ Home.propTypes = {
   meta: PropTypes.shape({
     title: PropTypes.string.isRequired,
     description: PropTypes.string.isRequired,
+    previewImage: PropTypes.shape({
+      title: PropTypes.string.isRequired,
+      description: PropTypes.string,
+      file: PropTypes.shape({
+        url: PropTypes.string.isRequired,
+        fileName: PropTypes.string.isRequired,
+        contentType: PropTypes.string.isRequired,
+        __base64Thumb: PropTypes.string,
+        details: PropTypes.shape({
+          size: PropTypes.number.isRequired,
+          image: PropTypes.shape({
+            width: PropTypes.number.isRequired,
+            height: PropTypes.number.isRequired,
+          }),
+        }).isRequired,
+      }).isRequired,
+    }).isRequired,
   }).isRequired,
   pageTitle: PropTypes.string.isRequired,
   templateStructuredData: PropTypes.any,
