@@ -8,7 +8,7 @@ import DefaultPageTransitionWrapper from '../components/page-transition-wrappers
 import PageMeta from '../components/PageMeta';
 import routesConfig from '../routes-config';
 import { customEaseOut } from '../components/utils/utils';
-import { generateWebsiteStructuredData } from '../components/utils/structured-data';
+import { generateWebpageStructuredData } from '../components/utils/structured-data';
 import { ContentfulApiPageAbout, ContentfulApiStructuredData } from '../typings';
 
 type PageAboutProps = ContentfulApiPageAbout & {
@@ -52,8 +52,12 @@ const About: NextComponentType<{}, PageAboutProps, PageAboutProps> = ({
         title={meta.title}
         description={meta.description}
         path={path}
-        structuredData={
-          templateStructuredData && generateWebsiteStructuredData(templateStructuredData)
+        webPageStructuredData={
+          templateStructuredData &&
+          generateWebpageStructuredData(templateStructuredData, {
+            title: meta.title,
+            description: meta.description,
+          })
         }
       />
 

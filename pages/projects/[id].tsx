@@ -9,17 +9,25 @@ import DefaultPageTransitionWrapper from '../../components/page-transition-wrapp
 import routesConfig from '../../routes-config';
 import { content, narrowMedia } from '../../components/media/sizes-presets';
 import RichTextRenderer from '../../components/utils/RichTextRenderer';
-import { generateArticleStructuredData } from '../../components/utils/structured-data';
+import {
+  generateWebpageStructuredData,
+  generateArticleStructuredData,
+} from '../../components/utils/structured-data';
 import {
   ContentfulApiPageProject,
   ContentfulApiProject,
   ContentfulMedia,
   ContentfulApiStructuredData,
+  ContentfulApiPageProjectsList,
 } from '../../typings';
 
 type PageProjectProps = ContentfulApiPageProject & {
   path: string;
   project?: ContentfulApiProject;
+  parentPage?: {
+    path: string;
+    title: string;
+  };
 };
 
 const articleMedia = (
@@ -65,6 +73,7 @@ const PageProject: NextComponentType<{}, PageProjectProps, PageProjectProps> = (
   mediaSectionTitle,
   path,
   templateStructuredData,
+  parentPage,
 }) =>
   project ? (
     <>
@@ -72,7 +81,20 @@ const PageProject: NextComponentType<{}, PageProjectProps, PageProjectProps> = (
         title={meta.title}
         description={meta.description}
         path={path}
-        structuredData={
+        webPageStructuredData={
+          templateStructuredData &&
+          generateWebpageStructuredData(templateStructuredData, {
+            title: meta.title,
+            description: meta.description,
+            breadcrumbsPages: parentPage && [
+              {
+                name: parentPage.title,
+                url: parentPage.path,
+              },
+            ],
+          })
+        }
+        articleStructuredData={
           templateStructuredData &&
           generateArticleStructuredData(templateStructuredData, {
             title: project.title,
@@ -162,6 +184,7 @@ PageProject.getInitialProps = async ({
     },
     project: undefined,
     templateStructuredData: undefined,
+    parentPage: undefined,
   };
 
   const routeConfig = routesConfig.find(({ route }) => route === pathname);
@@ -220,6 +243,20 @@ PageProject.getInitialProps = async ({
       ).then((m) => m.default);
       toReturn.templateStructuredData = structuredDataTemplate;
     }
+
+    if (routeConfig.parentRoute) {
+      const parentRouteConfig = routesConfig.find(({ route }) => route === routeConfig.parentRoute);
+      if (parentRouteConfig && parentRouteConfig.contentfulPageId) {
+        const parentPageData: ContentfulApiPageProjectsList = await import(
+          `../../data/${parentRouteConfig.contentfulPageId}.json`
+        ).then((m) => m.default);
+
+        toReturn.parentPage = {
+          path: routeConfig.parentRoute,
+          title: parentPageData.title,
+        };
+      }
+    }
   }
 
   return toReturn;
@@ -239,6 +276,10 @@ PageProject.propTypes = {
   mediaSectionTitle: PropTypes.string.isRequired,
   project: PropTypes.any,
   templateStructuredData: PropTypes.any,
+  parentPage: PropTypes.shape({
+    path: PropTypes.string.isRequired,
+    title: PropTypes.string.isRequired,
+  }),
 };
 
 export default PageProject;

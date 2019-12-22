@@ -13,6 +13,7 @@ module.exports = [
   },
   {
     route: '/projects/[id]',
+    parentRoute: '/projects',
     contentfulPageId: 'pageProject',
     dynamicRoute: {
       contentfulItemsId: 'project',

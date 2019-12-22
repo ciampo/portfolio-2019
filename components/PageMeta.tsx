@@ -8,10 +8,20 @@ interface PageMetaProps {
   title: string;
   description: string;
   path: string;
-  structuredData?: object;
+  webPageStructuredData?: object;
+  articleStructuredData?: object;
 }
 
-const PageMeta: React.FC<PageMetaProps> = ({ title, description, path, structuredData }) => (
+const structuredDataPageKey = 'structured-data-webpage';
+const structuredDataArticleKey = 'structured-data-article';
+
+const PageMeta: React.FC<PageMetaProps> = ({
+  title,
+  description,
+  path,
+  webPageStructuredData,
+  articleStructuredData,
+}) => (
   <Head>
     <meta name="viewport" content="width=device-width,initial-scale=1" key="viewport" />
 
@@ -30,12 +40,21 @@ const PageMeta: React.FC<PageMetaProps> = ({ title, description, path, structure
     )}
 
     {/* Structured data */}
-    {structuredData && (
+    {webPageStructuredData && (
       <script
         type="application/ld+json"
-        key="structured-data"
+        key={structuredDataPageKey}
         dangerouslySetInnerHTML={{
-          __html: JSON.stringify(structuredData),
+          __html: JSON.stringify(webPageStructuredData),
+        }}
+      ></script>
+    )}
+    {articleStructuredData && (
+      <script
+        type="application/ld+json"
+        key={structuredDataArticleKey}
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(articleStructuredData),
         }}
       ></script>
     )}
@@ -46,7 +65,8 @@ PageMeta.propTypes = {
   title: PropTypes.string.isRequired,
   description: PropTypes.string.isRequired,
   path: PropTypes.string.isRequired,
-  structuredData: PropTypes.any,
+  webPageStructuredData: PropTypes.any,
+  articleStructuredData: PropTypes.any,
 };
 
 export default PageMeta;

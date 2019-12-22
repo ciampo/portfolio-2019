@@ -10,7 +10,7 @@ import routesConfig from '../routes-config';
 import { customEaseOut } from '../components/utils/utils';
 import ContentfulImage from '../components/media/image';
 import { projectTile } from '../components/media/sizes-presets';
-import { generateWebsiteStructuredData } from '../components/utils/structured-data';
+import { generateWebpageStructuredData } from '../components/utils/structured-data';
 import {
   ContentfulApiPageProjectsList,
   ContentfulApiProject,
@@ -126,8 +126,12 @@ const PageProjectsList: NextComponentType<{}, PageProjectsListProps, PageProject
       title={meta.title}
       description={meta.description}
       path={path}
-      structuredData={
-        templateStructuredData && generateWebsiteStructuredData(templateStructuredData)
+      webPageStructuredData={
+        templateStructuredData &&
+        generateWebpageStructuredData(templateStructuredData, {
+          title: meta.title,
+          description: meta.description,
+        })
       }
     />
 

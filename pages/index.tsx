@@ -8,7 +8,7 @@ import DefaultPageTransitionWrapper from '../components/page-transition-wrappers
 import PageMeta from '../components/PageMeta';
 import routesConfig from '../routes-config';
 import gridConfig from '../components/home-grid/grid-config';
-import { generateWebsiteStructuredData } from '../components/utils/structured-data';
+import { generateWebpageStructuredData } from '../components/utils/structured-data';
 import { ContentfulApiPageHome, ContentfulApiStructuredData } from '../typings';
 
 const HomeGrid = dynamic(() => import('../components/home-grid/HomeGrid'));
@@ -105,8 +105,12 @@ const Home: NextComponentType<{}, PageHomeProps, PageHomeProps> = ({
         title={meta.title}
         description={meta.description}
         path={path}
-        structuredData={
-          templateStructuredData && generateWebsiteStructuredData(templateStructuredData)
+        webPageStructuredData={
+          templateStructuredData &&
+          generateWebpageStructuredData(templateStructuredData, {
+            title: meta.title,
+            description: meta.description,
+          })
         }
       />
 
