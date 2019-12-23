@@ -8,8 +8,19 @@
   }
 }
 
-.rich-text-container p + p {
+.rich-text-container p + p,
+.rich-text-container p + ul,
+.rich-text-container p + ol {
   margin-top: 0.75em;
+}
+
+.rich-text-container ul + p,
+.rich-text-container ul + ul,
+.rich-text-container ul + ol,
+.rich-text-container ol + p,
+.rich-text-container ol + ul,
+.rich-text-container ol + ol {
+  margin-top: 1em;
 }
 
 .rich-text-container a {
@@ -18,4 +29,13 @@
 
 .rich-text-container a:focus {
   @apply border-solid;
+}
+
+.rich-text-container ul {
+  @apply pl-8;
+}
+
+.rich-text-container li {
+  @apply pl-2 mt-2;
+  list-style: square;
 }
