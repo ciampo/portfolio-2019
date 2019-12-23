@@ -42,14 +42,14 @@ const articleMedia = (
 ): JSX.Element => (
   <div className={wrapperClassName}>
     {/video/.test(mediaObj.source.file.contentType) ? (
-      <ContentfulVideo src={mediaObj.source.file.url} className="mt-24" />
+      <ContentfulVideo src={mediaObj.source.file.url} className="mb-24" />
     ) : (
       <ContentfulImage
         baseSrc={mediaObj.source.file.url}
         resolutions={sizePreset.resolutions}
         sizes={sizePreset.sizes}
         label={mediaObj.source.description}
-        className="relative mt-24"
+        className="relative mb-24"
         ratio={
           mediaObj.source.file.details.image
             ? mediaObj.source.file.details.image.height / mediaObj.source.file.details.image.width
