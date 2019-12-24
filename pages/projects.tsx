@@ -25,12 +25,10 @@ type PageProjectsListProps = ContentfulApiPageProjectsList & {
 
 const tileAnimationVariants = {
   exit: {
-    scale: 0.95,
     y: 20,
     opacity: 0,
   },
   enter: {
-    scale: 1,
     y: 0,
     opacity: 1,
     transition: {
@@ -49,8 +47,8 @@ const ProjectTile: React.FC<{ id: string; label: string; img: ContentfulMedia }>
 }) => {
   const [stallImageLazyInit, setStallImageLazyInit] = useState(true);
 
-  function onAnimationUpdate(latest: { scale: number }): void {
-    if (latest.scale === 1) {
+  function onAnimationUpdate(latest: { opacity: number }): void {
+    if (latest.opacity === 1) {
       setStallImageLazyInit(false);
     }
   }
@@ -108,8 +106,9 @@ ProjectTile.propTypes = {
 const projectsAnimationVariants = {
   enter: {
     transition: {
-      staggerChildren: 0.1,
+      staggerChildren: 0.15,
       delay: 0.5,
+      delayChildren: 0.5,
     },
   },
 };
