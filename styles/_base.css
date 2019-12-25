@@ -1,10 +1,12 @@
 :root {
   --color-primary: theme('colors.gray.100');
+  --color-primary-lighter: theme('colors.gray.800');
   --color-background: theme('colors.gray.900');
 }
 
 :root.theme--light {
   --color-primary: theme('colors.gray.900');
+  --color-primary-lighter: theme('colors.gray.200');
   --color-background: theme('colors.gray.100');
 }
 

@@ -1,0 +1,9 @@
+.video-wrapper {
+  @apply relative shadow-lg;
+}
+
+.video-wrapper--paused {
+  outline: 0.03rem solid var(--color-primary-lighter);
+}
+
+
