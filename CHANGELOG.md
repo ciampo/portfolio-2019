@@ -35,6 +35,12 @@ for any bug fixes.
 in case of vulnerabilities.
 -->
 
+## [1.0.3] - 2019-12-27
+
+### Added
+
+- redirect from Netlify's default subdomain to primary domain
+
 ## [1.0.2] - 2019-12-27
 
 ### Changed
@@ -253,7 +259,8 @@ in case of vulnerabilities.
 - Updated README and added Netlify badge
 - Updated package.json
 
-[Unreleased]: https://github.com/ciampo/portfolio-2019/compare/v1.0.2...HEAD
+[Unreleased]: https://github.com/ciampo/portfolio-2019/compare/v1.0.3...HEAD
+[1.0.3]: https://github.com/ciampo/portfolio-2019/compare/v1.0.2...v1.0.3
 [1.0.2]: https://github.com/ciampo/portfolio-2019/compare/v1.0.1...v1.0.2
 [1.0.1]: https://github.com/ciampo/portfolio-2019/compare/v1.0.0...v1.0.1
 [1.0.0]: https://github.com/ciampo/portfolio-2019/compare/v1.0.0-rc.4...v1.0.0
