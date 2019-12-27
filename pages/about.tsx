@@ -64,7 +64,7 @@ const About: NextComponentType<{}, PageAboutProps, PageAboutProps> = ({
 
       <DefaultPageTransitionWrapper>
         <motion.section
-          className="pt-24 pb-12 md:pt-32 md:pb-16 lg:pt-48 container mx-auto"
+          className="pt-24 md:pt-32 lg:pt-40 pb-12 md:pb-16 container mx-auto"
           initial="exit"
           animate="enter"
           exit="exit"

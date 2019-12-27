@@ -107,7 +107,7 @@ const PageProject: NextComponentType<{}, PageProjectProps, PageProjectProps> = (
       />
 
       <DefaultPageTransitionWrapper>
-        <header className="relative pt-24 md:pt-32 pb-20 sm:pb-24 md:pb-32 px-6 lg:pt-48 text-center project-header">
+        <header className="relative pt-24 md:pt-32 lg:pt-40 pb-20 sm:pb-24 md:pb-32 px-6 text-center project-header">
           <h1 className="relative z-10 text-2xl sm:text-3xl md:text-4xl lg:text-5xl">
             {project.title}
           </h1>
