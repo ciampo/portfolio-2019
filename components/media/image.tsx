@@ -27,7 +27,7 @@ function getSrcSet(baseSrc: string, resolutions: number[], format: string): stri
 
 const ioOptions: IntersectionObserverInit = {
   root: null,
-  rootMargin: '0px',
+  rootMargin: '100px',
   threshold: 0.01,
 };
 
