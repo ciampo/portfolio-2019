@@ -1,5 +1,4 @@
 import React, { useEffect, useState, useContext } from 'react';
-import PropTypes from 'prop-types';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { NextComponentType } from 'next';
@@ -108,16 +107,6 @@ const Nav: NextComponentType<{}, NavProps, NavProps> = ({ links }) => {
       </label>
     </>
   );
-};
-
-Nav.propTypes = {
-  links: PropTypes.arrayOf(
-    PropTypes.shape({
-      href: PropTypes.string.isRequired,
-      label: PropTypes.string.isRequired,
-      selected: PropTypes.bool,
-    }).isRequired
-  ).isRequired,
 };
 
 export default Nav;

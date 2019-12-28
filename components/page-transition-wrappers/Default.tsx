@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 
 import { motion } from 'framer-motion';
 import { customEaseOut } from '../utils/utils';
@@ -39,10 +38,5 @@ const DefaultPageTransitionWrapper: React.FC<CustomPageTransitionProps> = ({
     {children}
   </motion.div>
 );
-
-DefaultPageTransitionWrapper.propTypes = {
-  children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]).isRequired,
-  onComplete: PropTypes.func,
-};
 
 export default DefaultPageTransitionWrapper;

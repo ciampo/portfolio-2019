@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import Head from 'next/head';
 
 import { joinUrl } from './utils/utils';
@@ -69,14 +68,5 @@ const PageMeta: React.FC<PageMetaProps> = ({
     )}
   </Head>
 );
-
-PageMeta.propTypes = {
-  title: PropTypes.string.isRequired,
-  description: PropTypes.string.isRequired,
-  path: PropTypes.string.isRequired,
-  previewImage: PropTypes.string.isRequired,
-  webPageStructuredData: PropTypes.any,
-  articleStructuredData: PropTypes.any,
-};
 
 export default PageMeta;

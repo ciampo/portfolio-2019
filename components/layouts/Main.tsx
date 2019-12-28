@@ -1,5 +1,4 @@
 import React, { PropsWithChildren } from 'react';
-import PropTypes from 'prop-types';
 
 import Nav from '../Nav';
 import { UiLink } from '../../typings';
@@ -17,10 +16,5 @@ const MainLayout: React.FC<MainLayoutProps> = ({ children, navLinks }) => (
     {/* <Footer /> */}
   </>
 );
-
-MainLayout.propTypes = {
-  children: PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.node), PropTypes.node]).isRequired,
-  navLinks: PropTypes.array.isRequired,
-};
 
 export default MainLayout;

@@ -7,7 +7,6 @@ import React, {
   useMemo,
   useContext,
 } from 'react';
-import PropTypes from 'prop-types';
 import { NextComponentType } from 'next';
 import { throttle } from 'throttle-debounce';
 
@@ -255,12 +254,6 @@ const HomeGrid: NextComponentType<{}, HomeGridProps, HomeGridProps> = ({
       onPointerUp={onPointerUp}
     />
   );
-};
-
-HomeGrid.propTypes = {
-  onInit: PropTypes.func,
-  onInteraction: PropTypes.func,
-  onIdle: PropTypes.func,
 };
 
 export default HomeGrid;

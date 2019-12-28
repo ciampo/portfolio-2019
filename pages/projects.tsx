@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import PropTypes from 'prop-types';
 import Link from 'next/link';
 import { NextComponentType, NextPageContext } from 'next';
 import { motion } from 'framer-motion';
@@ -79,28 +78,6 @@ const ProjectTile: React.FC<{ id: string; label: string; img: ContentfulMedia }>
       </Link>
     </motion.li>
   );
-};
-
-ProjectTile.propTypes = {
-  id: PropTypes.string.isRequired,
-  label: PropTypes.string.isRequired,
-  img: PropTypes.shape({
-    title: PropTypes.string.isRequired,
-    description: PropTypes.string,
-    file: PropTypes.shape({
-      url: PropTypes.string.isRequired,
-      __base64Thumb: PropTypes.string,
-      details: PropTypes.shape({
-        size: PropTypes.number.isRequired,
-        image: PropTypes.shape({
-          width: PropTypes.number.isRequired,
-          height: PropTypes.number.isRequired,
-        }),
-      }).isRequired,
-      contentType: PropTypes.string.isRequired,
-      fileName: PropTypes.string.isRequired,
-    }).isRequired,
-  }).isRequired,
 };
 
 const projectsAnimationVariants = {
@@ -220,34 +197,6 @@ PageProjectsList.getInitialProps = async ({
   toReturn.templateStructuredData = structuredDataTemplate;
 
   return toReturn;
-};
-
-PageProjectsList.propTypes = {
-  path: PropTypes.string.isRequired,
-  meta: PropTypes.shape({
-    title: PropTypes.string.isRequired,
-    description: PropTypes.string.isRequired,
-    previewImage: PropTypes.shape({
-      title: PropTypes.string.isRequired,
-      description: PropTypes.string,
-      file: PropTypes.shape({
-        url: PropTypes.string.isRequired,
-        fileName: PropTypes.string.isRequired,
-        contentType: PropTypes.string.isRequired,
-        __base64Thumb: PropTypes.string,
-        details: PropTypes.shape({
-          size: PropTypes.number.isRequired,
-          image: PropTypes.shape({
-            width: PropTypes.number.isRequired,
-            height: PropTypes.number.isRequired,
-          }),
-        }).isRequired,
-      }).isRequired,
-    }).isRequired,
-  }).isRequired,
-  title: PropTypes.string.isRequired,
-  projects: PropTypes.array.isRequired,
-  templateStructuredData: PropTypes.any,
 };
 
 export default PageProjectsList;

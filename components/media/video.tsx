@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import PropTypes from 'prop-types';
 import { NextComponentType } from 'next';
 
 type ContentfulVideoProps = {
@@ -30,11 +29,6 @@ const ContentfulVideo: NextComponentType<{}, ContentfulVideoProps, ContentfulVid
       />
     </div>
   );
-};
-
-ContentfulVideo.propTypes = {
-  src: PropTypes.string.isRequired,
-  className: PropTypes.string,
 };
 
 export default ContentfulVideo;

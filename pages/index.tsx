@@ -1,5 +1,4 @@
 import React, { useEffect, useRef, useState } from 'react';
-import PropTypes from 'prop-types';
 import { NextComponentType, NextPageContext } from 'next';
 import dynamic from 'next/dynamic';
 import { motion } from 'framer-motion';
@@ -422,33 +421,6 @@ Home.getInitialProps = async ({ pathname }: NextPageContext): Promise<PageHomePr
   toReturn.templateStructuredData = structuredDataTemplate;
 
   return toReturn;
-};
-
-Home.propTypes = {
-  path: PropTypes.string.isRequired,
-  meta: PropTypes.shape({
-    title: PropTypes.string.isRequired,
-    description: PropTypes.string.isRequired,
-    previewImage: PropTypes.shape({
-      title: PropTypes.string.isRequired,
-      description: PropTypes.string,
-      file: PropTypes.shape({
-        url: PropTypes.string.isRequired,
-        fileName: PropTypes.string.isRequired,
-        contentType: PropTypes.string.isRequired,
-        __base64Thumb: PropTypes.string,
-        details: PropTypes.shape({
-          size: PropTypes.number.isRequired,
-          image: PropTypes.shape({
-            width: PropTypes.number.isRequired,
-            height: PropTypes.number.isRequired,
-          }),
-        }).isRequired,
-      }).isRequired,
-    }).isRequired,
-  }).isRequired,
-  pageTitle: PropTypes.string.isRequired,
-  templateStructuredData: PropTypes.any,
 };
 
 export default Home;

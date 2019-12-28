@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { NextComponentType, NextPageContext } from 'next';
 import RichTextRenderer from '../components/utils/RichTextRenderer';
 import { motion } from 'framer-motion';
@@ -220,35 +219,6 @@ About.getInitialProps = async ({ pathname }: NextPageContext): Promise<PageAbout
   toReturn.templateStructuredData = structuredDataTemplate;
 
   return toReturn;
-};
-
-About.propTypes = {
-  path: PropTypes.string.isRequired,
-  meta: PropTypes.shape({
-    title: PropTypes.string.isRequired,
-    description: PropTypes.string.isRequired,
-    previewImage: PropTypes.shape({
-      title: PropTypes.string.isRequired,
-      description: PropTypes.string,
-      file: PropTypes.shape({
-        url: PropTypes.string.isRequired,
-        fileName: PropTypes.string.isRequired,
-        contentType: PropTypes.string.isRequired,
-        __base64Thumb: PropTypes.string,
-        details: PropTypes.shape({
-          size: PropTypes.number.isRequired,
-          image: PropTypes.shape({
-            width: PropTypes.number.isRequired,
-            height: PropTypes.number.isRequired,
-          }),
-        }).isRequired,
-      }).isRequired,
-    }).isRequired,
-  }).isRequired,
-  title: PropTypes.string.isRequired,
-  // using 'any' avoids strange incompatibilities with Typescript type
-  bio: PropTypes.any,
-  templateStructuredData: PropTypes.any,
 };
 
 export default About;

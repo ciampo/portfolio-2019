@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { NextComponentType, NextPageContext } from 'next';
 
 import PageMeta from '../components/PageMeta';
@@ -37,10 +36,6 @@ CustomError.getInitialProps = ({ res, err }: NextPageContext): ErrorPageProps =>
   const statusCode = res && res.statusCode ? res.statusCode : err ? err.statusCode : 404;
 
   return { statusCode: statusCode || -1 };
-};
-
-CustomError.propTypes = {
-  statusCode: PropTypes.number.isRequired,
 };
 
 export default CustomError;
