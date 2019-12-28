@@ -8,6 +8,7 @@ import PageMeta from '../components/PageMeta';
 import routesConfig from '../routes-config';
 import gridConfig from '../components/home-grid/grid-config';
 import { generateWebpageStructuredData } from '../components/utils/structured-data';
+import { initialDefaultPageProps } from '../components/utils/initial-props';
 import { ContentfulApiPageHome, ContentfulApiStructuredData } from '../typings';
 
 const HomeGrid = dynamic(() => import('../components/home-grid/HomeGrid'), { ssr: false });
@@ -382,25 +383,9 @@ const Home: NextComponentType<{}, PageHomeProps, PageHomeProps> = ({
 
 Home.getInitialProps = async ({ pathname }: NextPageContext): Promise<PageHomeProps> => {
   const toReturn: PageHomeProps = {
-    path: '/na',
+    ...initialDefaultPageProps,
+    path: '/',
     pageTitle: 'Home',
-    meta: {
-      title: 'Home',
-      description: 'Home page',
-      previewImage: {
-        title: '',
-        file: {
-          url: '',
-          contentType: '',
-          fileName: '',
-          __base64Thumb: '',
-          details: {
-            size: -1,
-          },
-        },
-      },
-    },
-    templateStructuredData: undefined,
   };
 
   const routeConfig = routesConfig.find(({ route }) => route === pathname);

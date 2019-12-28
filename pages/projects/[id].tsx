@@ -12,6 +12,7 @@ import {
   generateWebpageStructuredData,
   generateArticleStructuredData,
 } from '../../components/utils/structured-data';
+import { initialDefaultPageProps } from '../../components/utils/initial-props';
 import {
   ContentfulApiPageProject,
   ContentfulApiProject,
@@ -171,6 +172,7 @@ PageProject.getInitialProps = async ({
   query,
 }: NextPageContext): Promise<PageProjectProps> => {
   const toReturn: PageProjectProps = {
+    ...initialDefaultPageProps,
     path: 'N/A',
     dateLabel: '2019-00-00',
     clientLabel: 'N/A',
@@ -178,24 +180,7 @@ PageProject.getInitialProps = async ({
     linkText: 'View project',
     descriptionSectionTitle: 'Description',
     mediaSectionTitle: 'Media',
-    meta: {
-      title: 'Project',
-      description: 'Project',
-      previewImage: {
-        title: '',
-        file: {
-          url: '',
-          contentType: '',
-          fileName: '',
-          __base64Thumb: '',
-          details: {
-            size: -1,
-          },
-        },
-      },
-    },
     project: undefined,
-    templateStructuredData: undefined,
     parentPage: undefined,
   };
 

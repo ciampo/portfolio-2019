@@ -8,6 +8,7 @@ import PageMeta from '../components/PageMeta';
 import routesConfig from '../routes-config';
 import { customEaseOut } from '../components/utils/utils';
 import { generateWebpageStructuredData } from '../components/utils/structured-data';
+import { initialDefaultPageProps } from '../components/utils/initial-props';
 import { ContentfulApiPageAbout, ContentfulApiStructuredData } from '../typings';
 
 type PageAboutProps = ContentfulApiPageAbout & {
@@ -179,24 +180,9 @@ const About: NextComponentType<{}, PageAboutProps, PageAboutProps> = ({
 
 About.getInitialProps = async ({ pathname }: NextPageContext): Promise<PageAboutProps> => {
   const toReturn: PageAboutProps = {
-    path: '/na',
+    ...initialDefaultPageProps,
+    path: '/about',
     title: 'About me',
-    meta: {
-      title: 'About',
-      description: 'About page',
-      previewImage: {
-        title: '',
-        file: {
-          url: '',
-          contentType: '',
-          fileName: '',
-          __base64Thumb: '',
-          details: {
-            size: -1,
-          },
-        },
-      },
-    },
     bio: undefined,
   };
 

@@ -10,6 +10,7 @@ import { customEaseOut } from '../components/utils/utils';
 import ContentfulImage from '../components/media/image';
 import { projectTile } from '../components/media/sizes-presets';
 import { generateWebpageStructuredData } from '../components/utils/structured-data';
+import { initialDefaultPageProps } from '../components/utils/initial-props';
 import {
   ContentfulApiPageProjectsList,
   ContentfulApiProject,
@@ -136,26 +137,10 @@ PageProjectsList.getInitialProps = async ({
   pathname,
 }: NextPageContext): Promise<PageProjectsListProps> => {
   const toReturn: PageProjectsListProps = {
-    path: '/na',
+    ...initialDefaultPageProps,
+    path: '/projects',
     title: 'Projects',
-    meta: {
-      title: 'Projects',
-      description: 'Projects I worked on',
-      previewImage: {
-        title: '',
-        file: {
-          url: '',
-          contentType: '',
-          fileName: '',
-          __base64Thumb: '',
-          details: {
-            size: -1,
-          },
-        },
-      },
-    },
     projects: [],
-    templateStructuredData: undefined,
   };
 
   const routeConfig = routesConfig.find(({ route }) => route === pathname);
