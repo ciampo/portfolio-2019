@@ -129,23 +129,29 @@ const HomeGrid: NextComponentType<{}, HomeGridProps, HomeGridProps> = ({
   }
 
   // The programmatic wave timer waits for a random amount of time
-  const startProgrammaticWaveTimer = useCallback((): void => {
-    stopProgrammaticWaveTimer();
-    programmaticWavesTimerId.current = setTimeout(() => {
-      // Avoid waves being added to the grid if the tab isn't in focus
-      requestAnimationFrame(() => {
-        addGridWave(
-          {
-            clientX: bitwiseRound(canvasWidth / 2),
-            clientY: bitwiseRound(canvasHeight / 2),
-          },
-          false
-        );
-        programmaticWavesTimerId.current = null;
-        startProgrammaticWaveTimer();
-      });
-    }, 2500 + Math.random() * 1000);
-  }, [addGridWave, canvasHeight, canvasWidth]);
+  const startProgrammaticWaveTimer = useCallback(
+    (immediate?: boolean): void => {
+      stopProgrammaticWaveTimer();
+      programmaticWavesTimerId.current = setTimeout(
+        () => {
+          // Avoid waves being added to the grid if the tab isn't in focus
+          requestAnimationFrame(() => {
+            addGridWave(
+              {
+                clientX: bitwiseRound(canvasWidth / 2),
+                clientY: bitwiseRound(canvasHeight / 2),
+              },
+              false
+            );
+            programmaticWavesTimerId.current = null;
+            startProgrammaticWaveTimer();
+          });
+        },
+        immediate ? 50 : 3500 + Math.random() * 1000
+      );
+    },
+    [addGridWave, canvasHeight, canvasWidth]
+  );
 
   function stopIdleTimer(): void {
     if (idleTimerId.current) {
@@ -164,7 +170,7 @@ const HomeGrid: NextComponentType<{}, HomeGridProps, HomeGridProps> = ({
       }
 
       idleTimerId.current = null;
-      startProgrammaticWaveTimer();
+      startProgrammaticWaveTimer(true);
     }, 3000);
   }
 
@@ -205,12 +211,12 @@ const HomeGrid: NextComponentType<{}, HomeGridProps, HomeGridProps> = ({
 
   // Programmatic waves, shown when user is idle
   useEffect(() => {
-    startProgrammaticWaveTimer();
+    startProgrammaticWaveTimer(true);
 
     return (): void => {
       stopProgrammaticWaveTimer();
     };
-  }, [startProgrammaticWaveTimer]);
+  }, [canvasRef, startProgrammaticWaveTimer]);
 
   // Resize events (set canvas width / height to match its page dimensions)
   useEffect(() => {
