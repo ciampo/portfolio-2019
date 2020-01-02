@@ -1,18 +1,19 @@
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useEffect, useState } from 'react';
+import { NextComponentType } from 'next';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { NextComponentType } from 'next';
+import dynamic from 'next/dynamic';
 
 import { slugify } from './utils/utils';
-import { ThemeContext, themes } from './utils/ThemeContext';
 import { UiLink } from '../typings';
+
+const ThemeSwitcher = dynamic(() => import('./ThemeSwitcher'), { ssr: false });
 
 type NavProps = {
   links: UiLink[];
 };
 
 const Nav: NextComponentType<{}, NavProps, NavProps> = ({ links }) => {
-  const { value: theme, toggle: toggleTheme } = useContext(ThemeContext);
   const [loadingRoute, setLoadingRoute] = useState<string | null>(null);
   const router = useRouter();
 
@@ -78,33 +79,7 @@ const Nav: NextComponentType<{}, NavProps, NavProps> = ({ links }) => {
         </div>
       </nav>
 
-      {/* Theme switcher */}
-      <input
-        type="checkbox"
-        id="light-theme"
-        checked={theme === themes.LIGHT}
-        onChange={toggleTheme}
-        className="sr-only light-theme-checkbox"
-        aria-label={'Toggle between dark and light theme'}
-      />
-      <label
-        htmlFor="light-theme"
-        className="z-50 absolute right-0 top-0 block bg-background text-primary p-3 cursor-pointer"
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 48 48"
-          className="w-5 h-5 md:w-6 md:h-6 lg:w-8 lg:h-8"
-        >
-          <g fill="none" fillRule="evenodd" stroke="currentColor" strokeWidth="2">
-            <circle cx="24" cy="24" r="19" />
-            <path
-              strokeLinecap="square"
-              d="M24 5v37.5M24.5 12H38M24.5 18H41M24 24h19M24 30h17M25 36h13"
-            />
-          </g>
-        </svg>
-      </label>
+      <ThemeSwitcher />
     </>
   );
 };
