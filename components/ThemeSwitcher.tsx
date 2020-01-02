@@ -1,4 +1,5 @@
 import React, { useContext } from 'react';
+import { event } from 'react-ga';
 
 import { ThemeContext, themes } from './utils/ThemeContext';
 
@@ -7,6 +8,14 @@ const ThemeSwitcher = (): JSX.Element => {
 
   function onInputChange(): void {
     toggleTheme();
+
+    if (window.IS_GA_INIT) {
+      event({
+        category: 'User',
+        action: 'Toggled theme',
+        label: theme === themes.LIGHT ? 'Light' : 'Dark',
+      });
+    }
   }
 
   return (

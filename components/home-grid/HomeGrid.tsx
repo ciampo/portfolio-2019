@@ -9,6 +9,7 @@ import React, {
 } from 'react';
 import { NextComponentType } from 'next';
 import { throttle } from 'throttle-debounce';
+import { event } from 'react-ga';
 
 import {
   createGridPoints,
@@ -201,12 +202,22 @@ const HomeGrid: NextComponentType<{}, HomeGridProps, HomeGridProps> = ({
   function onPointerUp({ clientX, clientY }: React.PointerEvent<HTMLCanvasElement>): void {
     // Allow for a strong wave to be released if the pointer was pressed down for less than 150ms
     // or if it didn't move at all while down.
-    if (Date.now() - lastPointerDownTime.current <= 150 || !didPointerMoveWhileDown.current) {
+    const isClick =
+      Date.now() - lastPointerDownTime.current <= 150 || !didPointerMoveWhileDown.current;
+    if (isClick) {
       addGridWave({ clientX, clientY }, false);
     }
 
     isPointerDown.current = false;
     startIdleTimer();
+
+    if (window.IS_GA_INIT) {
+      event({
+        category: 'User',
+        action: 'Interacted with Home Grid',
+        label: isClick ? 'Click' : 'Drag',
+      });
+    }
   }
 
   // Programmatic waves, shown when user is idle
