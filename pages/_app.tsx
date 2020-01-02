@@ -150,7 +150,7 @@ export default class MyApp extends App<CustomAppProps> {
 
         <MainLayout navLinks={navLinks}>
           <AnimatePresence initial={false} exitBeforeEnter onExitComplete={this.scrollToTop}>
-            <Component {...pageProps} key={router.route} />
+            <Component {...pageProps} key={router.asPath} />
           </AnimatePresence>
         </MainLayout>
       </ThemeContext.Provider>
