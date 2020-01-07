@@ -108,20 +108,30 @@ function flattenContentfulApis(obj) {
   return obj;
 }
 
-async function getEntries(type, isSingleton = false, filterFuntion = () => true) {
+const defaultOpts = {
+  isSingleton: false,
+  filterFunction: () => true,
+  sortFunction: () => 0,
+};
+
+async function getEntries(type, opts) {
+  const computedOpts = Object.assign({}, defaultOpts, opts);
+
   const entries = await client.getEntries({
     // eslint-disable-next-line @typescript-eslint/camelcase
     content_type: type,
   });
 
-  let contents = flattenContentfulApis(entries.items).filter(filterFuntion);
+  let contents = flattenContentfulApis(entries.items)
+    .filter(computedOpts.filterFunction)
+    .sort(computedOpts.sortFunction);
 
   if (contents.length === 0) {
     return;
   }
 
   // When singleton, assume the first entry is the only entry.
-  if (isSingleton) {
+  if (computedOpts.isSingleton) {
     contents = contents[0];
   }
 
@@ -132,12 +142,23 @@ async function getEntries(type, isSingleton = false, filterFuntion = () => true)
 
 const pullContentfulData = async () => {
   await cleanDataFolder();
-  await getEntries('homePage', true);
-  await getEntries('pageProjects', true);
-  await getEntries('pageProject', true);
-  await getEntries('about', true);
-  await getEntries('structuredData', true);
-  await getEntries('project');
+  await getEntries('homePage', { isSingleton: true });
+  await getEntries('pageProjects', { isSingleton: true });
+  await getEntries('pageProject', { isSingleton: true });
+  await getEntries('about', { isSingleton: true });
+  await getEntries('structuredData', { isSingleton: true });
+  await getEntries('project', {
+    sortFunction: (a, b) => {
+      const coolA = a.coolFactor;
+      const dA = Date.parse(a.date);
+      const coolB = b.coolFactor;
+      const dB = Date.parse(b.date);
+
+      // Sort by cool rating first (highest to lowest)
+      // If same cool rating, sort by date (newest to oldest)
+      return coolA < coolB ? 1 : coolA > coolB ? -1 : dA < dB ? 1 : dA > dB ? -1 : 0;
+    },
+  });
 };
 
 pullContentfulData();

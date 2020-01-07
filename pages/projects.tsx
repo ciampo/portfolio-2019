@@ -162,18 +162,9 @@ PageProjectsList.getInitialProps = async ({
     singleProjectPage.dynamicRoute &&
     singleProjectPage.dynamicRoute.contentfulItemsId
   ) {
-    const projectsData: ContentfulApiProject[] = await import(
+    toReturn.projects = await import(
       `../data/${singleProjectPage.dynamicRoute.contentfulItemsId}.json`
     ).then((m) => m.default);
-
-    if (projectsData) {
-      toReturn.projects = projectsData.sort((a, b) => {
-        const dA = Date.parse(a.date);
-        const dB = Date.parse(b.date);
-
-        return dA < dB ? 1 : dA > dB ? -1 : 0;
-      });
-    }
   }
 
   const structuredDataTemplate: ContentfulApiStructuredData = await import(
