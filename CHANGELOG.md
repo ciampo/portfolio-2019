@@ -35,6 +35,26 @@ for any bug fixes.
 in case of vulnerabilities.
 -->
 
+## [1.0.5] - 2020-01-07
+
+### Changed
+
+- Theme switcher as a dynamic component
+- Sort projects by "cool rating", then by date
+- Home Grid UX: auto waves start sooner, but with a longer internal in between
+
+### Added
+
+- Analytics: theme switcher and asset links
+
+### Removed
+
+- Moved projects sorting from client side to data download script
+
+### Fixed
+
+- Using the router's `asPath` attribute as each page's `key` for transitions
+
 ## [1.0.4] - 2019-12-28
 
 ### Changed
@@ -273,7 +293,8 @@ in case of vulnerabilities.
 - Updated README and added Netlify badge
 - Updated package.json
 
-[Unreleased]: https://github.com/ciampo/portfolio-2019/compare/v1.0.4...HEAD
+[Unreleased]: https://github.com/ciampo/portfolio-2019/compare/v1.0.5...HEAD
+[1.0.5]: https://github.com/ciampo/portfolio-2019/compare/v1.0.4...v1.0.5
 [1.0.4]: https://github.com/ciampo/portfolio-2019/compare/v1.0.3...v1.0.4
 [1.0.3]: https://github.com/ciampo/portfolio-2019/compare/v1.0.2...v1.0.3
 [1.0.2]: https://github.com/ciampo/portfolio-2019/compare/v1.0.1...v1.0.2
