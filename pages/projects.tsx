@@ -1,13 +1,13 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Link from 'next/link';
 import { NextComponentType, NextPageContext } from 'next';
 import { motion } from 'framer-motion';
 
 import DefaultPageTransitionWrapper from '../components/page-transition-wrappers/Default';
 import PageMeta from '../components/PageMeta';
+import { getSrcSet, getImageUrl, getRetinaResolutions } from '../components/media/image';
 import routesConfig from '../routes-config';
 import { customEaseOut } from '../components/utils/utils';
-import ContentfulImage from '../components/media/image';
 import { projectTile } from '../components/media/sizes-presets';
 import { generateWebpageStructuredData } from '../components/utils/structured-data';
 import { initialDefaultPageProps } from '../components/utils/initial-props';
@@ -45,19 +45,12 @@ const ProjectTile: React.FC<{ id: string; label: string; img: ContentfulMedia }>
   label,
   img,
 }) => {
-  const [stallImageLazyInit, setStallImageLazyInit] = useState(true);
-
-  function onAnimationUpdate(latest: { opacity: number }): void {
-    if (latest.opacity === 1) {
-      setStallImageLazyInit(false);
-    }
-  }
+  const allResolutions = getRetinaResolutions(projectTile.resolutions);
 
   return (
     <motion.li
       className="w-full sm:w-1/2 lg:w-1/3 relative project-tile"
       variants={tileAnimationVariants}
-      onUpdate={onAnimationUpdate}
     >
       <Link href={singleProjectRoute} as={`/projects/${id}`} scroll={false}>
         <a className="contain-strict relative block w-full h-0 border-4 border-background aspect-ratio-16/9 lg:aspect-ratio-4/3 overflow-hidden outline-none transition-tf-custom transition-d-300 transition-p-opacity-transform focus:z-20 focus:transform-scale-up">
@@ -65,15 +58,15 @@ const ProjectTile: React.FC<{ id: string; label: string; img: ContentfulMedia }>
             {label}
           </span>
 
-          <ContentfulImage
-            baseSrc={img.file.url}
-            resolutions={projectTile.resolutions}
+          <img
+            className="z-0 absolute top-0 left-0 w-full h-full object-cover"
+            srcSet={getSrcSet(img.file.url, allResolutions, 'jpg')}
+            src={getImageUrl(img.file.url, allResolutions.slice(-1)[0], 'jpg')}
+            alt={img.description}
             sizes={projectTile.sizes}
-            label={img.description}
-            className="z-0 absolute top-0 left-0 w-full h-full"
-            lazy={true}
-            base64Thumb={img.file.__base64Thumb}
-            stallLazyInit={stallImageLazyInit}
+            loading="lazy"
+            width={img.file.details.image ? img.file.details.image.width : undefined}
+            height={img.file.details.image ? img.file.details.image.height : undefined}
           />
         </a>
       </Link>

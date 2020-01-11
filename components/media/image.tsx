@@ -16,12 +16,20 @@ type ContentfulImageProps = {
   base64Thumb?: string;
 };
 
-function getImageUrl(baseSrc: string, res: number, format: string): string {
+export function getImageUrl(baseSrc: string, res: number, format: string): string {
   return `${baseSrc}?w=${res}&fit=fill&fm=${format}&q=70`;
 }
 
-function getSrcSet(baseSrc: string, resolutions: number[], format: string): string {
+export function getSrcSet(baseSrc: string, resolutions: number[], format: string): string {
   return resolutions.map((res) => `${getImageUrl(baseSrc, res, format)}  ${res}w`).join(', ');
+}
+
+export function getRetinaResolutions(resolutions: number[]): number[] {
+  return arraySortNumberAsc(
+    arrayUnique(
+      resolutions.reduce((arr: number[], res: number) => [...arr, res, res * 2], [] as number[])
+    )
+  );
 }
 
 const ioOptions: IntersectionObserverInit = {
@@ -39,19 +47,12 @@ const ContentfulImage: NextComponentType<{}, ContentfulImageProps, ContentfulIma
   ratio,
   lazy,
   stallLazyInit,
-  base64Thumb,
 }) => {
   const wrapperRef = useRef(null);
   const [hasLoaded, setLoaded] = useState(lazy ? false : true);
-  const [showFullRes, setShowFullRes] = useState(
-    lazy && isIoSupported && base64Thumb ? false : true
-  );
+  const [showFullRes, setShowFullRes] = useState(lazy && isIoSupported ? false : true);
 
-  const allResolutions = arraySortNumberAsc(
-    arrayUnique(
-      resolutions.reduce((arr: number[], res: number) => [...arr, res, res * 2], [] as number[])
-    )
-  );
+  const allResolutions = getRetinaResolutions(resolutions);
 
   function onImageLoaded(): void {
     if (showFullRes) {
@@ -100,7 +101,7 @@ const ContentfulImage: NextComponentType<{}, ContentfulImageProps, ContentfulIma
         <img
           className="absolute top-0 left-0 w-full h-full object-cover"
           srcSet={showFullRes ? getSrcSet(baseSrc, allResolutions, 'jpg') : undefined}
-          src={showFullRes ? getImageUrl(baseSrc, allResolutions.slice(-1)[0], 'jpg') : base64Thumb}
+          src={showFullRes ? getImageUrl(baseSrc, allResolutions.slice(-1)[0], 'jpg') : ''}
           alt={label || ''}
           onLoad={onImageLoaded}
           sizes={sizes}
