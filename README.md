@@ -4,6 +4,8 @@
 
 Personal portfolio website based on [this next.js template](https://github.com/ciampo/_nextjs-template).
 
+*Note: **The canonical repository is hosted on [github](https://github.com/ciampo/portfolio-2019)***
+
 ## 🛠 Setup
 
 - install `node` glolbally
