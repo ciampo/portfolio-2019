@@ -35,6 +35,12 @@ for any bug fixes.
 in case of vulnerabilities.
 -->
 
+## [1.0.6] - 2020-01-11
+
+### Fixed
+
+- Poor rendering performance in the projects page, related to the custom lazy image module. Switched to native `<img loading="lazy">` for now
+
 ## [1.0.5] - 2020-01-07
 
 ### Changed
@@ -293,7 +299,8 @@ in case of vulnerabilities.
 - Updated README and added Netlify badge
 - Updated package.json
 
-[Unreleased]: https://github.com/ciampo/portfolio-2019/compare/v1.0.5...HEAD
+[Unreleased]: https://github.com/ciampo/portfolio-2019/compare/v1.0.6...HEAD
+[1.0.5]: https://github.com/ciampo/portfolio-2019/compare/v1.0.5...v1.0.6
 [1.0.5]: https://github.com/ciampo/portfolio-2019/compare/v1.0.4...v1.0.5
 [1.0.4]: https://github.com/ciampo/portfolio-2019/compare/v1.0.3...v1.0.4
 [1.0.3]: https://github.com/ciampo/portfolio-2019/compare/v1.0.2...v1.0.3
