@@ -32,6 +32,8 @@ ${routesConfig
     `script-src 'self' 'unsafe-inline' https://www.google-analytics.com`,
     // Allow XHR to same origin and Google Analytics
     `connect-src 'self' https://www.google-analytics.com`,
+    // Allow prefetching from same origin
+    `prefetch-src 'self'`,
     // Allow webmanifest files from same origin
     `manifest-src 'self'`,
   ].join('; ')}
