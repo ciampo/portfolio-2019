@@ -35,6 +35,14 @@ for any bug fixes.
 in case of vulnerabilities.
 -->
 
+## [1.1.0] - 2020-01-16
+
+### Changed
+
+- Upgraded dependencies (incl. React and Preact) to support Next.js 9.2
+- Removed `next-css` plugin in favor on Next.js builtin support
+- Changed format of the PostCSS configuration
+
 ## [1.0.6] - 2020-01-11
 
 ### Fixed
@@ -299,7 +307,8 @@ in case of vulnerabilities.
 - Updated README and added Netlify badge
 - Updated package.json
 
-[Unreleased]: https://github.com/ciampo/portfolio-2019/compare/v1.0.6...HEAD
+[Unreleased]: https://github.com/ciampo/portfolio-2019/compare/v1.1.0...HEAD
+[1.0.5]: https://github.com/ciampo/portfolio-2019/compare/v1.0.6...v1.1.0
 [1.0.5]: https://github.com/ciampo/portfolio-2019/compare/v1.0.5...v1.0.6
 [1.0.5]: https://github.com/ciampo/portfolio-2019/compare/v1.0.4...v1.0.5
 [1.0.4]: https://github.com/ciampo/portfolio-2019/compare/v1.0.3...v1.0.4
