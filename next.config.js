@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 const path = require('path');
 const fs = require('fs');
-const withCSS = require('@zeit/next-css');
 const withBundleAnalyzer = require('@next/bundle-analyzer')({
   enabled: process.env.ANALYZE === 'true',
 });
@@ -100,4 +99,4 @@ const nextConfig = {
   },
 };
 
-module.exports = withBundleAnalyzer(withCSS(nextConfig));
+module.exports = withBundleAnalyzer(nextConfig);

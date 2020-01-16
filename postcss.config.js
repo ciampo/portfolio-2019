@@ -2,19 +2,27 @@
 
 const dev = process.env.NODE_ENV !== 'production';
 
+const devPlugins = {
+  stylelint: {},
+  'postcss-easy-import': {},
+  tailwindcss: {},
+  autoprefixer: {},
+  'postcss-reporter': { clearReportedMessages: true },
+};
+
+const prodPlugins = {
+  stylelint: {},
+  'postcss-easy-import': {},
+  tailwindcss: {},
+  '@fullhuman/postcss-purgecss': {
+    content: ['./pages/**/*.{js,tsx}', './components/**/*.{js,tsx}'],
+    defaultExtractor: (content) => content.match(/[\w-:/]+(?<!:)/g) || [],
+  },
+  autoprefixer: {},
+  cssnano: {},
+  'postcss-reporter': { clearReportedMessages: true },
+};
+
 module.exports = {
-  plugins: [
-    require('stylelint'),
-    require('postcss-easy-import'),
-    require('tailwindcss'),
-    dev
-      ? null
-      : require('@fullhuman/postcss-purgecss')({
-          content: ['./pages/**/*.{js,tsx}', './components/**/*.{js,tsx}'],
-          defaultExtractor: (content) => content.match(/[\w-:/]+(?<!:)/g) || [],
-        }),
-    require('autoprefixer'),
-    dev ? null : require('cssnano'),
-    require('postcss-reporter')({ clearReportedMessages: true }),
-  ].filter((plugin) => plugin !== null),
+  plugins: dev ? devPlugins : prodPlugins,
 };
