@@ -70,7 +70,6 @@
     "contentful": "^7.10.0",
     "cssnano": "^4.1.10",
     "dotenv": "^8.2.0",
-    "dotenv-webpack": "^1.7.0",
     "eslint": "^6.6.0",
     "eslint-config-prettier": "^6.5.0",
     "eslint-loader": "^3.0.2",
