@@ -18,6 +18,7 @@ const localStorageKey = 'theme-color';
 
 const ThemeContext = createContext({
   value: themes.DARK,
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   toggle: () => {},
 });
 
