@@ -35,6 +35,13 @@ for any bug fixes.
 in case of vulnerabilities.
 -->
 
+## [1.1.1] - 2020-04-02
+
+### Added
+
+- add redirect rule for new netlify.app domain
+
+
 ## [1.1.0] - 2020-01-16
 
 ### Changed
@@ -307,9 +314,10 @@ in case of vulnerabilities.
 - Updated README and added Netlify badge
 - Updated package.json
 
-[Unreleased]: https://github.com/ciampo/portfolio-2019/compare/v1.1.0...HEAD
-[1.0.5]: https://github.com/ciampo/portfolio-2019/compare/v1.0.6...v1.1.0
-[1.0.5]: https://github.com/ciampo/portfolio-2019/compare/v1.0.5...v1.0.6
+[Unreleased]: https://github.com/ciampo/portfolio-2019/compare/v1.1.1...HEAD
+[1.1.1]: https://github.com/ciampo/portfolio-2019/compare/v1.1.0...v1.1.1
+[1.1.0]: https://github.com/ciampo/portfolio-2019/compare/v1.0.6...v1.1.0
+[1.0.6]: https://github.com/ciampo/portfolio-2019/compare/v1.0.5...v1.0.6
 [1.0.5]: https://github.com/ciampo/portfolio-2019/compare/v1.0.4...v1.0.5
 [1.0.4]: https://github.com/ciampo/portfolio-2019/compare/v1.0.3...v1.0.4
 [1.0.3]: https://github.com/ciampo/portfolio-2019/compare/v1.0.2...v1.0.3
