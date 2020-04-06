@@ -35,6 +35,8 @@ ${routesConfig
     `prefetch-src 'self'`,
     // Allow webmanifest files from same origin
     `manifest-src 'self'`,
+    // Allow iframe src from same origin and hotjar
+    `frame-src 'self *.hotjar.com'`,
   ].join('; ')}
   X-XSS-Protection: 1; mode=block`
   )

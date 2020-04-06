@@ -7,7 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-- CSP rule for hotjar scripts
+- CSP rule for hotjar scripts and iframes
 
 <!--
 ## [X.Y.X] - YYYY-MM-DD
