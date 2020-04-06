@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+- CSP rule for hotjar scripts
+
 <!--
 ## [X.Y.X] - YYYY-MM-DD
 
@@ -40,7 +42,6 @@ in case of vulnerabilities.
 ### Added
 
 - add redirect rule for new netlify.app domain
-
 
 ## [1.1.0] - 2020-01-16
 
