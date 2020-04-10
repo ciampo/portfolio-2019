@@ -5,6 +5,7 @@ interface PostInfo {
   image: string;
   publicationDate: string;
   modifiedDate: string;
+  webPageStructuredData: object;
 }
 
 interface BreadcrumbPage {
@@ -13,6 +14,7 @@ interface BreadcrumbPage {
 }
 
 interface PageInfo {
+  path: string;
   title: string;
   description: string;
   breadcrumbsPages?: BreadcrumbPage[];
@@ -49,6 +51,7 @@ const generateWebpageStructuredData = (
       .replace(/:canonicalUrl/g, process.env.CANONICAL_URL || '')
       .replace(/:pageTitle/g, pageInfo.title)
       .replace(/:pageDescription/g, pageInfo.description)
+      .replace(/:pageUrl/g, pageInfo.path)
   );
 
   if (pageInfo.breadcrumbsPages && pageInfo.breadcrumbsPages.length > 0) {
@@ -61,8 +64,8 @@ const generateWebpageStructuredData = (
 const generateArticleStructuredData = (
   data: ContentfulApiStructuredData,
   postInfo: PostInfo
-): object =>
-  JSON.parse(
+): object => ({
+  ...JSON.parse(
     JSON.stringify(data.article)
       .replace(/":organization"/g, JSON.stringify(data.organisation))
       .replace(/":author"/g, JSON.stringify(data.author))
@@ -71,7 +74,9 @@ const generateArticleStructuredData = (
       .replace(/:image/g, postInfo.image)
       .replace(/:datePublished/g, postInfo.publicationDate)
       .replace(/:dateModified/g, postInfo.modifiedDate)
-  );
+  ),
+  mainEntityOfPage: postInfo.webPageStructuredData,
+});
 
 export {
   generateWebsiteStructuredData,
