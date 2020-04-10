@@ -1,5 +1,5 @@
 import React from 'react';
-import { NextComponentType, NextPageContext } from 'next';
+import { NextComponentType, GetStaticProps, GetStaticPaths } from 'next';
 
 import PageMeta from '../../components/PageMeta';
 import ContentfulImage from '../../components/media/image';
@@ -12,7 +12,6 @@ import {
   generateWebpageStructuredData,
   generateArticleStructuredData,
 } from '../../components/utils/structured-data';
-import { initialDefaultPageProps } from '../../components/utils/initial-props';
 import {
   ContentfulApiPageProject,
   ContentfulApiProject,
@@ -21,14 +20,17 @@ import {
   ContentfulApiPageProjectsList,
 } from '../../typings';
 
-type PageProjectProps = ContentfulApiPageProject & {
+type PageProjectProps = {
   path: string;
+  pageData: ContentfulApiPageProject;
   project?: ContentfulApiProject;
   parentPage?: {
     path: string;
     title: string;
   };
 };
+
+const PROJECT_PAGE_ROUTE = '/projects/[id]';
 
 const articleMedia = (
   mediaObj: {
@@ -64,46 +66,47 @@ const articleMedia = (
 
 const PageProject: NextComponentType<{}, PageProjectProps, PageProjectProps> = ({
   project,
-  meta,
-  dateLabel,
-  clientLabel,
-  linkLabel,
-  linkText,
-  descriptionSectionTitle,
-  mediaSectionTitle,
+  pageData,
   path,
-  templateStructuredData,
   parentPage,
-}) =>
-  project ? (
+}) => {
+  if (!project) {
+    return null;
+  }
+
+  let webPageStructuredData;
+  let articleStructuredData;
+  if (pageData.templateStructuredData) {
+    webPageStructuredData = generateWebpageStructuredData(pageData.templateStructuredData, {
+      path,
+      title: pageData.meta.title,
+      description: pageData.meta.description,
+      breadcrumbsPages: parentPage && [
+        {
+          name: parentPage.title,
+          url: parentPage.path,
+        },
+      ],
+    });
+
+    articleStructuredData = generateArticleStructuredData(pageData.templateStructuredData, {
+      title: project.title,
+      image: `https:${project.tileImage.file.url}?w=1280&fit=fill&fm=jpg&q=70`,
+      publicationDate: project.publicationDate,
+      modifiedDate: project._updatedAt,
+      webPageStructuredData,
+    });
+  }
+
+  return (
     <>
       <PageMeta
-        title={meta.title}
-        description={meta.description}
-        previewImage={meta.previewImage.file.url}
+        title={pageData.meta.title}
+        description={pageData.meta.description}
+        previewImage={pageData.meta.previewImage.file.url}
         path={path}
-        webPageStructuredData={
-          templateStructuredData &&
-          generateWebpageStructuredData(templateStructuredData, {
-            title: meta.title,
-            description: meta.description,
-            breadcrumbsPages: parentPage && [
-              {
-                name: parentPage.title,
-                url: parentPage.path,
-              },
-            ],
-          })
-        }
-        articleStructuredData={
-          templateStructuredData &&
-          generateArticleStructuredData(templateStructuredData, {
-            title: project.title,
-            image: `https:${project.tileImage.file.url}?w=1280&fit=fill&fm=jpg&q=70`,
-            publicationDate: project.publicationDate,
-            modifiedDate: project._updatedAt,
-          })
-        }
+        webPageStructuredData={webPageStructuredData}
+        articleStructuredData={articleStructuredData}
       />
 
       <DefaultPageTransitionWrapper>
@@ -114,14 +117,14 @@ const PageProject: NextComponentType<{}, PageProjectProps, PageProjectProps> = (
 
           <dl className="relative z-10 mt-4 md:mt-6 px-6 leading-relaxed md:leading-loose">
             <dt className="inline text-xs md:text-sm lg:text-base uppercase font-normal pr-2">
-              {dateLabel}
+              {pageData.dateLabel}
             </dt>
             <dd className="inline text-sm md:text-base lg:text-lg font-thin pl-2">
               {project.date.split('-')[0]}
             </dd>
 
             <dt className="inline text-xs md:text-sm lg:text-base uppercase font-normal pr-2">
-              {clientLabel}
+              {pageData.clientLabel}
             </dt>
             <dd className="inline text-sm md:text-base lg:text-lg font-thin pl-2">
               {project.client}
@@ -129,7 +132,7 @@ const PageProject: NextComponentType<{}, PageProjectProps, PageProjectProps> = (
 
             {project.url && (
               <>
-                <dt className="sr-only">{linkLabel}</dt>
+                <dt className="sr-only">{pageData.linkLabel}</dt>
                 <dd className="inline text-xs md:text-sm lg:text-base uppercase font-normal">
                   <a
                     href={project.url}
@@ -137,7 +140,7 @@ const PageProject: NextComponentType<{}, PageProjectProps, PageProjectProps> = (
                     rel="noopener noreferrer"
                     className="inline-block pt-2 border-b-2 border-dashed border-primary outline-none focus:border-solid"
                   >
-                    {linkText}
+                    {pageData.linkText}
                   </a>
                 </dd>
               </>
@@ -146,12 +149,12 @@ const PageProject: NextComponentType<{}, PageProjectProps, PageProjectProps> = (
         </header>
 
         <section className="container max-w-md sm:max-w-lg md:max-w-xl lg:max-w-2xl mx-auto px-6 my-16 sm:my-20 md:my-24 rich-text-container">
-          <h2 className="sr-only">{descriptionSectionTitle}</h2>
+          <h2 className="sr-only">{pageData.descriptionSectionTitle}</h2>
           <RichTextRenderer richText={project.description} />
         </section>
 
         <section className="container mx-auto px-6 mt-24 sm:mt-32 md:mt-40 mb-16 sm:mb-20 md:mb-24">
-          <h2 className="sr-only">{mediaSectionTitle}</h2>
+          <h2 className="sr-only">{pageData.mediaSectionTitle}</h2>
 
           {/* Wide pictures */}
           {project.widePictures &&
@@ -165,99 +168,121 @@ const PageProject: NextComponentType<{}, PageProjectProps, PageProjectProps> = (
         </section>
       </DefaultPageTransitionWrapper>
     </>
-  ) : null;
+  );
+};
 
-PageProject.getInitialProps = async ({
-  pathname,
-  query,
-}: NextPageContext): Promise<PageProjectProps> => {
-  const toReturn: PageProjectProps = {
-    ...initialDefaultPageProps,
-    path: 'N/A',
-    dateLabel: '2019-00-00',
-    clientLabel: 'N/A',
-    linkLabel: 'Link',
-    linkText: 'View project',
-    descriptionSectionTitle: 'Description',
-    mediaSectionTitle: 'Media',
-    project: undefined,
-    parentPage: undefined,
-  };
+// SSG
 
-  const routeConfig = routesConfig.find(({ route }) => route === pathname);
-  if (
-    routeConfig &&
-    routeConfig.dynamicRoute &&
-    routeConfig.dynamicRoute.contentfulItemsId &&
-    routeConfig.dynamicRoute.params
-  ) {
-    const postData: ContentfulApiProject[] = await import(
-      `../../data/${routeConfig.dynamicRoute.contentfulItemsId}.json`
-    ).then((m) => m.default);
+type StaticPath = { params: { [key: string]: string } };
 
-    const currentPost = postData.find((item) => {
-      let matchFound = true;
+// Get all the paths that should be statically generated
+export const getStaticPaths: GetStaticPaths = async () => {
+  const projectRoute = routesConfig.find(({ route }) => route === PROJECT_PAGE_ROUTE);
 
-      for (const [pattern, replacerFn] of Object.entries(routeConfig.dynamicRoute.params)) {
-        matchFound = matchFound && query[pattern] === replacerFn(item);
-      }
-
-      return matchFound;
-    });
-
-    if (currentPost) {
-      const projectPageData: ContentfulApiPageProject = await import(
-        `../../data/${routeConfig.contentfulPageId}.json`
-      ).then((m) => m.default);
-
-      // Meta data comes from projectPageData, and then placeholders are swapped
-      // for the actual title/description of the current project.
-      toReturn.meta = {
-        title: projectPageData.meta.title.replace('[project-title]', currentPost.title),
-        description: projectPageData.meta.description.replace(
-          '[project-description]',
-          currentPost.title
-        ),
-        previewImage: currentPost.tileImage,
-      };
-
-      toReturn.dateLabel = projectPageData.dateLabel;
-      toReturn.clientLabel = projectPageData.clientLabel;
-      toReturn.linkLabel = projectPageData.linkLabel;
-      toReturn.linkText = projectPageData.linkText;
-      toReturn.descriptionSectionTitle = projectPageData.descriptionSectionTitle;
-      toReturn.mediaSectionTitle = projectPageData.mediaSectionTitle;
-
-      // Path and projects are set from the current project API data.
-      toReturn.path = pathname;
-      for (const [pattern, replacerFn] of Object.entries(routeConfig.dynamicRoute.params)) {
-        toReturn.path = toReturn.path.replace(`[${pattern}]`, replacerFn(currentPost));
-      }
-
-      toReturn.project = currentPost;
-
-      const structuredDataTemplate: ContentfulApiStructuredData = await import(
-        `../../data/structuredData.json`
-      ).then((m) => m.default);
-      toReturn.templateStructuredData = structuredDataTemplate;
-    }
-
-    if (routeConfig.parentRoute) {
-      const parentRouteConfig = routesConfig.find(({ route }) => route === routeConfig.parentRoute);
-      if (parentRouteConfig && parentRouteConfig.contentfulPageId) {
-        const parentPageData: ContentfulApiPageProjectsList = await import(
-          `../../data/${parentRouteConfig.contentfulPageId}.json`
-        ).then((m) => m.default);
-
-        toReturn.parentPage = {
-          path: routeConfig.parentRoute,
-          title: parentPageData.title,
-        };
-      }
-    }
+  if (!projectRoute || !projectRoute.dynamicRoute || !projectRoute.dynamicRoute.contentfulItemsId) {
+    return {
+      paths: [],
+      fallback: false,
+    };
   }
 
-  return toReturn;
+  const allProjects: ContentfulApiProject[] = await import(
+    `../../data/${projectRoute.dynamicRoute.contentfulItemsId}.json`
+  ).then((m) => m.default);
+
+  const paths: StaticPath[] = allProjects.map((item) => {
+    const projectPath: StaticPath = { params: {} };
+
+    for (const [pattern, replacerFn] of Object.entries(projectRoute.dynamicRoute.params)) {
+      projectPath.params[pattern] = replacerFn(item);
+    }
+
+    return projectPath;
+  });
+
+  return {
+    paths,
+    fallback: false,
+  };
+};
+
+export const getStaticProps: GetStaticProps = async (context) => {
+  if (!context.params) {
+    return { props: {} };
+  }
+
+  const projectRoute = routesConfig.find(({ route }) => route === PROJECT_PAGE_ROUTE);
+
+  if (!projectRoute || !projectRoute.dynamicRoute || !projectRoute.dynamicRoute.contentfulItemsId) {
+    return { props: {} };
+  }
+
+  // Page data
+  const pageData: ContentfulApiPageProject = await import(
+    `../../data/${projectRoute.contentfulPageId}.json`
+  ).then((m) => m.default);
+  if (!pageData) {
+    return { props: {} };
+  }
+
+  // Project data
+  const allProjects: ContentfulApiProject[] = await import(
+    `../../data/${projectRoute.dynamicRoute.contentfulItemsId}.json`
+  ).then((m) => m.default);
+
+  const project = allProjects.find((item) => {
+    let matchFound = true;
+
+    for (const [pattern, replacerFn] of Object.entries(projectRoute.dynamicRoute.params)) {
+      matchFound = matchFound && (context.params || {})[pattern] === replacerFn(item);
+    }
+
+    return matchFound;
+  });
+
+  if (!project) {
+    return { props: {} };
+  }
+
+  // Path
+  let path = projectRoute.route;
+  for (const [pattern, replacerFn] of Object.entries(projectRoute.dynamicRoute.params)) {
+    path = path.replace(`[${pattern}]`, replacerFn(project));
+  }
+
+  const parentRoute = routesConfig.find(({ route }) => route === projectRoute.parentRoute);
+  if (!parentRoute) {
+    return { props: {} };
+  }
+
+  const parentPageData: ContentfulApiPageProjectsList = await import(
+    `../../data/${parentRoute.contentfulPageId}.json`
+  ).then((m) => m.default);
+
+  const structuredDataTemplate: ContentfulApiStructuredData = await import(
+    `../../data/structuredData.json`
+  ).then((m) => m.default);
+
+  // Parent page
+  return {
+    props: {
+      path,
+      pageData: {
+        ...pageData,
+        meta: {
+          ...pageData.meta,
+          title: pageData.meta.title.replace('[project-title]', project.title),
+          description: pageData.meta.description.replace('[project-description]', project.title),
+        },
+        templateStructuredData: structuredDataTemplate,
+      },
+      project,
+      parentPage: {
+        path: projectRoute.parentRoute,
+        title: parentPageData.title,
+      },
+    },
+  };
 };
 
 export default PageProject;
