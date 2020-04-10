@@ -7,7 +7,10 @@ const del = require('del');
 const { promisify } = require('util');
 const { createClient } = require('contentful');
 
+const routesConfig = require('../routes-config');
+
 const writeFileAsync = promisify(fs.writeFile);
+const readFileAsync = promisify(fs.readFile);
 const existsAsync = promisify(fs.exists);
 const mkdirAsync = promisify(fs.mkdir);
 
@@ -142,10 +145,11 @@ async function getEntries(type, opts) {
 
 const pullContentfulData = async () => {
   await cleanDataFolder();
+
   await getEntries('homePage', { isSingleton: true });
+  await getEntries('about', { isSingleton: true });
   await getEntries('pageProjects', { isSingleton: true });
   await getEntries('pageProject', { isSingleton: true });
-  await getEntries('about', { isSingleton: true });
   await getEntries('structuredData', { isSingleton: true });
   await getEntries('project', {
     sortFunction: (a, b) => {
@@ -159,6 +163,32 @@ const pullContentfulData = async () => {
       return coolA < coolB ? 1 : coolA > coolB ? -1 : dA < dB ? 1 : dA > dB ? -1 : 0;
     },
   });
+
+  // Create navLinks data
+  const navLinksData = [];
+  for (const { route, contentfulPageId } of routesConfig) {
+    if (contentfulPageId) {
+      const routeData = await readFileAsync(path.join(DATA_FOLDER, `${contentfulPageId}.json`), {
+        encoding: 'utf8',
+      });
+
+      if (routeData) {
+        const parsed = JSON.parse(routeData);
+
+        if (parsed.navTitle) {
+          navLinksData.push({
+            href: route,
+            label: parsed.navTitle,
+          });
+        }
+      }
+    }
+  }
+
+  await writeFileAsync(
+    path.join(DATA_FOLDER, 'navLinks.json'),
+    JSON.stringify(navLinksData, null, 2)
+  );
 };
 
 pullContentfulData();

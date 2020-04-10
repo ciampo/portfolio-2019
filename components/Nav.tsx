@@ -7,13 +7,11 @@ import dynamic from 'next/dynamic';
 import { slugify } from './utils/utils';
 import { UiLink } from '../typings';
 
+import navLinksData from '../data/navLinks.json';
+
 const ThemeSwitcher = dynamic(() => import('./ThemeSwitcher'), { ssr: false });
 
-type NavProps = {
-  links: UiLink[];
-};
-
-const Nav: NextComponentType<{}, NavProps, NavProps> = ({ links }) => {
+const Nav: NextComponentType = () => {
   const [loadingRoute, setLoadingRoute] = useState<string | null>(null);
   const router = useRouter();
 
@@ -35,12 +33,14 @@ const Nav: NextComponentType<{}, NavProps, NavProps> = ({ links }) => {
     };
   }, [router.events]);
 
+  const navLinks: UiLink[] = navLinksData;
+
   return (
     <>
       <nav className="fixed contain-layout-paint z-50 top-0 left-0 flex items-stretch">
-        {links && links.length && (
+        {navLinks && navLinks.length && (
           <ul className="bg-background flex py-1 px-2 lg:py-2 lg:px-4">
-            {links.map(({ href, label }, index) => (
+            {navLinks.map(({ href, label }, index) => (
               <li key={`${index}-${slugify(label)}`} className="flex pt-1 pb-2 px-2 md:px-4">
                 <Link href={href} scroll={false}>
                   <a
