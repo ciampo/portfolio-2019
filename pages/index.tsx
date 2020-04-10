@@ -1,19 +1,18 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { NextComponentType, NextPageContext } from 'next';
+import { NextComponentType, GetStaticProps } from 'next';
 import dynamic from 'next/dynamic';
 import { motion } from 'framer-motion';
 
 import DefaultPageTransitionWrapper from '../components/page-transition-wrappers/Default';
 import PageMeta from '../components/PageMeta';
-import routesConfig from '../routes-config';
 import gridConfig from '../components/home-grid/grid-config';
 import { generateWebpageStructuredData } from '../components/utils/structured-data';
-import { initialDefaultPageProps } from '../components/utils/initial-props';
 import { ContentfulApiPageHome, ContentfulApiStructuredData } from '../typings';
 
 const HomeGrid = dynamic(() => import('../components/home-grid/HomeGrid'), { ssr: false });
 
-type PageHomeProps = ContentfulApiPageHome & {
+type PageHomeProps = {
+  homeData: ContentfulApiPageHome;
   path: string;
 };
 
@@ -52,12 +51,7 @@ const roleAnimationVariants = {
   },
 };
 
-const Home: NextComponentType<{}, PageHomeProps, PageHomeProps> = ({
-  path,
-  meta,
-  pageTitle,
-  templateStructuredData,
-}) => {
+const Home: NextComponentType<{}, PageHomeProps, PageHomeProps> = ({ path, homeData }) => {
   const gridWrapperEl = useRef<HTMLDivElement>(null);
 
   function forceRealViewportSize(): void {
@@ -102,15 +96,16 @@ const Home: NextComponentType<{}, PageHomeProps, PageHomeProps> = ({
   return (
     <>
       <PageMeta
-        title={meta.title}
-        description={meta.description}
-        previewImage={meta.previewImage.file.url}
+        title={homeData.meta.title}
+        description={homeData.meta.description}
+        previewImage={homeData.meta.previewImage.file.url}
         path={path}
         webPageStructuredData={
-          templateStructuredData &&
-          generateWebpageStructuredData(templateStructuredData, {
-            title: meta.title,
-            description: meta.description,
+          homeData.templateStructuredData &&
+          generateWebpageStructuredData(homeData.templateStructuredData, {
+            path,
+            title: homeData.meta.title,
+            description: homeData.meta.description,
           })
         }
       />
@@ -148,7 +143,7 @@ const Home: NextComponentType<{}, PageHomeProps, PageHomeProps> = ({
           )}
 
           <h1 className="contain-layout-paint text-primary z-10 pointer-events-none transition-d-500 transition-p-opacity transition-tf-custom home-logo-title bg-background  shadow-2xl">
-            <span className="sr-only">{pageTitle}</span>
+            <span className="sr-only">{homeData.pageTitle}</span>
             <motion.svg
               initial="exit"
               animate="enter"
@@ -381,31 +376,23 @@ const Home: NextComponentType<{}, PageHomeProps, PageHomeProps> = ({
   );
 };
 
-Home.getInitialProps = async ({ pathname }: NextPageContext): Promise<PageHomeProps> => {
-  const toReturn: PageHomeProps = {
-    ...initialDefaultPageProps,
-    path: '/',
-    pageTitle: 'Home',
-  };
-
-  const routeConfig = routesConfig.find(({ route }) => route === pathname);
-
-  if (routeConfig && routeConfig.contentfulPageId) {
-    const homeData: ContentfulApiPageHome = await import(
-      `../data/${routeConfig.contentfulPageId}.json`
-    ).then((m) => m.default);
-
-    toReturn.path = pathname;
-    toReturn.pageTitle = homeData.pageTitle;
-    toReturn.meta = homeData.meta;
-  }
+export const getStaticProps: GetStaticProps = async () => {
+  const path = '/';
+  const homeData = await import(`../data/homePage.json`).then((m) => m.default);
 
   const structuredDataTemplate: ContentfulApiStructuredData = await import(
     `../data/structuredData.json`
   ).then((m) => m.default);
-  toReturn.templateStructuredData = structuredDataTemplate;
 
-  return toReturn;
+  return {
+    props: {
+      homeData: {
+        ...homeData,
+        templateStructuredData: structuredDataTemplate,
+      },
+      path,
+    },
+  };
 };
 
 export default Home;

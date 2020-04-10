@@ -1,16 +1,14 @@
 import React from 'react';
 import Link from 'next/link';
-import { NextComponentType, NextPageContext } from 'next';
+import { NextComponentType, GetStaticProps } from 'next';
 import { motion } from 'framer-motion';
 
 import DefaultPageTransitionWrapper from '../components/page-transition-wrappers/Default';
 import PageMeta from '../components/PageMeta';
 import { getSrcSet, getImageUrl, getRetinaResolutions } from '../components/media/image';
-import routesConfig from '../routes-config';
 import { customEaseOut } from '../components/utils/utils';
 import { projectTile } from '../components/media/sizes-presets';
 import { generateWebpageStructuredData } from '../components/utils/structured-data';
-import { initialDefaultPageProps } from '../components/utils/initial-props';
 import {
   ContentfulApiPageProjectsList,
   ContentfulApiProject,
@@ -18,7 +16,8 @@ import {
   ContentfulApiStructuredData,
 } from '../typings';
 
-type PageProjectsListProps = ContentfulApiPageProjectsList & {
+type PageProjectsListProps = {
+  pageData: ContentfulApiPageProjectsList;
   path: string;
   projects: ContentfulApiProject[];
 };
@@ -86,22 +85,21 @@ const projectsAnimationVariants = {
 
 const PageProjectsList: NextComponentType<{}, PageProjectsListProps, PageProjectsListProps> = ({
   path,
-  meta,
-  title,
+  pageData,
   projects,
-  templateStructuredData,
 }) => (
   <>
     <PageMeta
-      title={meta.title}
-      description={meta.description}
-      previewImage={meta.previewImage.file.url}
+      title={pageData.meta.title}
+      description={pageData.meta.description}
+      previewImage={pageData.meta.previewImage.file.url}
       path={path}
       webPageStructuredData={
-        templateStructuredData &&
-        generateWebpageStructuredData(templateStructuredData, {
-          title: meta.title,
-          description: meta.description,
+        pageData.templateStructuredData &&
+        generateWebpageStructuredData(pageData.templateStructuredData, {
+          path,
+          title: pageData.meta.title,
+          description: pageData.meta.description,
         })
       }
     />
@@ -114,7 +112,9 @@ const PageProjectsList: NextComponentType<{}, PageProjectsListProps, PageProject
         exit="exit"
         variants={projectsAnimationVariants}
       >
-        <h1 className="text-center text-2xl sm:text-3xl md:text-4xl lg:text-5xl">{title}</h1>
+        <h1 className="text-center text-2xl sm:text-3xl md:text-4xl lg:text-5xl">
+          {pageData.title}
+        </h1>
 
         <ul className="mt-12 md:mt-24 flex flex-wrap">
           {projects.map(({ slug, title, tileImage }) => (
@@ -126,46 +126,26 @@ const PageProjectsList: NextComponentType<{}, PageProjectsListProps, PageProject
   </>
 );
 
-PageProjectsList.getInitialProps = async ({
-  pathname,
-}: NextPageContext): Promise<PageProjectsListProps> => {
-  const toReturn: PageProjectsListProps = {
-    ...initialDefaultPageProps,
-    path: '/projects',
-    title: 'Projects',
-    projects: [],
-  };
-
-  const routeConfig = routesConfig.find(({ route }) => route === pathname);
-
-  if (routeConfig && routeConfig.contentfulPageId) {
-    const projectsListPageData: ContentfulApiPageProjectsList = await import(
-      `../data/${routeConfig.contentfulPageId}.json`
-    ).then((m) => m.default);
-
-    toReturn.path = pathname;
-    toReturn.title = projectsListPageData.title;
-    toReturn.meta = projectsListPageData.meta;
-  }
-
-  const singleProjectPage = routesConfig.find(({ route }) => route === singleProjectRoute);
-
-  if (
-    singleProjectPage &&
-    singleProjectPage.dynamicRoute &&
-    singleProjectPage.dynamicRoute.contentfulItemsId
-  ) {
-    toReturn.projects = await import(
-      `../data/${singleProjectPage.dynamicRoute.contentfulItemsId}.json`
-    ).then((m) => m.default);
-  }
+export const getStaticProps: GetStaticProps = async () => {
+  const path = '/projects';
+  const pageData = await import(`../data/pageProjects.json`).then((m) => m.default);
 
   const structuredDataTemplate: ContentfulApiStructuredData = await import(
     `../data/structuredData.json`
   ).then((m) => m.default);
-  toReturn.templateStructuredData = structuredDataTemplate;
 
-  return toReturn;
+  const projects = await import(`../data/project.json`).then((m) => m.default);
+
+  return {
+    props: {
+      path,
+      pageData: {
+        ...pageData,
+        templateStructuredData: structuredDataTemplate,
+      },
+      projects,
+    },
+  };
 };
 
 export default PageProjectsList;

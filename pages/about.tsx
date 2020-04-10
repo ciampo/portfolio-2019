@@ -1,17 +1,16 @@
 import React from 'react';
-import { NextComponentType, NextPageContext } from 'next';
+import { NextComponentType, GetStaticProps } from 'next';
 import RichTextRenderer from '../components/utils/RichTextRenderer';
 import { motion } from 'framer-motion';
 
 import DefaultPageTransitionWrapper from '../components/page-transition-wrappers/Default';
 import PageMeta from '../components/PageMeta';
-import routesConfig from '../routes-config';
 import { customEaseOut } from '../components/utils/utils';
 import { generateWebpageStructuredData } from '../components/utils/structured-data';
-import { initialDefaultPageProps } from '../components/utils/initial-props';
 import { ContentfulApiPageAbout, ContentfulApiStructuredData } from '../typings';
 
-type PageAboutProps = ContentfulApiPageAbout & {
+type PageAboutProps = {
+  aboutData: ContentfulApiPageAbout;
   path: string;
 };
 
@@ -38,26 +37,21 @@ const aboutWrapperAnimationVariants = {
   },
 };
 
-const About: NextComponentType<{}, PageAboutProps, PageAboutProps> = ({
-  meta,
-  path,
-  title,
-  bio,
-  templateStructuredData,
-}) => {
+const About: NextComponentType<{}, PageAboutProps, PageAboutProps> = ({ aboutData, path }) => {
   return (
     <>
       <PageMeta
         key="page-meta"
-        title={meta.title}
-        description={meta.description}
-        previewImage={meta.previewImage.file.url}
+        title={aboutData.meta.title}
+        description={aboutData.meta.description}
+        previewImage={aboutData.meta.previewImage.file.url}
         path={path}
         webPageStructuredData={
-          templateStructuredData &&
-          generateWebpageStructuredData(templateStructuredData, {
-            title: meta.title,
-            description: meta.description,
+          aboutData.templateStructuredData &&
+          generateWebpageStructuredData(aboutData.templateStructuredData, {
+            path,
+            title: aboutData.meta.title,
+            description: aboutData.meta.description,
           })
         }
       />
@@ -70,7 +64,9 @@ const About: NextComponentType<{}, PageAboutProps, PageAboutProps> = ({
           exit="exit"
           variants={aboutWrapperAnimationVariants}
         >
-          <h1 className="px-6 text-center text-2xl sm:text-3xl md:text-4xl lg:text-5xl">{title}</h1>
+          <h1 className="px-6 text-center text-2xl sm:text-3xl md:text-4xl lg:text-5xl">
+            {aboutData.title}
+          </h1>
 
           <div className="px-6 mt-12 md:mt-24 flex flex-wrap flex flex-col lg:flex-row lg:items-start">
             {/* Face illustration */}
@@ -163,12 +159,12 @@ const About: NextComponentType<{}, PageAboutProps, PageAboutProps> = ({
             </motion.svg>
 
             {/* Bio */}
-            {bio && (
+            {aboutData.bio && (
               <motion.div
                 className="lg:flex-1 rich-text-container"
                 variants={aboutItemAnimationVariants}
               >
-                <RichTextRenderer richText={bio} />
+                <RichTextRenderer richText={aboutData.bio} />
               </motion.div>
             )}
           </div>
@@ -178,33 +174,22 @@ const About: NextComponentType<{}, PageAboutProps, PageAboutProps> = ({
   );
 };
 
-About.getInitialProps = async ({ pathname }: NextPageContext): Promise<PageAboutProps> => {
-  const toReturn: PageAboutProps = {
-    ...initialDefaultPageProps,
-    path: '/about',
-    title: 'About me',
-    bio: undefined,
-  };
-
-  const routeConfig = routesConfig.find(({ route }) => route === pathname);
-
-  if (routeConfig && routeConfig.contentfulPageId) {
-    const aboutData: ContentfulApiPageAbout = await import(
-      `../data/${routeConfig.contentfulPageId}.json`
-    ).then((m) => m.default);
-
-    toReturn.path = pathname;
-    toReturn.title = aboutData.title;
-    toReturn.meta = aboutData.meta;
-    toReturn.bio = aboutData.bio;
-  }
+export const getStaticProps: GetStaticProps = async () => {
+  const path = '/about';
+  const aboutData = await import(`../data/about.json`).then((m) => m.default);
 
   const structuredDataTemplate: ContentfulApiStructuredData = await import(
     `../data/structuredData.json`
   ).then((m) => m.default);
-  toReturn.templateStructuredData = structuredDataTemplate;
 
-  return toReturn;
+  return {
+    props: {
+      aboutData: {
+        ...aboutData,
+        templateStructuredData: structuredDataTemplate,
+      },
+      path,
+    },
+  };
 };
-
 export default About;

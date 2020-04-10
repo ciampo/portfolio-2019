@@ -1,15 +1,10 @@
-import React, { PropsWithChildren } from 'react';
+import React from 'react';
 
 import Nav from '../Nav';
-import { UiLink } from '../../typings';
 
-type MainLayoutProps = PropsWithChildren<{
-  navLinks: UiLink[];
-}>;
-
-const MainLayout: React.FC<MainLayoutProps> = ({ children, navLinks }) => (
+const MainLayout: React.FC = ({ children }) => (
   <>
-    <Nav links={navLinks} />
+    <Nav />
 
     <main className="w-full">{children}</main>
 
