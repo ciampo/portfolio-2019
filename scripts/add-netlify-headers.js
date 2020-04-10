@@ -19,24 +19,24 @@ ${routesConfig
   Content-Security-Policy: ${[
     // Only accept same origin by default
     `default-src 'self'`,
-    // Allow images from same origin, Contentful, Google Analytics and data scheme (e.g. base64)
-    `img-src 'self' https://images.ctfassets.net https://videos.ctfassets.net https://www.google-analytics.com data:`,
-    // Allow audio/video from same origin, Contentful and data scheme (e.g. base64)
+    // Images
+    `img-src 'self' https://images.ctfassets.net https://videos.ctfassets.net https://www.google-analytics.com data: http://*.hotjar.com https://*.hotjar.com http://*.hotjar.io https://*.hotjar.io;`,
+    // Audio/video
     `media-src 'self' https://images.ctfassets.net https://videos.ctfassets.net data:`,
-    // Allow styles from same origin and inline
+    // Styles
     `style-src 'self' 'unsafe-inline' https://fonts.googleapis.com`,
-    // No external fonts allowed
-    `font-src 'self' data:`,
-    // Allow script coming from same origin and Google Analytics (and inline)
-    `script-src 'self' 'unsafe-inline' https://www.google-analytics.com *.hotjar.com`,
-    // Allow XHR to same origin, Google Analytics and hotjar
-    `connect-src 'self' https://www.google-analytics.com *.hotjar.com`,
-    // Allow prefetching from same origin
+    // Fonts
+    `font-src 'self' data: http://*.hotjar.com https://*.hotjar.com http://*.hotjar.io https://*.hotjar.io`,
+    // Scripts
+    `script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.google-analytics.com http://*.hotjar.com https://*.hotjar.com http://*.hotjar.io https://*.hotjar.io`,
+    // XHR / WebSockets
+    `connect-src 'self' https://www.google-analytics.com http://*.hotjar.com:* https://*.hotjar.com:* http://*.hotjar.io https://*.hotjar.io wss://*.hotjar.com`,
+    // Prefetching
     `prefetch-src 'self'`,
-    // Allow webmanifest files from same origin
+    // Webmanifest
     `manifest-src 'self'`,
-    // Allow iframe src from same origin and hotjar
-    `frame-src 'self' *.hotjar.com`,
+    // Iframes
+    `frame-src 'self' https://*.hotjar.com http://*.hotjar.io https://*.hotjar.io`,
   ].join('; ')}
   X-XSS-Protection: 1; mode=block`
   )
