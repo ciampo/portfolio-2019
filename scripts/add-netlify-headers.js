@@ -39,9 +39,9 @@ ${routesConfig
   X-XSS-Protection: 1; mode=block`
   )
   .join('\n')}
-*js
+/*js
   Content-Type: application/javascript; charset=utf-8
-*webmanifest
+/*webmanifest
   Content-Type: application/manifest+json; charset=utf-8
 /fonts/*
   Cache-Control: public, max-age=3153600
