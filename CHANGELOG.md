@@ -7,8 +7,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
-- CSP rule for hotjar script-src, frame-src, connect-src
-
 <!--
 ## [X.Y.X] - YYYY-MM-DD
 
@@ -36,6 +34,18 @@ for any bug fixes.
 
 in case of vulnerabilities.
 -->
+
+## [1.2.0] - 2020-04-10
+
+### Changed
+
+- CSP rules for allowing hotjar analytics
+- Updated to Next.js 9.3, and refactored the way static pages are generated
+
+### Fixed
+
+- Cleaner way of extending tailwind's theme
+- Added missing mainEntityOfPage for article's structured data
 
 ## [1.1.1] - 2020-04-02
 
@@ -315,7 +325,8 @@ in case of vulnerabilities.
 - Updated README and added Netlify badge
 - Updated package.json
 
-[Unreleased]: https://github.com/ciampo/portfolio-2019/compare/v1.1.1...HEAD
+[Unreleased]: https://github.com/ciampo/portfolio-2019/compare/v1.2.0...HEAD
+[1.2.0]: https://github.com/ciampo/portfolio-2019/compare/v1.1.1...v1.2.0
 [1.1.1]: https://github.com/ciampo/portfolio-2019/compare/v1.1.0...v1.1.1
 [1.1.0]: https://github.com/ciampo/portfolio-2019/compare/v1.0.6...v1.1.0
 [1.0.6]: https://github.com/ciampo/portfolio-2019/compare/v1.0.5...v1.0.6
