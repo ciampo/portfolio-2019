@@ -52,7 +52,7 @@
     "framer-motion": "^1.6.15",
     "next": "^9.2.0",
     "preact": "^10.2.1",
-    "react-ga": "^2.7.0",
+    "react-ga4": "^1.4.1",
     "react-use": "^13.8.0",
     "tailwindcss-aspect-ratio": "^2.0.0",
     "throttle-debounce": "^2.1.0"
