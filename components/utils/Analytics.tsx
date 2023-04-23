@@ -4,8 +4,7 @@ import Router from 'next/router';
 
 const pageView = (): void => {
   if (window.IS_GA_INIT) {
-    ReactGA.set({ page: window.location.pathname });
-    ReactGA.send('pageview');
+    ReactGA.send({ hitType: 'pageview', page: window.location.pathname });
   }
 };
 
@@ -13,10 +12,7 @@ const Analytics: React.FC<{}> = (): null => {
   useEffect(() => {
     // Init GA the first time.
     if (!window.IS_GA_INIT && process.env.GA) {
-      ReactGA.initialize(process.env.GA, {
-        // TODO: move to env?
-        testMode: true,
-      });
+      ReactGA.initialize(process.env.GA);
       window.IS_GA_INIT = true;
     }
 
