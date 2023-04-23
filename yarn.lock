@@ -12553,7 +12553,7 @@ __metadata:
     tailwindcss: "npm:^1.1.3"
     tailwindcss-aspect-ratio: "npm:^2.0.0"
     throttle-debounce: "npm:^2.1.0"
-    typescript: "npm:^3.7.2"
+    typescript: "npm:^5.0.4"
     webpack: "npm:^4.41.2"
   languageName: unknown
   linkType: soft
@@ -16346,7 +16346,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript@npm:^3.6.4, typescript@npm:^3.7.2":
+"typescript@npm:^3.6.4":
   version: 3.8.3
   resolution: "typescript@npm:3.8.3"
   bin:
@@ -16356,13 +16356,33 @@ __metadata:
   languageName: node
   linkType: hard
 
-"typescript@patch:typescript@npm%3A^3.6.4#optional!builtin<compat/typescript>, typescript@patch:typescript@npm%3A^3.7.2#optional!builtin<compat/typescript>":
+"typescript@npm:^5.0.4":
+  version: 5.0.4
+  resolution: "typescript@npm:5.0.4"
+  bin:
+    tsc: bin/tsc
+    tsserver: bin/tsserver
+  checksum: 56649de784c427e8f3f63d4ebfcada4fcf03bb2a301f3327342111798db7f26f8a86285f979f376cf6cec4774bd96b4650f2693a07fc409f4544ad4c4d9fe4c9
+  languageName: node
+  linkType: hard
+
+"typescript@patch:typescript@npm%3A^3.6.4#optional!builtin<compat/typescript>":
   version: 3.8.3
   resolution: "typescript@patch:typescript@npm%3A3.8.3#optional!builtin<compat/typescript>::version=3.8.3&hash=c44097"
   bin:
     tsc: bin/tsc
     tsserver: bin/tsserver
   checksum: e21e9d13cdef7d1e9a38a01783d5419a0dab95ff5373a46b4fe8bf43f0c2d3bf9b5ed397c4d58b2d796ba30a97b3781936ce32b96ae9270241c332019a9b59e2
+  languageName: node
+  linkType: hard
+
+"typescript@patch:typescript@npm%3A^5.0.4#optional!builtin<compat/typescript>":
+  version: 5.0.4
+  resolution: "typescript@patch:typescript@npm%3A5.0.4#optional!builtin<compat/typescript>::version=5.0.4&hash=1f5320"
+  bin:
+    tsc: bin/tsc
+    tsserver: bin/tsserver
+  checksum: be94f10d96a8443e5524bce56705712ae1aa6c67618dd2c316ddb616ea614a3eb675c34e4af16ab09f1a0ab694173c704ba5b23d8b8bda31cb31c1ca078c486f
   languageName: node
   linkType: hard
 
