@@ -12,7 +12,15 @@ const Analytics: React.FC<{}> = (): null => {
   useEffect(() => {
     // Init GA the first time.
     if (!window.IS_GA_INIT && process.env.GA) {
-      ReactGA.initialize(process.env.GA);
+      ReactGA.initialize(process.env.GA, {
+        gtagOptions: {
+          // Disable automatic page view (to work properly, it also needs to disable
+          // enhanced measurement on GA4 dashboard)
+          // https://developers.google.com/analytics/devguides/collection/ga4/views?client_type=gtag#disable_pageview_measurement
+          // eslint-disable-next-line @typescript-eslint/camelcase
+          send_page_view: false,
+        },
+      });
       window.IS_GA_INIT = true;
     }
 
