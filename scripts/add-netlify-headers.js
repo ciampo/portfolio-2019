@@ -34,7 +34,7 @@ ${routesConfig
     // Webmanifest
     `manifest-src 'self'`,
     // Iframes
-    `frame-src 'self' https://*.hotjar.com http://*.hotjar.io https://*.hotjar.io`,
+    `frame-src 'self' https://*.hotjar.com http://*.hotjar.io https://*.hotjar.io https://*.netlify.com`,
   ].join('; ')}
   X-XSS-Protection: 1; mode=block`
   )
