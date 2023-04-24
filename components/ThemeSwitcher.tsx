@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { event } from 'react-ga';
+import ReactGA from 'react-ga4';
 
 import { ThemeContext, themes } from './utils/ThemeContext';
 
@@ -10,7 +10,7 @@ const ThemeSwitcher = (): JSX.Element => {
     toggleTheme();
 
     if (window.IS_GA_INIT) {
-      event({
+      ReactGA.event({
         category: 'User',
         action: 'Toggled theme',
         label: theme === themes.LIGHT ? 'Light' : 'Dark',

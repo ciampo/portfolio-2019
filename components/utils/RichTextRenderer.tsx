@@ -5,14 +5,14 @@ import {
   Options,
   NodeRenderer,
 } from '@contentful/rich-text-react-renderer';
-import { event } from 'react-ga';
+import ReactGA from 'react-ga4';
 
 const AssetLink: NodeRenderer = (node, children) => {
   const url: string = node.data ? node.data.target.fields.file.url : null;
 
   function sendGaEvent(): void {
     if (window.IS_GA_INIT) {
-      event({
+      ReactGA.event({
         category: 'User',
         action: 'Clicked on asset link',
         label: url,

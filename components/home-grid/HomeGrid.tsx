@@ -9,7 +9,7 @@ import React, {
 } from 'react';
 import { NextComponentType } from 'next';
 import { throttle } from 'throttle-debounce';
-import { event } from 'react-ga';
+import ReactGA from 'react-ga4';
 
 import {
   createGridPoints,
@@ -212,7 +212,7 @@ const HomeGrid: NextComponentType<{}, HomeGridProps, HomeGridProps> = ({
     startIdleTimer();
 
     if (window.IS_GA_INIT) {
-      event({
+      ReactGA.event({
         category: 'User',
         action: 'Interacted with Home Grid',
         label: isClick ? 'Click' : 'Drag',
