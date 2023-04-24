@@ -20,7 +20,7 @@ ${routesConfig
     // Only accept same origin by default
     `default-src 'self'`,
     // Images
-    `img-src 'self' https://images.ctfassets.net https://videos.ctfassets.net https://www.google-analytics.com data: http://*.hotjar.com https://*.hotjar.com http://*.hotjar.io https://*.hotjar.io;`,
+    `img-src 'self' https://images.ctfassets.net https://videos.ctfassets.net https://*.google-analytics.com data: http://*.hotjar.com https://*.hotjar.com http://*.hotjar.io https://*.hotjar.io;`,
     // Audio/video
     `media-src 'self' https://images.ctfassets.net https://videos.ctfassets.net data:`,
     // Styles
@@ -28,9 +28,9 @@ ${routesConfig
     // Fonts
     `font-src 'self' data: http://*.hotjar.com https://*.hotjar.com http://*.hotjar.io https://*.hotjar.io`,
     // Scripts
-    `script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.google-analytics.com http://*.hotjar.com https://*.hotjar.com http://*.hotjar.io https://*.hotjar.io https://*.netlify.app https://*.googletagmanager.com`,
+    `script-src 'self' 'unsafe-inline' 'unsafe-eval' https://*.google-analytics.com http://*.hotjar.com https://*.hotjar.com http://*.hotjar.io https://*.hotjar.io https://*.netlify.app https://*.googletagmanager.com`,
     // XHR / WebSockets
-    `connect-src 'self' https://www.google-analytics.com http://*.hotjar.com:* https://*.hotjar.com:* http://*.hotjar.io https://*.hotjar.io wss://*.hotjar.com`,
+    `connect-src 'self' https://*.google-analytics.com http://*.hotjar.com:* https://*.hotjar.com:* http://*.hotjar.io https://*.hotjar.io wss://*.hotjar.com`,
     // Webmanifest
     `manifest-src 'self'`,
     // Iframes
