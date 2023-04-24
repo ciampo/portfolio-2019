@@ -28,11 +28,9 @@ ${routesConfig
     // Fonts
     `font-src 'self' data: http://*.hotjar.com https://*.hotjar.com http://*.hotjar.io https://*.hotjar.io`,
     // Scripts
-    `script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.google-analytics.com http://*.hotjar.com https://*.hotjar.com http://*.hotjar.io https://*.hotjar.io https://*.netlify.app' https://*.googletagmanager.com`,
+    `script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.google-analytics.com http://*.hotjar.com https://*.hotjar.com http://*.hotjar.io https://*.hotjar.io https://*.netlify.app https://*.googletagmanager.com`,
     // XHR / WebSockets
     `connect-src 'self' https://www.google-analytics.com http://*.hotjar.com:* https://*.hotjar.com:* http://*.hotjar.io https://*.hotjar.io wss://*.hotjar.com`,
-    // Prefetching
-    `prefetch-src 'self'`,
     // Webmanifest
     `manifest-src 'self'`,
     // Iframes
